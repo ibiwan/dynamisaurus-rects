@@ -1,16 +1,16 @@
 class ClickNet {
-  Box box;
+  Rect bounds;
   JSONode target;
   ArrayList<ClickNet> children = new ArrayList<ClickNet>();
-  ClickNet(Box b, JSONode t) {
-    box = b;
+  ClickNet(Rect r, JSONode t) {
+    bounds = r;
     target = t;
   }
   void add(ClickNet net) {
     children.add(net);
   }
   boolean sendClick(Pt p) {
-    if (!box.contains(p)) {
+    if (!bounds.contains(p)) {
       return false;
     }
     for (int i = 0; i < children.size(); i++) {

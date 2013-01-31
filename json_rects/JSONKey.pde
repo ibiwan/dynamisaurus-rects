@@ -3,7 +3,7 @@ class JSONKey extends JSONodeString{
   boolean namesCollection = false;
   boolean partialAvailable = false;
   JSONode collection = null;
-  Box expander;
+  Rect expander;
 
   JSONKey(String s)  { 
     super(s); 
@@ -20,14 +20,14 @@ class JSONKey extends JSONodeString{
     super.drawSelf((String)value + ":", x, y, gray);
     
     if (namesCollection) {
-      Box widgetBox = new Box(x + cur.w - widget_width,
-                              y + cur.h - useTextSize,
-                              widget_width, useTextSize);
+      Rect widgetBox = new Rect(x + cur.w - widget_width,
+                                y + cur.h - useTextSize,
+                                widget_width, useTextSize);
       
       int squareEdge = min(widget_width, useTextSize);
-      Box s = new Box(widgetBox.x + (widgetBox.w - squareEdge) / 2,
-                      widgetBox.y + (widgetBox.h - squareEdge) / 2,
-                      squareEdge, squareEdge);
+      Rect s = new Rect(widgetBox.x + (widgetBox.w - squareEdge) / 2,
+                        widgetBox.y + (widgetBox.h - squareEdge) / 2,
+                        squareEdge, squareEdge);
       expander = s;
       
       stroke(0);   noFill();

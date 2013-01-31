@@ -36,7 +36,7 @@ class JSONode {
     }
   }
   void drawasroot(int x, int y, int gray) {
-    clickRoot = new ClickNet(new Box(x, y, max.w, max.h), this);
+    clickRoot = new ClickNet(new Rect(x, y, max.w, max.h), this);
     arrangeChildren(max.w); // not called from draw directly as it needs to be done only once
     draw(x, y, gray, clickRoot);
   }
@@ -195,8 +195,8 @@ class JSONode {
       int xoffset = 0;
       for (int j = 0; j < row.elements.size(); j++) {
         JSONode node = row.elements.get(j);
-        Box nodeBox = new Box(x + row.box.x + xoffset + margin,  y + row.box.y + margin, 
-                             node.cur.w, node.cur.h);
+        Rect nodeBox = new Rect(x + row.box.x + xoffset + margin,  y + row.box.y + margin, 
+                                node.cur.w, node.cur.h);
         ClickNet subnet = new ClickNet(nodeBox, node);
         net.add(subnet);
         node.draw(nodeBox.x, nodeBox.y, gray + 30, subnet); // recurse
