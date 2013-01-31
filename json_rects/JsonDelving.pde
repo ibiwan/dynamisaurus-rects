@@ -1,13 +1,13 @@
 import java.util.Arrays;
 
 void parseJSONUnknown(Object o, String indent, JSONode parent, JSONKey keyBox) {
-       if (o.getClass().equals( JSONArray.class)) { parseJSONArray ((JSONArray )o, indent + " ", new JSONodeArray(parent),  keyBox); }
-  else if (o.getClass().equals(JSONObject.class)) { parseJSONObject((JSONObject)o, indent + " ", new JSONodeObject(parent), keyBox); }
-  else if (o.getClass().equals(   Boolean.class)) { parent.addChild(new JSONodeBool ((Boolean)o));                 }
-  else if (o.getClass().equals(   Integer.class)) { parent.addChild(new JSONodeInt  ((Integer)o));                 }
-  else if (o.getClass().equals(    Double.class)) { parent.addChild(new JSONodeDouble((Double)o));                 }
-  else if (o.getClass().equals(    String.class)) { parent.addChild(new JSONodeString((String)o));                 }
-  else                                            { (new JSONode(parent)).value = o; /*println("iunno... " + o);*/ }
+       if (o instanceof JSONArray)  { parseJSONArray ((JSONArray )o, indent + " ", new JSONodeArray(parent),  keyBox); }
+  else if (o instanceof JSONObject) { parseJSONObject((JSONObject)o, indent + " ", new JSONodeObject(parent), keyBox); }
+  else if (o instanceof Boolean)    { parent.addChild(new JSONodeBool ((Boolean)o));                 }
+  else if (o instanceof Integer)    { parent.addChild(new JSONodeInt  ((Integer)o));                 }
+  else if (o instanceof Double)     { parent.addChild(new JSONodeDouble((Double)o));                 }
+  else if (o instanceof String)     { parent.addChild(new JSONodeString((String)o));                 }
+  else                              { (new JSONode(parent)).value = o; /*println("iunno... " + o);*/ }
 }
 
 void parseJSONArray(JSONArray a, String indent, JSONodeArray parent, JSONKey keyBox) {
