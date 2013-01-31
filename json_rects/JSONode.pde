@@ -1,7 +1,7 @@
 //this sucks.  is there a better enum?
 
 class States {
-  final static int EXPANDED  =1;
+  final static int EXPANDED  = 1;
   final static int COLLAPSED = 2;
   final static int PARTIAL   = 3;
   int s;
@@ -32,6 +32,7 @@ class JSONode {
       children.add(node);
     }
     catch (Exception e) {
+      println("Exception adding child to node");
       e.printStackTrace();
     }
   }

@@ -11,25 +11,19 @@ void setup() {
   root = new JSONode(new Sz(-1, -1), new Sz(width, height));
   String sDnd = join(loadStrings("dnd.json"), "");
   textSize(useTextSize);
-  //println(sDnd);
   
   try {
     JSONObject jDnd = new JSONObject(sDnd);
     
-    JSONArray ordering = jDnd.getJSONArray("ordering");
-    orderingMap = parseOrdering(ordering);
+    orderingMap = parseOrdering(jDnd.getJSONArray("ordering"));
     jDnd.remove("ordering");
 
-    JSONObject primaries = jDnd.getJSONObject("primaries");
-    primariesMap = parsePrimaries(primaries);
+    primariesMap = parsePrimaries(jDnd.getJSONObject("primaries"));
     jDnd.remove("primaries");
     
     parseJSONUnknown(jDnd, "", root, null);
   }
-  catch (JSONException e) {
-    println ("There was an error parsing the JSONObject.");
-    println(e.toString());
-  };
+  catch (JSONException e) { JSONExceptionDump (e); }
 }
 
 void draw() {

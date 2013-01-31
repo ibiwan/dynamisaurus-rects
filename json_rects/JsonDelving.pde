@@ -53,10 +53,9 @@ void parseJSONObject(JSONObject o, String indent, JSONodeObject parent, JSONKey 
     Arrays.sort(ordering);
     
     for (int i = 0; i < ordering.length; i++) {
-      JSONodeArray box = new JSONodeArray(parent); // make a dummy array to contain both a label and the value
-      String key = (String)ordering[i].object;     
-      //println(key);
-      JSONKey newKeyBox = new JSONKey(key);        // upper box contains the label
+      JSONodeArray box = new JSONodeArray(parent);                // make a dummy array to contain both a label and the value
+      String key = (String)ordering[i].object;  
+      JSONKey newKeyBox = new JSONKey(key);                       // upper box contains the label
       box.addChild(newKeyBox);
       parseJSONUnknown(o.get(key), indent + " ", box, newKeyBox); // lower box contains the object
     }

@@ -1,8 +1,8 @@
 class JSONKey extends JSONodeString{
-  int widget_width = 20;
-  boolean namesCollection = false;
+  int         widget_width = 20;
+  boolean  namesCollection = false;
   boolean partialAvailable = false;
-  JSONode collection = null;
+  JSONode       collection = null;
   Rect expander;
 
   JSONKey(String s)  { 
