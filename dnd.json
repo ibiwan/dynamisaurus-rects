@@ -1,0 +1,92 @@
+{
+    "ordering": [
+        "name",
+        "player",
+        "levels",
+        "class",
+        "level",
+        "abilities",
+        "Str",
+        "Dex",
+        "Con",
+        "Int",
+        "Wis",
+        "Cha",
+        "BAB",
+        "skills",
+        "OTHER",
+        "prestige"
+    ],
+    "primaries":{"characters":"name"},
+    "characters": [
+        {
+            "name": "exultation",
+            "levels": [
+                {
+                    "class": "fighter",
+                    "level": 13
+                },
+                {
+                    "class": "dervish",
+                    "level": 1,
+                    "prestige": true,
+                    "advancing": true
+                }
+            ],
+            "abilities": [
+                {
+                    "Str": 20
+                },
+                {
+                    "Dex": 18
+                },
+                {
+                    "Con": 16
+                },
+                {
+                    "Int": 14
+                },
+                {
+                    "Wis": 15
+                },
+                {
+                    "Cha": 10
+                }
+            ]
+        },
+        {
+            "name": "kahlan",
+            "total levels": "=sum(this.parent.levels[*].level)",
+            "levels": [
+                {
+                    "class": "rogue",
+                    "level": 12
+                },
+                {
+                    "class": "assassin",
+                    "level": 2.7
+                }
+            ],
+            "abilities": [
+                {
+                    "Str": 17
+                },
+                {
+                    "Dex": 20
+                },
+                {
+                    "Con": 16
+                },
+                {
+                    "Int": 14
+                },
+                {
+                    "Wis": 18
+                },
+                {
+                    "Cha": 15
+                }
+            ]
+        }
+    ]
+}
