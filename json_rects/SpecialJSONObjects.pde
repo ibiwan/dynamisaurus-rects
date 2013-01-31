@@ -1,8 +1,8 @@
-HashMap orderingMap;
-HashMap primariesMap;
+HashMap<String, Integer> orderingMap;
+HashMap<String, String> primariesMap;
 
 HashMap parseOrdering(JSONArray ordering) {
-  HashMap orderingMap = new HashMap();
+  HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();
   try {
     int i;
     for (i = 0; i < ordering.length(); i++) {
@@ -21,7 +21,7 @@ HashMap parseOrdering(JSONArray ordering) {
 }
 
 HashMap parsePrimaries(JSONObject primaries) {
-  HashMap primariesMap = new HashMap();
+  HashMap<String, String> primariesMap = new HashMap<String, String>();
   try {
     for (int i = 0; i < primaries.length(); i++) {
       String[] keys = primaries.getNames(primaries);

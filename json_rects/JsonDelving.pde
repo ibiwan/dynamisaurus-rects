@@ -16,7 +16,7 @@ void parseJSONArray(JSONArray a, String indent, JSONodeArray parent, JSONKey key
       keyBox.namesCollection(parent);
       //println(keyBox.value);
       if (primariesMap.containsKey(keyBox.value)) {
-        parent.primary = (String)primariesMap.get(keyBox.value);
+        parent.primary = primariesMap.get(keyBox.value);
         println(keyBox.value + ":" + parent.primary);
         keyBox.partialAvailable = true;
       }
@@ -46,9 +46,9 @@ void parseJSONObject(JSONObject o, String indent, JSONodeObject parent, JSONKey 
       String key = keys[i];
       int priority;
       if (orderingMap.containsKey(key)) {
-        priority = (Integer)orderingMap.get(key); 
+        priority = orderingMap.get(key); 
       } else {
-        priority = (Integer)orderingMap.get("OTHER");
+        priority = orderingMap.get("OTHER");
       }
       IndexedObject io = new IndexedObject(priority, key);
       ordering = (IndexedObject[])append(ordering, io);
