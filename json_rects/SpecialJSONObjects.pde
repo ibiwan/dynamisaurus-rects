@@ -13,10 +13,7 @@ HashMap parseOrdering(JSONArray ordering) {
       orderingMap.put("OTHER", i);
     }
   }
-  catch (JSONException e) {
-    println ("There was an error parsing the JSONObject.");
-    println(e.toString());
-  };
+  catch (JSONException e) { JSONExceptionDump (e); }
   return orderingMap;
 }
 
@@ -31,10 +28,7 @@ HashMap parsePrimaries(JSONObject primaries) {
       }
     }
   }
-  catch (JSONException e) {
-    println ("There was an error parsing the JSONObject.");
-    println(e.toString());
-  }
+  catch (JSONException e) { JSONExceptionDump (e); }
   return primariesMap;
 }
 

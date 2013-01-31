@@ -25,7 +25,7 @@ class Rect {
   }
   boolean contains(Pt p) {
     if (x <= p.x && p.x <= x + w && 
-      y <= p.y && p.y <= y + h) {
+        y <= p.y && p.y <= y + h) {
       return true;
     }
     return false;
@@ -61,8 +61,8 @@ class IndexedObject implements Comparable {
   int compareTo(Object o) {
     IndexedObject other=(IndexedObject)o;
     if (other.index > index)  return -1;
-    if (other.index == index) return 0;
-    else                     return 1;
+    if (other.index == index) return  0;
+    else                      return  1;
   }
 }
 

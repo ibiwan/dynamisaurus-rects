@@ -26,10 +26,7 @@ void parseJSONArray(JSONArray a, String indent, JSONodeArray parent, JSONKey key
       parseJSONUnknown(element, indent + " ", parent, null);
     }
   }
-  catch (JSONException e) {
-    println ("There was an error parsing the JSONArray.");
-    println(e.toString());
-  };
+  catch (JSONException e) { JSONExceptionDump (e); }
 }
 
 void parseJSONObject(JSONObject o, String indent, JSONodeObject parent, JSONKey keyBox) {
@@ -64,9 +61,11 @@ void parseJSONObject(JSONObject o, String indent, JSONodeObject parent, JSONKey 
       parseJSONUnknown(o.get(key), indent + " ", box, newKeyBox); // lower box contains the object
     }
   }
-  catch (JSONException e) {
-    println ("There was an error parsing the JSONObject.");
-    println(e.toString());
-  };
+  catch (JSONException e) { JSONExceptionDump (e); }
 }
 
+void JSONExceptionDump(JSONException e) {
+  println ("There was an error parsing the JSONObject.");
+  println(e.toString());
+  e.printStackTrace();
+}
