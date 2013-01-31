@@ -1,5 +1,5 @@
 HashMap<String, Integer> orderingMap;
-HashMap<String, String> primariesMap;
+HashMap<String, String>  primariesMap;
 
 HashMap parseOrdering(JSONArray ordering) {
   HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();

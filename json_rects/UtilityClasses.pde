@@ -20,11 +20,8 @@ class Pt {
 class Rect {
   int x, y, w, h;
   Rect(int xp, int yp, int wp, int hp) {
-    x = xp; 
-    y = yp; 
-    w = wp; 
-    h = hp;
-    //println(x + " " + y + " " + w + " " + h);
+    x = xp; y = yp; 
+    w = wp; h = hp;
   }
   boolean contains(Pt p) {
     if (x <= p.x && p.x <= x + w && 
@@ -33,7 +30,7 @@ class Rect {
     }
     return false;
   }
-  void printout() {
+  void print() {
     println(x + ", " + y + "; " + w + ", " + h);
   }
 }

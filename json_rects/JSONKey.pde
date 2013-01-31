@@ -16,8 +16,8 @@ class JSONKey extends JSONodeString{
     collection = c;
   }
   
-  protected void drawSelf(int x, int y, int gray) {
-    super.drawSelf((String)value + ":", x, y, gray);
+  protected void draw(int x, int y, int gray) {
+    super.draw((String)value + ":", x, y, gray);
     
     if (namesCollection) {
       Rect widgetBox = new Rect(x + cur.w - widget_width,

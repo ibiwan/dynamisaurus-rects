@@ -47,7 +47,7 @@ class JSONode {
   protected Modes arrangement = new Modes(Modes.PACK);
   protected String primary = "";
 
-  protected void drawSelf(int x, int y, int gray) {
+  protected void draw(int x, int y, int gray) {
     stroke(gray);
     fill(gray);
     rect(x + margin, y + margin, cur.w, cur.h);
@@ -187,7 +187,7 @@ class JSONode {
         //figure it out elsewhere
         break;
     }
-    drawSelf(x, y, gray);
+    this.draw(x, y, gray);
     
     //draw children
     for (int i = 0; i < rows.size(); i++) {

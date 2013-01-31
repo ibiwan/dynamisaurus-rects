@@ -5,11 +5,11 @@ class JSONodeString extends JSONode {
     min.w = (int)textWidth(s) + 2 * margin;
     min.h = useTextSize + 2 * margin;
   }
-  protected void drawSelf(int x, int y, int gray) {
-    drawSelf((String)value, x, y, gray);
+  protected void draw(int x, int y, int gray) {
+    draw((String)value, x, y, gray);
   }
-  protected void drawSelf(String useStr, int x, int y, int gray) {
-    super.drawSelf(x, y, gray);
+  protected void draw(String useStr, int x, int y, int gray) {
+    super.draw(x, y, gray);
     
     fill(0);
     text(useStr, x + 2 * margin, y + margin + useTextSize);
@@ -25,7 +25,7 @@ class JSONodeArray extends JSONode {
     super(parent); 
     arrangement.m = Modes.COLUMN;
   }
-  protected void drawSelf(int x, int y, int gray) {
+  protected void draw(int x, int y, int gray) {
     stroke(127); fill(gray);
     rect(x, y, cur.w + 2 * margin, cur.h + 2 * margin);
     if (parent.primary != "") {
