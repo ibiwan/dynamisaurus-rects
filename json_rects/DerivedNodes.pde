@@ -3,7 +3,7 @@ class JSONodeString extends JSONode {
     super(new Sz(-1, -1), new Sz(-1, -1)); 
     value = s;
     min.w = (int)textWidth(s) + 2 * margin;
-    min.h = textSize + 2 * margin;
+    min.h = useTextSize + 2 * margin;
   }
   protected void drawSelf(int x, int y, int gray) {
     drawSelf((String)value, x, y, gray);
@@ -12,7 +12,7 @@ class JSONodeString extends JSONode {
     super.drawSelf(x, y, gray);
     
     fill(0);
-    text(useStr, x + 2 * margin, y + margin + textSize);
+    text(useStr, x + 2 * margin, y + margin + useTextSize);
 
     noFill();
     stroke(gray);

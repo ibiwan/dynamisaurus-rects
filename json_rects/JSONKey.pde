@@ -21,10 +21,10 @@ class JSONKey extends JSONodeString{
     
     if (namesCollection) {
       Box widgetBox = new Box(x + cur.w - widget_width,
-                              y + cur.h - textSize,
-                              widget_width, textSize);
+                              y + cur.h - useTextSize,
+                              widget_width, useTextSize);
       
-      int squareEdge = min(widget_width, textSize);
+      int squareEdge = min(widget_width, useTextSize);
       Box s = new Box(widgetBox.x + (widgetBox.w - squareEdge) / 2,
                       widgetBox.y + (widgetBox.h - squareEdge) / 2,
                       squareEdge, squareEdge);

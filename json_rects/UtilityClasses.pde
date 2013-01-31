@@ -29,14 +29,14 @@ class Box {
 
 class Row {
   Box box;
-  JSONode[] elements = {};
+  ArrayList<JSONode> elements = new ArrayList<JSONode>();
   Row (Pt corner) { 
     //println(corner.x + " " + corner.y);
     box = new Box(corner.x, corner.y, margin, margin); 
     //box.printout();
   }
   void add(JSONode node) {
-    elements = (JSONode[]) append(elements, node);
+    elements.add(node);
     box.w += node.cur.w + margin;
     box.h = max(box.h, node.cur.h + 2 * margin);
     //box.printout();

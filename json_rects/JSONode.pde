@@ -29,7 +29,7 @@ class JSONode {
   void addChild(JSONode node) {
     try {
       node.parent = this;
-      children = (JSONode[]) append(children, node);
+      children.add(node);
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -58,8 +58,8 @@ class JSONode {
   }
   
   /*--------PRIVATE-------*/
-  private Row[] rows;
-  private JSONode[] children = {};
+  private ArrayList<Row> rows;
+  private ArrayList<JSONode> children = new ArrayList<JSONode>();
   private int my_gray = 0;
   
   private void init(Sz minp, Sz maxp) { min = minp; max = maxp; my_gray = (int)random(125, 255); }
@@ -87,18 +87,18 @@ class JSONode {
   }
  
   private void pack(int parent_maxw) {
-    rows = new Row[0];
+    rows = new ArrayList<Row>();
     Row row = new Row(new Pt(0, 0));
     cur = min.copy();
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
     
-    for (int i = 0; i < children.length; i++) {
-      JSONode node = children[i];
+    for (int i = 0; i < children.size(); i++) {
+      JSONode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
       if (     use_maxw != -1
-            && row.elements.length > 0
+            && row.elements.size() > 0
             && row.box.w + node.cur.w + 2 * margin > use_maxw ) {
-        rows = (Row[]) append(rows, row);
+        rows.add(row);
         cur.w = max(cur.w, row.box.w);
         Pt pt = new Pt(0, row.box.y + row.box.h - margin);
         row = new Row(pt);
@@ -107,71 +107,71 @@ class JSONode {
     }
     
     cur.h = max(cur.h, row.box.y + row.box.h);
-    if (row.elements.length > 0) {
-      rows = (Row[]) append(rows, row);
+    if (row.elements.size() > 0) {
+      rows.add(row);
       cur.w = max(cur.w, row.box.w);
     }
   }
   
   private void stack(int parent_maxw) {
-    rows = new Row[] {};
+    rows = new ArrayList<Row>();
     Row row = new Row(new Pt(0, 0));
     cur = min.copy();
     int use_maxw = parent_maxw == -1 ? max.w : max(max.w, parent_maxw);
-    for (int i = 0; i < children.length; i++) {
-      JSONode node = children[i];
+    for (int i = 0; i < children.size(); i++) {
+      JSONode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
-      if ( row.elements.length > 0 ) {
+      if ( row.elements.size() > 0 ) {
         cur.w = max(cur.w, row.box.w);
-        rows = (Row[]) append(rows, row);
+        rows.add(row);
         row = new Row(new Pt(0, row.box.y + row.box.h - margin));
       }
       row.add(node);
     }
     cur.h = max(cur.h, row.box.y + row.box.h);
-    if (row.elements.length > 0) {
-      rows = (Row[]) append(rows, row);
+    if (row.elements.size() > 0) {
+      rows.add(row);
       cur.w = max(cur.w, row.box.w);
     }
   }
   
   private void chain(int parent_maxw) {
-    rows = new Row[0];
+    rows = new ArrayList<Row>();
     Row row = new Row(new Pt(0, 0));
     cur = min.copy();
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
     
-    for (int i = 0; i < children.length; i++) {
-      JSONode node = children[i];
+    for (int i = 0; i < children.size(); i++) {
+      JSONode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
       row.add(node);
     }
     
     cur.h = max(cur.h, row.box.y + row.box.h);
-    if (row.elements.length > 0) {
-      rows = (Row[]) append(rows, row);
+    if (row.elements.size() > 0) {
+      rows.add(row);
       cur.w = max(cur.w, row.box.w);
     }
   }
   
   private void summarize(int parent_maxw) {
-    rows = new Row[] {};
+    rows = new ArrayList<Row>();
     Row row = new Row(new Pt(0, 0));
     cur = min.copy();
     int use_maxw = parent_maxw == -1 ? max.w : max(max.w, parent_maxw);
-    for (int i = 0; i < children.length; i++) {
-      JSONode node = children[i];
+    for (int i = 0; i < children.size(); i++) {
+      JSONode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
-      if ( row.elements.length > 0 ) {
+      if ( row.elements.size() > 0 ) {
         cur.w = max(cur.w, row.box.w);
-        rows = (Row[]) append(rows, row);
+        rows.add(row);
         row = new Row(new Pt(0, row.box.y + row.box.h - margin));
       }
       row.add(node);
     }
     cur.h = max(cur.h, row.box.y + row.box.h);
-    if (row.elements.length > 0) {
-      rows = (Row[]) append(rows, row);
+    if (row.elements.size() > 0) {
+      rows.add(row);
       cur.w = max(cur.w, row.box.w);
     }
   }
@@ -190,11 +190,11 @@ class JSONode {
     drawSelf(x, y, gray);
     
     //draw children
-    for (int i = 0; i < rows.length; i++) {
-      Row row = rows[i];
+    for (int i = 0; i < rows.size(); i++) {
+      Row row = rows.get(i);
       int xoffset = 0;
-      for (int j = 0; j < row.elements.length; j++) {
-        JSONode node = row.elements[j];
+      for (int j = 0; j < row.elements.size(); j++) {
+        JSONode node = row.elements.get(j);
         Box nodeBox = new Box(x + row.box.x + xoffset + margin,  y + row.box.y + margin, 
                              node.cur.w, node.cur.h);
         ClickNet subnet = new ClickNet(nodeBox, node);
