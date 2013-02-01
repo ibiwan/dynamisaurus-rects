@@ -38,31 +38,13 @@ class Rect {
 class Row {
   Rect box;
   ArrayList<JSONode> elements = new ArrayList<JSONode>();
-  Row (Pt corner) { 
-    //println(corner.x + " " + corner.y);
+  Row (Pt corner) {
     box = new Rect(corner.x, corner.y, margin, margin); 
-    //box.printout();
   }
   void add(JSONode node) {
     elements.add(node);
     box.w += node.cur.w + margin;
     box.h = max(box.h, node.cur.h + 2 * margin);
-    //box.printout();
-  }
-}
-
-class IndexedObject implements Comparable {
-  int index; 
-  Object object;
-  IndexedObject(int i, Object o) { 
-    index = i; 
-    object = o;
-  }
-  int compareTo(Object o) {
-    IndexedObject other=(IndexedObject)o;
-    if (other.index > index)  return -1;
-    if (other.index == index) return  0;
-    else                      return  1;
   }
 }
 

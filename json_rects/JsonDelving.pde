@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 void parseJSONUnknown(Object o, String indent, JSONode parent, JSONKey keyBox) {
        if (o instanceof JSONArray)  { parseJSONArray ((JSONArray )o, indent + " ", new JSONodeArray(parent),  keyBox); }
   else if (o instanceof JSONObject) { parseJSONObject((JSONObject)o, indent + " ", new JSONodeObject(parent), keyBox); }
@@ -14,7 +12,6 @@ void parseJSONArray(JSONArray a, String indent, JSONodeArray parent, JSONKey key
   try {
     if (keyBox != null) {
       keyBox.namesCollection(parent);
-      //println(keyBox.value);
       if (primariesMap.containsKey(keyBox.value)) {
         parent.primary = primariesMap.get(keyBox.value);
         println(keyBox.value + ":" + parent.primary);
@@ -33,12 +30,11 @@ void parseJSONObject(JSONObject o, String indent, JSONodeObject parent, JSONKey 
   try {
     if (keyBox !=  null) {
       keyBox.namesCollection(parent);
-      //println(keyBox.value);
     }
     
     String[] keys = o.getNames(o);
-    
-    IndexedObject[] ordering = {};
+    String[] prioKeys = {};
+
     for (int i = 0; i < keys.length; i++) {
       String key = keys[i];
       int priority;
@@ -47,14 +43,13 @@ void parseJSONObject(JSONObject o, String indent, JSONodeObject parent, JSONKey 
       } else {
         priority = orderingMap.get("OTHER");
       }
-      IndexedObject io = new IndexedObject(priority, key);
-      ordering = (IndexedObject[])append(ordering, io);
+      prioKeys = (String[])append(prioKeys, String.format("%010d", priority) + "#" + key);
     }
-    Arrays.sort(ordering);
-    
-    for (int i = 0; i < ordering.length; i++) {
+    prioKeys = sort(prioKeys);
+        
+    for (int i = 0; i < prioKeys.length; i++) {
       JSONodeArray box = new JSONodeArray(parent);                // make a dummy array to contain both a label and the value
-      String key = (String)ordering[i].object;  
+      String key = (prioKeys[i]).split("#")[1];
       JSONKey newKeyBox = new JSONKey(key);                       // upper box contains the label
       box.addChild(newKeyBox);
       parseJSONUnknown(o.get(key), indent + " ", box, newKeyBox); // lower box contains the object
