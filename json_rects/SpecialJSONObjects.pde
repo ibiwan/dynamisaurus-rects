@@ -20,12 +20,10 @@ HashMap parseOrdering(JSONArray ordering) {
 HashMap parsePrimaries(JSONObject primaries) {
   HashMap<String, String> primariesMap = new HashMap<String, String>();
   try {
-    for (int i = 0; i < primaries.length(); i++) {
-      String[] keys = primaries.getNames(primaries);
-      for (int j = 0; j < keys.length; j++) {
-        String key = keys[j];
-        primariesMap.put(key, primaries.getString(key));
-      }
+    String[] keys = primaries.getNames(primaries);
+    for (int j = 0; j < keys.length; j++) {
+      String key = keys[j];
+      primariesMap.put(key, primaries.getString(key));
     }
   }
   catch (JSONException e) { JSONExceptionDump (e); }
