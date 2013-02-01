@@ -37,11 +37,11 @@ class Rect {
 
 class Row {
   Rect box;
-  ArrayList<JSONode> elements = new ArrayList<JSONode>();
+  ArrayList<rexNode> elements = new ArrayList<rexNode>();
   Row (Pt corner) {
     box = new Rect(corner.x, corner.y, margin, margin); 
   }
-  void add(JSONode node) {
+  void add(rexNode node) {
     elements.add(node);
     box.w += node.cur.w + margin;
     box.h = max(box.h, node.cur.h + 2 * margin);

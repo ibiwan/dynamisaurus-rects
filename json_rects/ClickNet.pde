@@ -1,8 +1,8 @@
 class ClickNet {
   Rect bounds;
-  JSONode target;
+  rexNode target;
   ArrayList<ClickNet> children = new ArrayList<ClickNet>();
-  ClickNet(Rect r, JSONode t) {
+  ClickNet(Rect r, rexNode t) {
     bounds = r;
     target = t;
   }

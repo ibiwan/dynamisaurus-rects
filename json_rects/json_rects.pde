@@ -1,6 +1,6 @@
 import org.json.*;
 
-JSONode root;
+rexNode root;
 ClickNet clickRoot;
 
 int margin = 2;
@@ -8,7 +8,7 @@ int useTextSize = 12;
 
 void setup() {
   size(800, 600);
-  root = new JSONode(new Sz(-1, -1), new Sz(width, height));
+  root = new rexNode(new Sz(-1, -1), new Sz(width, height));
   String sDnd = join(loadStrings("dnd.json"), "");
   textSize(useTextSize);
   

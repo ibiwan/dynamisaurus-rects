@@ -1,8 +1,8 @@
-class JSONKey extends JSONodeString{
+class JSONKey extends rexNodeString{
   int         widget_width = 20;
   boolean  namesCollection = false;
   boolean partialAvailable = false;
-  JSONode       collection = null;
+  rexNode       collection = null;
   Rect expander;
 
   JSONKey(String s)  { 
@@ -10,7 +10,7 @@ class JSONKey extends JSONodeString{
     min.w += (int)textWidth(":");
   }
   
-  void namesCollection(JSONode c) { 
+  void namesCollection(rexNode c) { 
     min.w += widget_width; 
     namesCollection = true;
     collection = c;

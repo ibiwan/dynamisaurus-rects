@@ -1,5 +1,5 @@
-class JSONodeString extends JSONode {
-  JSONodeString (String s)  { 
+class rexNodeString extends rexNode {
+  rexNodeString (String s)  { 
     super(new Sz(-1, -1), new Sz(-1, -1)); 
     value = s;
     min.w = (int)textWidth(s) + 2 * margin;
@@ -20,8 +20,8 @@ class JSONodeString extends JSONode {
   }
 }
 
-class JSONodeArray extends JSONode {
-  JSONodeArray (JSONode parent)  { 
+class rexNodeArray extends rexNode {
+  rexNodeArray (rexNode parent)  { 
     super(parent); 
     arrangement.m = Modes.COLUMN;
   }
@@ -34,8 +34,8 @@ class JSONodeArray extends JSONode {
   }
 }
 
-class JSONodeInt    extends JSONodeString{ JSONodeInt   (Integer i) { super(i.toString()); } }
-class JSONodeBool   extends JSONodeString{ JSONodeBool  (Boolean b) { super(b.toString()); } }
-class JSONodeDouble extends JSONodeString{ JSONodeDouble(Double  d) { super(d.toString()); } }
-class JSONodeObject extends JSONode{  JSONodeObject(JSONode parent) { super(parent); } }
+class rexNodeInt    extends rexNodeString{ rexNodeInt   (Integer i) { super(i.toString()); } }
+class rexNodeBool   extends rexNodeString{ rexNodeBool  (Boolean b) { super(b.toString()); } }
+class rexNodeDouble extends rexNodeString{ rexNodeDouble(Double  d) { super(d.toString()); } }
+class rexNodeObject extends rexNode{  rexNodeObject(rexNode parent) { super(parent); } }
 

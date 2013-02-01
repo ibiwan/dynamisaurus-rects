@@ -16,17 +16,17 @@ class Modes {
   Modes(int m_) { m = m_; }
 }
 
-class JSONode {
+class rexNode {
   /*--------PUBLIC-------*/
   States state = new States(States.EXPANDED); //collapsed, partial_array
   Object value;
-  JSONode (Sz min, Sz max) { init(min, max); }
-  JSONode (JSONode parent) { 
+  rexNode (Sz min, Sz max) { init(min, max); }
+  rexNode (rexNode parent) { 
     init(new Sz(-1, -1), new Sz(-1, -1)); 
     parent.addChild(this);
   }
   
-  void addChild(JSONode node) {
+  void addChild(rexNode node) {
     try {
       node.parent = this;
       children.add(node);
@@ -44,7 +44,7 @@ class JSONode {
   
   /*--------PROTECTED-------*/
   protected Sz min, max, cur;
-  protected JSONode parent;
+  protected rexNode parent;
   protected Modes arrangement = new Modes(Modes.PACK);
   protected String primary = "";
 
@@ -60,7 +60,7 @@ class JSONode {
   
   /*--------PRIVATE-------*/
   private ArrayList<Row> rows;
-  private ArrayList<JSONode> children = new ArrayList<JSONode>();
+  private ArrayList<rexNode> children = new ArrayList<rexNode>();
   private int my_gray = 0;
   
   private void init(Sz minp, Sz maxp) { min = minp; max = maxp; my_gray = (int)random(125, 255); }
@@ -94,7 +94,7 @@ class JSONode {
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
     
     for (int i = 0; i < children.size(); i++) {
-      JSONode node = children.get(i);
+      rexNode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
       if (     use_maxw != -1
             && row.elements.size() > 0
@@ -120,7 +120,7 @@ class JSONode {
     cur = min.copy();
     int use_maxw = parent_maxw == -1 ? max.w : max(max.w, parent_maxw);
     for (int i = 0; i < children.size(); i++) {
-      JSONode node = children.get(i);
+      rexNode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
       if ( row.elements.size() > 0 ) {
         cur.w = max(cur.w, row.box.w);
@@ -143,7 +143,7 @@ class JSONode {
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
     
     for (int i = 0; i < children.size(); i++) {
-      JSONode node = children.get(i);
+      rexNode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
       row.add(node);
     }
@@ -161,7 +161,7 @@ class JSONode {
     cur = min.copy();
     int use_maxw = parent_maxw == -1 ? max.w : max(max.w, parent_maxw);
     for (int i = 0; i < children.size(); i++) {
-      JSONode node = children.get(i);
+      rexNode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
       if ( row.elements.size() > 0 ) {
         cur.w = max(cur.w, row.box.w);
@@ -195,7 +195,7 @@ class JSONode {
       Row row = rows.get(i);
       int xoffset = 0;
       for (int j = 0; j < row.elements.size(); j++) {
-        JSONode node = row.elements.get(j);
+        rexNode node = row.elements.get(j);
         Rect nodeBox = new Rect(x + row.box.x + xoffset + margin,  y + row.box.y + margin, 
                                 node.cur.w, node.cur.h);
         ClickNet subnet = new ClickNet(nodeBox, node);
