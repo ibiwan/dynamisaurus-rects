@@ -1,11 +1,11 @@
-class JSONKey extends rexNodeString{
+class rexKey extends rexNodeString{
   int         widget_width = 20;
   boolean  namesCollection = false;
   boolean partialAvailable = false;
   rexNode       collection = null;
   Rect expander;
 
-  JSONKey(String s)  { 
+  rexKey(String s)  { 
     super(s); 
     min.w += (int)textWidth(":");
   }

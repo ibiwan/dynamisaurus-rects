@@ -21,7 +21,7 @@ void setup() {
     primariesMap = parsePrimaries((HashMap<String, Object>)pData.get("primaries"));
     pData.remove("primaries"); 
   }
-  traverseJsonSomething(pData, "", root, null);
+  traverseSomething(pData, "", root, null);
 }
 
 void draw() {
