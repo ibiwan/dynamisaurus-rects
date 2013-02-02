@@ -1,32 +1,26 @@
 HashMap<String, Integer> orderingMap;
 HashMap<String, String>  primariesMap;
 
-HashMap parseOrdering(JSONArray ordering) {
+HashMap parseOrdering(ArrayList ordering) {
   HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();
-  try {
-    int i;
-    for (i = 0; i < ordering.length(); i++) {
-      String token = ordering.getString(i);
-      orderingMap.put(token, i);
-    }
-    if (!orderingMap.containsKey("OTHER")) {
-      orderingMap.put("OTHER", i);
-    }
+  int i;
+  for (i = 0; i < ordering.size(); i++) {
+    String token = (String)ordering.get(i);
+    orderingMap.put(token, i);
   }
-  catch (JSONException e) { JSONExceptionDump (e); }
+  if (!orderingMap.containsKey("OTHER")) {
+    orderingMap.put("OTHER", i);
+  }
   return orderingMap;
 }
 
-HashMap parsePrimaries(JSONObject primaries) {
+HashMap parsePrimaries(HashMap<String, Object> primaries) {
   HashMap<String, String> primariesMap = new HashMap<String, String>();
-  try {
-    String[] keys = primaries.getNames(primaries);
-    for (int j = 0; j < keys.length; j++) {
-      String key = keys[j];
-      primariesMap.put(key, primaries.getString(key));
-    }
+  Iterator i = primaries.entrySet().iterator();
+  while (i.hasNext()) {
+    Map.Entry me = (Map.Entry)i.next();
+    primariesMap.put((String)me.getKey(), (String)me.getValue());
   }
-  catch (JSONException e) { JSONExceptionDump (e); }
   return primariesMap;
 }
 

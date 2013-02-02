@@ -1,5 +1,3 @@
-import org.json.*;
-
 rexNode root;
 ClickNet clickRoot;
 
@@ -12,18 +10,18 @@ void setup() {
   String sDnd = join(loadStrings("dnd.json"), "");
   textSize(useTextSize);
   
-  try {
-    JSONObject jDnd = new JSONObject(sDnd);
-    
-    orderingMap = parseOrdering(jDnd.getJSONArray("ordering"));
-    jDnd.remove("ordering");
-
-    primariesMap = parsePrimaries(jDnd.getJSONObject("primaries"));
-    jDnd.remove("primaries");
-    
-    parseJSONUnknown(jDnd, "", root, null);
+  HashMap<String, Object> pDnd = parseJsonObject(sDnd);
+  
+  if (pDnd.containsKey("ordering")) {
+    orderingMap = parseOrdering((ArrayList)pDnd.get("ordering"));
+    pDnd.remove("ordering"); 
   }
-  catch (JSONException e) { JSONExceptionDump (e); }
+
+  if (pDnd.containsKey("primaries")) {
+    primariesMap = parsePrimaries((HashMap<String, Object>)pDnd.get("primaries"));
+    pDnd.remove("primaries"); 
+  }
+  traverseJsonSomething(pDnd, "", root, null);
 }
 
 void draw() {
