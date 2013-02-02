@@ -1,6 +1,6 @@
 SpecialParser[] specials = {new OrderParser(), new PrimariesParser()};
 HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();
-HashMap<String, String> primariesMap  = new HashMap<String, String>();
+HashMap<String, String> primariesMap = new HashMap<String, String>();
 
 class SpecialParser {
   String key;
@@ -10,14 +10,11 @@ class SpecialParser {
 class OrderParser extends SpecialParser {
   OrderParser() { key = "ordering"; }
   void digest(Object o) {
-    ArrayList ordering = (ArrayList)o;
-    int i;
-    for (i = 0; i < ordering.size(); i++) {
-      String token = (String)ordering.get(i);
-      orderingMap.put(token, i);
+    for (String token: (ArrayList<String>)o) {
+      orderingMap.put(token, orderingMap.size());
     }
     if (!orderingMap.containsKey("OTHER")) {
-      orderingMap.put("OTHER", i);
+      orderingMap.put("OTHER", orderingMap.size());
     }
   }
 }

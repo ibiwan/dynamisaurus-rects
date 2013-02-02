@@ -1,7 +1,4 @@
 import org.json.*;
-//import java.util.Iterator;
-//import java.util.Map;
-//import java.util.Set;
 
 HashMap<String, Object> parseJsonObject(String s) {
   try {
