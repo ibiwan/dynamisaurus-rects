@@ -7,21 +7,21 @@ int useTextSize = 12;
 void setup() {
   size(800, 600);
   root = new rexNode(new Sz(-1, -1), new Sz(width, height));
-  String sDnd = join(loadStrings("dnd.json"), "");
+  String sData = join(loadStrings("dnd.json"), "");
   textSize(useTextSize);
   
-  HashMap<String, Object> pDnd = parseJsonObject(sDnd);
+  HashMap<String, Object> pData = parseJsonObject(sData);
   
-  if (pDnd.containsKey("ordering")) {
-    orderingMap = parseOrdering((ArrayList)pDnd.get("ordering"));
-    pDnd.remove("ordering"); 
+  if (pData.containsKey("ordering")) {
+    orderingMap = parseOrdering((ArrayList)pData.get("ordering"));
+    pData.remove("ordering"); 
   }
 
-  if (pDnd.containsKey("primaries")) {
-    primariesMap = parsePrimaries((HashMap<String, Object>)pDnd.get("primaries"));
-    pDnd.remove("primaries"); 
+  if (pData.containsKey("primaries")) {
+    primariesMap = parsePrimaries((HashMap<String, Object>)pData.get("primaries"));
+    pData.remove("primaries"); 
   }
-  traverseJsonSomething(pDnd, "", root, null);
+  traverseJsonSomething(pData, "", root, null);
 }
 
 void draw() {
