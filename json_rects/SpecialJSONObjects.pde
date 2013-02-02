@@ -1,26 +1,33 @@
-HashMap<String, Integer> orderingMap;
-HashMap<String, String>  primariesMap;
+SpecialParser[] specials = {new OrderParser(), new PrimariesParser()};
+HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();
+HashMap<String, String> primariesMap  = new HashMap<String, String>();
 
-HashMap parseOrdering(ArrayList ordering) {
-  HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();
-  int i;
-  for (i = 0; i < ordering.size(); i++) {
-    String token = (String)ordering.get(i);
-    orderingMap.put(token, i);
-  }
-  if (!orderingMap.containsKey("OTHER")) {
-    orderingMap.put("OTHER", i);
-  }
-  return orderingMap;
+class SpecialParser {
+  String key;
+  void digest(Object o) {}
 }
 
-HashMap parsePrimaries(HashMap<String, Object> primaries) {
-  HashMap<String, String> primariesMap = new HashMap<String, String>();
-  Iterator i = primaries.entrySet().iterator();
-  while (i.hasNext()) {
-    Map.Entry me = (Map.Entry)i.next();
-    primariesMap.put((String)me.getKey(), (String)me.getValue());
+class OrderParser extends SpecialParser {
+  OrderParser() { key = "ordering"; }
+  void digest(Object o) {
+    ArrayList ordering = (ArrayList)o;
+    int i;
+    for (i = 0; i < ordering.size(); i++) {
+      String token = (String)ordering.get(i);
+      orderingMap.put(token, i);
+    }
+    if (!orderingMap.containsKey("OTHER")) {
+      orderingMap.put("OTHER", i);
+    }
   }
-  return primariesMap;
 }
 
+class PrimariesParser extends SpecialParser {
+  PrimariesParser() { key = "primaries"; }
+  void digest(Object o) {
+    HashMap<String, Object> primaries = (HashMap<String, Object>) o;
+    for (String key: primaries.keySet()) {
+      primariesMap.put(key, (String)primaries.get(key));
+    }
+  }
+}

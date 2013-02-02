@@ -12,14 +12,12 @@ void setup() {
   
   HashMap<String, Object> pData = parseJsonObject(sData);
   
-  if (pData.containsKey("ordering")) {
-    orderingMap = parseOrdering((ArrayList)pData.get("ordering"));
-    pData.remove("ordering"); 
-  }
-
-  if (pData.containsKey("primaries")) {
-    primariesMap = parsePrimaries((HashMap<String, Object>)pData.get("primaries"));
-    pData.remove("primaries"); 
+  for (int i = 0; i < specials.length; i++) {
+    SpecialParser p = specials[i];
+    if (pData.containsKey(p.key)) {
+      p.digest(pData.get(p.key));
+      pData.remove(p.key);
+    }
   }
   traverseSomething(pData, "", root, null);
 }

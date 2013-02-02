@@ -1,15 +1,14 @@
 import org.json.*;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+//import java.util.Iterator;
+//import java.util.Map;
+//import java.util.Set;
 
 HashMap<String, Object> parseJsonObject(String s) {
-  HashMap<String, Object> ret = new HashMap<String, Object>();
   try {
-    ret = translateJsonObject(new JSONObject(s));
+    return translateJsonObject(new JSONObject(s));
   } 
   catch (JSONException e) { JSONExceptionDump(e); }
-  finally { return ret; }
+  return new HashMap<String, Object>();
 }
 
 Object translateJsonSomething(Object o) {
@@ -25,15 +24,12 @@ Object translateJsonSomething(Object o) {
 HashMap<String, Object> translateJsonObject(JSONObject o) {
   HashMap<String, Object> ret = new HashMap<String, Object>();
   try {
-    String[] keys = o.getNames(o);
-    for (int i = 0; i < keys.length; i++) {
-      String key = keys[i];
-      Object tVal = translateJsonSomething(o.get(key));
-      ret.put(key, tVal);
+    for (String key: o.getNames(o)) {
+      ret.put(key, translateJsonSomething(o.get(key)));
     }
   }
   catch (JSONException e) { JSONExceptionDump(e); }
-  finally { return ret; }
+  return ret;
 }
 
 ArrayList translateJsonArray(JSONArray a) {
@@ -45,7 +41,7 @@ ArrayList translateJsonArray(JSONArray a) {
     }
   }
   catch (JSONException e) { JSONExceptionDump(e); }
-  finally { return ret; }
+  return ret;
 }
 
 void JSONExceptionDump(JSONException e) {

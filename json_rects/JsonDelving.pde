@@ -31,7 +31,6 @@ void traverseHMap(HashMap<String, Object> o, String indent, rexNodeObject parent
   String[] keys = {};
   keys = o.keySet().toArray(keys);
   String[] prioKeys = new String[keys.length];
-
   for (int i = 0; i < keys.length; i++) {
     String key = keys[i];
     int priority;
@@ -45,9 +44,9 @@ void traverseHMap(HashMap<String, Object> o, String indent, rexNodeObject parent
   prioKeys = sort(prioKeys);
       
   for (int i = 0; i < prioKeys.length; i++) {
-    rexNodeArray box = new rexNodeArray(parent);                // make a dummy array to contain both a label and the value
+    rexNodeArray box = new rexNodeArray(parent);                 // make a dummy array to contain both a label and the value
     String key = (prioKeys[i]).split("#")[1];
-    rexKey newKeyBox = new rexKey(key);                       // upper box contains the label
+    rexKey newKeyBox = new rexKey(key);                          // upper box contains the label
     box.addChild(newKeyBox);
     traverseSomething(o.get(key), indent + " ", box, newKeyBox); // lower box contains the object
   }
