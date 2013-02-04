@@ -3,7 +3,7 @@ class Sz {
   Sz(int wp, int hp) { w = wp; h = hp; }
   Sz copy() { return new Sz(w, h); }
 }
-
+ 
 class Pt {
   int x, y;
   Pt(int xp, int yp) { x = xp; y = yp; }
