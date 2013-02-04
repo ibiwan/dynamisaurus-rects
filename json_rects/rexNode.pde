@@ -54,9 +54,7 @@ class rexNode {
     rect(x + margin, y + margin, cur.w, cur.h);
   }
   
-  protected void clickReceived(Pt p) {
-    /* implement where appropriate in child classes */
-  }
+  protected void clickReceived(Pt p) { } // implement where appropriate in child classes
   
   /*--------PRIVATE-------*/
   private ArrayList<Row> rows;
@@ -67,16 +65,12 @@ class rexNode {
   
   private void arrangeChildren(int parent_maxw) {
     switch(state.s) {
-      case States.EXPANDED:
-        // handle below
-        break;
-      case States.COLLAPSED:
-        // shrink in a visually-pleasing manner
+      case States.EXPANDED: break; // show everything (handle below)
+      case States.COLLAPSED:       // shrink in a visually-pleasing manner
         cur.w = reduce(cur.w);
         cur.h = reduce(cur.h);
-        // don't pack the kids
-        return;
-      case States.PARTIAL:
+        return;                    // don't pack the kids
+      case States.PARTIAL:         // show only primary fields for each array element
         summarize(parent_maxw);
         return;
     }

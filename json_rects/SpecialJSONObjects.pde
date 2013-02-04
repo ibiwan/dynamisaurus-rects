@@ -28,3 +28,4 @@ class PrimariesParser extends SpecialParser {
     }
   }
 }
+
