@@ -6,18 +6,15 @@
         "class",
         "level",
         "abilities",
-        "Str",
-        "Dex",
-        "Con",
-        "Int",
-        "Wis",
-        "Cha",
         "BAB",
         "skills",
         "OTHER",
         "prestige"
     ],
-    "primaries":{"characters":"name"},
+    "primaries": {
+        "characters": "name",
+        "abilities": "ability"
+    },
     "characters": [
         {
             "name": "exultation",
@@ -35,22 +32,28 @@
             ],
             "abilities": [
                 {
-                    "Str": 20
+                    "ability": "Str",
+                    "total": 20
                 },
                 {
-                    "Dex": 18
+                    "ability": "Dex",
+                    "total": 18
                 },
                 {
-                    "Con": 16
+                    "ability": "Con",
+                    "total": 16
                 },
                 {
-                    "Int": 14
+                    "ability": "Int",
+                    "total": 14
                 },
                 {
-                    "Wis": 15
+                    "ability": "Wis",
+                    "total": 15
                 },
                 {
-                    "Cha": 10
+                    "ability": "Cha",
+                    "total": 10
                 }
             ]
         },
@@ -69,22 +72,28 @@
             ],
             "abilities": [
                 {
-                    "Str": 17
+                    "ability": "Str",
+                    "total": 17
                 },
                 {
-                    "Dex": 20
+                    "ability": "Dex",
+                    "total": 20
                 },
                 {
-                    "Con": 16
+                    "ability": "Con",
+                    "total": 16
                 },
                 {
-                    "Int": 14
+                    "ability": "Int",
+                    "total": 14
                 },
                 {
-                    "Wis": 18
+                    "ability": "Wis",
+                    "total": 18
                 },
                 {
-                    "Cha": 15
+                    "ability": "Cha",
+                    "total": 15
                 }
             ]
         }
