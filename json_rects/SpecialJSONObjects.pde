@@ -7,6 +7,12 @@ String ORDERING_OTHER = "OTHER";
 class SpecialParser {
   String key;
   void digest(Object o) {}
+  void chew(HashMap<String, Object> hm) {
+    if (hm.containsKey(key)) {
+      digest(hm.get(key));
+      hm.remove(key);
+    }
+  }
 }
 
 class OrderParser extends SpecialParser {

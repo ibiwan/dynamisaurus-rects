@@ -5,8 +5,8 @@ class rexKey extends rexNodeString{
   rexNode       collection = null;
   Rect expander;
 
-  rexKey(String s)  { 
-    super(s); 
+  rexKey(rexNode parent, String s)  { 
+    super(parent, s);
     min.w += (int)textWidth(":");
   }
   

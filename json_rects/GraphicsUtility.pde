@@ -30,3 +30,7 @@ int reduce(int dim) {
   return 0;
 }
 
+Sz reduce (Sz s) {
+  return new Sz(reduce(s.w), reduce(s.h));
+}
+

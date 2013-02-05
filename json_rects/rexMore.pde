@@ -1,6 +1,6 @@
 class rexNodeString extends rexNode {
-  rexNodeString (String s)  { 
-    super(new Sz(-1, -1), new Sz(-1, -1)); 
+  rexNodeString (rexNode parent, String s)  { 
+    super(parent);
     value = s;
     min.w = (int)textWidth(s) + 2 * margin;
     min.h = useTextSize + 2 * margin;
@@ -34,8 +34,8 @@ class rexNodeArray extends rexNode {
   }
 }
 
-class rexNodeInt    extends rexNodeString{ rexNodeInt   (Integer i) { super(i.toString()); } }
-class rexNodeBool   extends rexNodeString{ rexNodeBool  (Boolean b) { super(b.toString()); } }
-class rexNodeDouble extends rexNodeString{ rexNodeDouble(Double  d) { super(d.toString()); } }
+class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexNode parent, Integer i) { super(parent, i.toString()); } }
+class rexNodeBool   extends rexNodeString{ rexNodeBool  (rexNode parent, Boolean b) { super(parent, b.toString()); } }
+class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexNode parent, Double  d) { super(parent, d.toString()); } }
 class rexNodeObject extends rexNode{  rexNodeObject(rexNode parent) { super(parent); } }
 

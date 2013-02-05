@@ -23,6 +23,7 @@ class ClickNet {
   }
 }
 
+// keyword function -- called by Processing environment
 void mouseClicked() {
   clickRoot.sendClick(new Pt(mouseX, mouseY));
 }

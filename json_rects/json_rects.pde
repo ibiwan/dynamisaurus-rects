@@ -13,13 +13,9 @@ void setup() {
   HashMap<String, Object> pData = parseJsonObject(sData);
   
   for (int i = 0; i < specials.length; i++) {
-    SpecialParser p = specials[i];
-    if (pData.containsKey(p.key)) {
-      p.digest(pData.get(p.key));
-      pData.remove(p.key);
-    }
+    specials[i].chew(pData);
   }
-  traverseSomething(pData, "", root, null);
+  traverseSomething(pData, root);
 }
 
 void draw() {

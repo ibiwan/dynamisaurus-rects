@@ -20,6 +20,8 @@ class rexNode {
   /*--------PUBLIC-------*/
   States state = new States(States.EXPANDED); //collapsed, partial_array
   Object value;
+  rexKey keyBox;
+  
   rexNode (Sz min, Sz max) { init(min, max); }
   rexNode (rexNode parent) { 
     init(new Sz(-1, -1), new Sz(-1, -1)); 
@@ -67,8 +69,7 @@ class rexNode {
     switch(state.s) {
       case States.EXPANDED: break; // show everything (handle below)
       case States.COLLAPSED:       // shrink in a visually-pleasing manner
-        cur.w = reduce(cur.w);
-        cur.h = reduce(cur.h);
+        cur = reduce(cur);
         return;                    // don't pack the kids
       case States.PARTIAL:         // show only primary fields for each array element
         summarize(parent_maxw);
