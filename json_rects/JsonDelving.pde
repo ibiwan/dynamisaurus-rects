@@ -36,8 +36,10 @@ void traverseHMap(HashMap<String, Object> o, String indent, rexNodeObject parent
     int priority;
     if (orderingMap.containsKey(key)) {
       priority = orderingMap.get(key); 
+    } else if (orderingMap.containsKey(ORDERING_OTHER)) {
+      priority = orderingMap.get(ORDERING_OTHER);
     } else {
-      priority = orderingMap.get("OTHER");
+      priority = 0;
     }
     prioKeys[i] =String.format("%010d", priority) + "#" + key;
   }

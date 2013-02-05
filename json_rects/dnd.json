@@ -1,5 +1,5 @@
 {
-    "ordering": [
+    "rex-ordering": [
         "name",
         "player",
         "levels",
@@ -11,9 +11,10 @@
         "OTHER",
         "prestige"
     ],
-    "primaries": {
+    "rex-primaries": {
         "characters": "name",
-        "abilities": "ability"
+        "abilities": "ability",
+        "levels": "class"
     },
     "characters": [
         {
