@@ -18,9 +18,9 @@ class Modes {
 
 class rexNode {
   /*--------PUBLIC-------*/
-  States state = new States(States.EXPANDED); //collapsed, partial_array
+  States state = new States(States.EXPANDED);
   Object value;
-  rexKey keyBox;
+  rexKey keyBox; // for labeling
   
   rexNode (Sz min, Sz max) { init(min, max); }
   rexNode (rexNode parent) { 
@@ -38,6 +38,7 @@ class rexNode {
       e.printStackTrace();
     }
   }
+  
   void drawasroot(int x, int y, int gray) {
     clickRoot = new ClickNet(new Rect(x, y, max.w, max.h), this);
     arrangeChildren(max.w); // not called from draw directly as it needs to be done only once
@@ -59,17 +60,16 @@ class rexNode {
   protected void clickReceived(Pt p) { } // implement where appropriate in child classes
   
   /*--------PRIVATE-------*/
-  private ArrayList<Row> rows;
+  private ArrayList<Row> rows; // for arranging children
   private ArrayList<rexNode> children = new ArrayList<rexNode>();
-  private int my_gray = 0;
   
-  private void init(Sz minp, Sz maxp) { min = minp; max = maxp; my_gray = (int)random(125, 255); }
+  private void init(Sz minp, Sz maxp) { min = minp; max = maxp; }
   
   private void arrangeChildren(int parent_maxw) {
     switch(state.s) {
       case States.EXPANDED: break; // show everything (handle below)
-      case States.COLLAPSED:       // shrink in a visually-pleasing manner
-        cur = reduce(cur);
+      case States.COLLAPSED:       // show nothing
+        cur = reduce(cur);         // shrink in a visually-pleasing manner
         return;                    // don't pack the kids
       case States.PARTIAL:         // show only primary fields for each array element
         summarize(parent_maxw);
@@ -96,8 +96,7 @@ class rexNode {
             && row.box.w + node.cur.w + 2 * margin > use_maxw ) {
         rows.add(row);
         cur.w = max(cur.w, row.box.w);
-        Pt pt = new Pt(0, row.box.y + row.box.h - margin);
-        row = new Row(pt);
+        row = new Row(new Pt(0, row.box.y + row.box.h - margin));
       }
       row.add(node);
     }
@@ -174,23 +173,17 @@ class rexNode {
   
   private void draw(int x, int y, int gray, ClickNet net) {
     switch(state.s) {
-      case States.EXPANDED:
-        // continue to code below
-        break;
-      case States.COLLAPSED:
-        return;
-      case States.PARTIAL:
-        //figure it out elsewhere
-        break;
+      case States.EXPANDED:  break;  // continue to code below
+      case States.COLLAPSED: return; // don't draw
+      case States.PARTIAL:   break;  // figure it out elsewhere
     }
+    
     this.draw(x, y, gray);
     
     //draw children
-    for (int i = 0; i < rows.size(); i++) {
-      Row row = rows.get(i);
+    for (Row row: rows) {
       int xoffset = 0;
-      for (int j = 0; j < row.elements.size(); j++) {
-        rexNode node = row.elements.get(j);
+      for (rexNode node: row.elements) {
         Rect nodeBox = new Rect(x + row.box.x + xoffset + margin,  y + row.box.y + margin, 
                                 node.cur.w, node.cur.h);
         ClickNet subnet = new ClickNet(nodeBox, node);

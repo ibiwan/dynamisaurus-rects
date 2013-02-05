@@ -28,6 +28,7 @@ class rexNodeArray extends rexNode {
   protected void draw(int x, int y, int gray) {
     stroke(127); fill(gray);
     rect(x, y, cur.w + 2 * margin, cur.h + 2 * margin);
+    
     if (parent.primary != "") {
       println(parent.primary);
     }

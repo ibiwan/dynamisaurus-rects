@@ -12,6 +12,7 @@ void traverseArray(ArrayList a, rexNodeArray parent) {
   if (parent.parent.keyBox != null) {
     rexKey kb = parent.parent.keyBox;
     kb.namesCollection(parent);
+    
     if (primariesMap.containsKey(kb.value)) {
       parent.primary = primariesMap.get(kb.value);
       println(kb.value + ":" + parent.primary);
