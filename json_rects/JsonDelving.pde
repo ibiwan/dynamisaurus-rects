@@ -29,29 +29,25 @@ void traverseHMap(HashMap<String, Object> o, rexNodeObject parent) {
     parent.parent.keyBox.namesCollection(parent);
   }
   
-  String[] keys = {};
-  keys = o.keySet().toArray(keys);
+  String[] keys = o.keySet().toArray(new String[0]);
   String[] prioKeys = new String[keys.length];
-  for (int i = 0; i < keys.length; i++) {
-    String key = keys[i];
-    int priority;
-    if (orderingMap.containsKey(key)) {
-      priority = orderingMap.get(key); 
-    } else if (orderingMap.containsKey(ORDERING_OTHER)) {
-      priority = orderingMap.get(ORDERING_OTHER);
-    } else {
-      priority = 0;
-    }
-    prioKeys[i] =String.format("%010d", priority) + "#" + key;
+  int i = 0;
+  for (String key: keys) {
+    prioKeys[i++] =String.format("%010d", getPriority(key)) + "#" + key;
   }
   prioKeys = sort(prioKeys);
       
   for (String numKey: prioKeys) {
-    rexNodeArray box = new rexNodeArray(parent); // make a dummy array to contain both a label and the value
     String key = numKey.split("#")[1];
-    rexKey kb = new rexKey(box, key);
-    box.keyBox = kb;           // upper box contains the label
+    rexNodeArray box = new rexNodeArray(parent); // make a dummy array to contain both a label and the value
+    box.keyBox = new rexKey(box, key);           // upper box contains the label
     traverseSomething(o.get(key), box);          // lower box contains the object
   }
+}
+
+int getPriority(String key) {
+  if (orderingMap.containsKey(key))            return orderingMap.get(key);
+  if (orderingMap.containsKey(ORDERING_OTHER)) return orderingMap.get(ORDERING_OTHER);
+                                               return 0;
 }
 
