@@ -16,7 +16,7 @@ class rexNodeString extends rexNode {
 
     noFill();
     stroke(gray);
-    rect(x + margin, y + margin, cur.w, cur.h);
+    rect(x + margin, y + margin, rows.box.w,rows.box.h);
   }
 }
 
@@ -27,7 +27,7 @@ class rexNodeArray extends rexNode {
   }
   protected void draw(int x, int y, int gray) {
     stroke(127); fill(gray);
-    rect(x, y, cur.w + 2 * margin, cur.h + 2 * margin);
+    rect(x, y, rows.box.w + 2 * margin, rows.box.h + 2 * margin);
     
     if (parent.primary != "") {
       println(parent.primary);

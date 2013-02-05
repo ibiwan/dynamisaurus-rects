@@ -34,3 +34,7 @@ Sz reduce (Sz s) {
   return new Sz(reduce(s.w), reduce(s.h));
 }
 
+Rect reduce (Rect r) {
+  return new Rect(r.x, r.y, reduce(r.w), reduce(r.h));
+}
+

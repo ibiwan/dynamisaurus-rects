@@ -35,8 +35,22 @@ class Row {
   }
   void add(rexNode node) {
     elements.add(node);
-    box.w += node.cur.w + margin;
-    box.h = max(box.h, node.cur.h + 2 * margin);
+    box.w += node.rows.box.w + margin;
+    box.h = max(box.h, node.rows.box.h + 2 * margin);
+  }
+}
+
+class RowStack {
+  Rect box;
+  ArrayList<Row> rows = new ArrayList<Row>();
+  RowStack (Sz min) {
+    box = new Rect(0, 0, min.w, min.h); 
+  }
+  Pt add(Row row) {
+    rows.add(row);
+    box.w = max(box.w, row.box.w);
+    box.h += row.box.h + margin;
+    return new Pt(0, box.y + box.h);
   }
 }
 

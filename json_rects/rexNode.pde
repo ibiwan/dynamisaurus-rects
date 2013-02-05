@@ -1,11 +1,11 @@
 //this sucks.  is there a better enum?
 
-class States {
+class Visibility {
   final static int EXPANDED  = 1;
   final static int COLLAPSED = 2;
   final static int PARTIAL   = 3;
-  int s;
-  States(int s_) { s = s_; }
+  int v;
+  Visibility(int v_) { v = v_; }
 }
 
 class Modes {
@@ -18,9 +18,10 @@ class Modes {
 
 class rexNode {
   /*--------PUBLIC-------*/
-  States state = new States(States.EXPANDED);
+  Visibility vis = new Visibility(Visibility.EXPANDED);
   Object value;
   rexKey keyBox; // for labeling
+  RowStack rows;
   
   rexNode (Sz min, Sz max) { init(min, max); }
   rexNode (rexNode parent) { 
@@ -46,7 +47,7 @@ class rexNode {
   }
   
   /*--------PROTECTED-------*/
-  protected Sz min, max, cur;
+  protected Sz min, max;//, cur;
   protected rexNode parent;
   protected Modes arrangement = new Modes(Modes.PACK);
   protected String primary = "";
@@ -54,24 +55,23 @@ class rexNode {
   protected void draw(int x, int y, int gray) {
     stroke(gray);
     fill(gray);
-    rect(x + margin, y + margin, cur.w, cur.h);
+    rect(x + margin, y + margin, rows.box.w, rows.box.h);
   }
   
   protected void clickReceived(Pt p) { } // implement where appropriate in child classes
   
   /*--------PRIVATE-------*/
-  private ArrayList<Row> rows; // for arranging children
   private ArrayList<rexNode> children = new ArrayList<rexNode>();
   
   private void init(Sz minp, Sz maxp) { min = minp; max = maxp; }
   
   private void arrangeChildren(int parent_maxw) {
-    switch(state.s) {
-      case States.EXPANDED: break; // show everything (handle below)
-      case States.COLLAPSED:       // show nothing
-        cur = reduce(cur);         // shrink in a visually-pleasing manner
+    switch(vis.v) {
+      case Visibility.EXPANDED: break; // show everything (handle below)
+      case Visibility.COLLAPSED:       // show nothing
+        rows.box = reduce(rows.box);         // shrink in a visually-pleasing manner
         return;                    // don't pack the kids
-      case States.PARTIAL:         // show only primary fields for each array element
+      case Visibility.PARTIAL:         // show only primary fields for each array element
         summarize(parent_maxw);
         return;
     }
@@ -83,9 +83,8 @@ class rexNode {
   }
  
   private void pack(int parent_maxw) {
-    rows = new ArrayList<Row>();
+    rows = new RowStack(min);
     Row row = new Row(new Pt(0, 0));
-    cur = min.copy();
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
     
     for (int i = 0; i < children.size(); i++) {
@@ -93,47 +92,38 @@ class rexNode {
       node.arrangeChildren(use_maxw); // recurse here!
       if (     use_maxw != -1
             && row.elements.size() > 0
-            && row.box.w + node.cur.w + 2 * margin > use_maxw ) {
-        rows.add(row);
-        cur.w = max(cur.w, row.box.w);
-        row = new Row(new Pt(0, row.box.y + row.box.h - margin));
+            && row.box.w + node.rows.box.w + 2 * margin > use_maxw ) {
+        row = new Row(rows.add(row));
       }
       row.add(node);
     }
     
-    cur.h = max(cur.h, row.box.y + row.box.h);
     if (row.elements.size() > 0) {
       rows.add(row);
-      cur.w = max(cur.w, row.box.w);
     }
   }
   
   private void stack(int parent_maxw) {
-    rows = new ArrayList<Row>();
+    rows = new RowStack(min);
     Row row = new Row(new Pt(0, 0));
-    cur = min.copy();
     int use_maxw = parent_maxw == -1 ? max.w : max(max.w, parent_maxw);
+    
     for (int i = 0; i < children.size(); i++) {
       rexNode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
       if ( row.elements.size() > 0 ) {
-        cur.w = max(cur.w, row.box.w);
-        rows.add(row);
-        row = new Row(new Pt(0, row.box.y + row.box.h - margin));
+        row = new Row(rows.add(row));
       }
       row.add(node);
     }
-    cur.h = max(cur.h, row.box.y + row.box.h);
     if (row.elements.size() > 0) {
       rows.add(row);
-      cur.w = max(cur.w, row.box.w);
     }
   }
   
   private void chain(int parent_maxw) {
-    rows = new ArrayList<Row>();
+    rows = new RowStack(min);
     Row row = new Row(new Pt(0, 0));
-    cur = min.copy();
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
     
     for (int i = 0; i < children.size(); i++) {
@@ -142,54 +132,48 @@ class rexNode {
       row.add(node);
     }
     
-    cur.h = max(cur.h, row.box.y + row.box.h);
     if (row.elements.size() > 0) {
       rows.add(row);
-      cur.w = max(cur.w, row.box.w);
     }
   }
   
   private void summarize(int parent_maxw) {
-    rows = new ArrayList<Row>();
+    rows = new RowStack(min);
     Row row = new Row(new Pt(0, 0));
-    cur = min.copy();
     int use_maxw = parent_maxw == -1 ? max.w : max(max.w, parent_maxw);
+    
     for (int i = 0; i < children.size(); i++) {
       rexNode node = children.get(i);
       node.arrangeChildren(use_maxw); // recurse here!
       if ( row.elements.size() > 0 ) {
-        cur.w = max(cur.w, row.box.w);
-        rows.add(row);
-        row = new Row(new Pt(0, row.box.y + row.box.h - margin));
+        row = new Row(rows.add(row));
       }
       row.add(node);
     }
-    cur.h = max(cur.h, row.box.y + row.box.h);
     if (row.elements.size() > 0) {
       rows.add(row);
-      cur.w = max(cur.w, row.box.w);
     }
   }
   
   private void draw(int x, int y, int gray, ClickNet net) {
-    switch(state.s) {
-      case States.EXPANDED:  break;  // continue to code below
-      case States.COLLAPSED: return; // don't draw
-      case States.PARTIAL:   break;  // figure it out elsewhere
+    switch(vis.v) {
+      case Visibility.EXPANDED:  break;  // continue to code below
+      case Visibility.COLLAPSED: return; // don't draw
+      case Visibility.PARTIAL:   break;  // figure it out elsewhere
     }
     
     this.draw(x, y, gray);
     
     //draw children
-    for (Row row: rows) {
+    for (Row row: rows.rows) {
       int xoffset = 0;
       for (rexNode node: row.elements) {
         Rect nodeBox = new Rect(x + row.box.x + xoffset + margin,  y + row.box.y + margin, 
-                                node.cur.w, node.cur.h);
+                                node.rows.box.w, node.rows.box.h);
         ClickNet subnet = new ClickNet(nodeBox, node);
         net.add(subnet);
         node.draw(nodeBox.x, nodeBox.y, gray + 30, subnet); // recurse
-        xoffset += node.cur.w + margin;
+        xoffset += node.rows.box.w + margin;
       }
     }
   }

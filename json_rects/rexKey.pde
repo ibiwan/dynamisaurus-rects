@@ -20,8 +20,8 @@ class rexKey extends rexNodeString{
     super.draw((String)value + ":", x, y, gray);
     
     if (namesCollection) {
-      Rect widgetBox = new Rect(x + cur.w - widget_width,
-                                y + cur.h - useTextSize,
+      Rect widgetBox = new Rect(x + rows.box.w - widget_width,
+                                y + rows.box.h - useTextSize,
                                 widget_width, useTextSize);
       
       int squareEdge = min(widget_width, useTextSize);
@@ -31,24 +31,24 @@ class rexKey extends rexNodeString{
       expander = s;
       
       stroke(0);   noFill();
-      switch(collection.state.s) {
-        case States.EXPANDED:  drawExpandedWidget(s);  break;
-        case States.COLLAPSED: drawCollapsedWidget(s); break;
-        case States.PARTIAL:   drawPartialWidget(s);   break;
+      switch(collection.vis.v) {
+        case Visibility.EXPANDED:  drawExpandedWidget(s);  break;
+        case Visibility.COLLAPSED: drawCollapsedWidget(s); break;
+        case Visibility.PARTIAL:   drawPartialWidget(s);   break;
       }
     }
   }
   
   protected void clickReceived(Pt p) {
     if (namesCollection && expander.contains(p)) {
-      switch(collection.state.s) {
-        case States.EXPANDED:
-          if (partialAvailable) collection.state.s = States.PARTIAL;
-          else                  collection.state.s = States.COLLAPSED;
+      switch(collection.vis.v) {
+        case Visibility.EXPANDED:
+          if (partialAvailable) collection.vis.v = Visibility.PARTIAL;
+          else                  collection.vis.v = Visibility.COLLAPSED;
           break;
-        case States.COLLAPSED:  collection.state.s = States.EXPANDED;
+        case Visibility.COLLAPSED:  collection.vis.v = Visibility.EXPANDED;
           break;
-        case States.PARTIAL:    collection.state.s = States.COLLAPSED;
+        case Visibility.PARTIAL:    collection.vis.v = Visibility.COLLAPSED;
           break;
       }
     }
