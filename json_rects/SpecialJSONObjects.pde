@@ -8,9 +8,9 @@ abstract class SpecialParser {
   String key;
   abstract void digest(rexData o);
   void chew(rexObject hm) {
-    if (hm.containsKey(key)) {
-      digest((rexData)hm.get(key));
-      hm.remove(key);
+    if (hm.m.containsKey(key)) {
+      digest((rexData)hm.m.get(key));
+      hm.m.remove(key);
     } else {
     }
   }

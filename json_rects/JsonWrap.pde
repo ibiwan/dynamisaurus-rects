@@ -22,7 +22,7 @@ rexObject translateJsonObject(JSONObject o) {
   rexObject ret = new rexObject();
   try {
     for (String key: o.getNames(o)) {
-      ret.put(key, translateJsonSomething(o.get(key)));
+      ret.m.put(key, translateJsonSomething(o.get(key)));
     }
   }
   catch (JSONException e) { JSONExceptionDump(e); }
@@ -34,7 +34,7 @@ rexArray translateJsonArray(JSONArray a) {
   try {
     for (int i = 0; i < a.length(); i++) {
       Object val = a.get(i);
-      ret.add(translateJsonSomething(val));
+      ret.a.add(translateJsonSomething(val));
     }
   }
   catch (JSONException e) { JSONExceptionDump(e); }
