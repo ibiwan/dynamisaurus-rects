@@ -10,7 +10,7 @@ void setup() {
   String sData = join(loadStrings("dnd.json"), "");
   textSize(useTextSize);
   
-  HashMap<String, Object> pData = parseJsonObject(sData);
+  rexObject pData = parseJsonObject(sData);
   
   for (int i = 0; i < specials.length; i++) {
     specials[i].chew(pData);

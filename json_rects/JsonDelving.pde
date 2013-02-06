@@ -1,14 +1,14 @@
-void traverseSomething(Object o, rexNode parent) {
-       if (o instanceof ArrayList) { traverseArray((ArrayList)o, new rexNodeArray(parent)); }
-  else if (o instanceof HashMap)   { traverseHMap ((HashMap)  o, new rexNodeObject(parent)); }
-  else if (o instanceof Boolean)   { new rexNodeBool (parent, (Boolean)o); }
-  else if (o instanceof Integer)   { new rexNodeInt  (parent, (Integer)o); }
-  else if (o instanceof Double)    { new rexNodeDouble(parent, (Double)o); }
-  else if (o instanceof String)    { new rexNodeString(parent, (String)o); }
-  else                             { (new rexNode(parent)).value = o; }
+void traverseSomething(rexData o, rexNode parent) {
+       if (o instanceof rexArray)  { traverseArray((rexArray)o, new rexNodeArray(parent)); }
+  else if (o instanceof rexObject) { traverseHMap ((rexObject)o, new rexNodeObject(parent)); }
+  else if (o instanceof rexScalar && ((rexScalar)o).s instanceof Boolean) { new rexNodeBool  (parent, (Boolean)((rexScalar)o).s); }
+  else if (o instanceof rexScalar && ((rexScalar)o).s instanceof Integer) { new rexNodeInt   (parent, (Integer)((rexScalar)o).s); }
+  else if (o instanceof rexScalar && ((rexScalar)o).s instanceof Double) { new rexNodeDouble(parent, (Double)((rexScalar)o).s);  }
+  else if (o instanceof rexString) { new rexNodeString(parent, ((rexString)o).s);  }
+  else                             { println("iunno...."); (new rexNode(parent)).value = o; }
 }
 
-void traverseArray(ArrayList a, rexNodeArray parent) {
+void traverseArray(rexArray a, rexNodeArray parent) {
   if (parent.parent.keyBox != null) {
     rexKey kb = parent.parent.keyBox;
     kb.namesCollection(parent);
@@ -18,7 +18,7 @@ void traverseArray(ArrayList a, rexNodeArray parent) {
       kb.partialAvailable = true;
     }
   }
-  for (Object o:a) {
+  for (rexData o: a.a) {
     //rexNodeArray box = new rexNodeArray(parent); // make a dummy array to contain both a label and the value
     //box.keyBox = new rexKey(box, "");           // upper box contains the label
     //traverseSomething(o, box);                   // lower box contains the object
@@ -26,8 +26,8 @@ void traverseArray(ArrayList a, rexNodeArray parent) {
   }
 }
 
-void traverseHMap(HashMap<String, Object> o, rexNodeObject parent) {
-  String[] keys = o.keySet().toArray(new String[0]);
+void traverseHMap(rexObject o, rexNodeObject parent) {
+  String[] keys = o.m.keySet().toArray(new String[0]);
   String[] prioKeys = new String[keys.length];
   int i = 0;
   for (String key: keys) {
@@ -39,7 +39,7 @@ void traverseHMap(HashMap<String, Object> o, rexNodeObject parent) {
     String key = numKey.split("#")[1];
     rexNodeArray box = new rexNodeArray(parent); // make a dummy array to contain both a label and the value
     box.keyBox = new rexKey(box, key);           // upper box contains the label
-    traverseSomething(o.get(key), box);          // lower box contains the object
+    traverseSomething(o.m.get(key), box);          // lower box contains the object
   }
 }
 
