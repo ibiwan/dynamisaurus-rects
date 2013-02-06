@@ -17,17 +17,22 @@ class Modes {
 }
 
 class rexNode {
-  /*--------PUBLIC-------*/
   Visibility vis = new Visibility(Visibility.EXPANDED);
   Object value;
   rexKey keyBox; // for labeling
-  RowStack rows;
-  
+  RowStack rows; // for arranging
+  protected Sz min, max;
+  protected rexNode parent;
+  protected Modes arrangement = new Modes(Modes.PACK);
+  protected String primary = "";
+  private ArrayList<rexNode> children = new ArrayList<rexNode>();
+
   rexNode (Sz min, Sz max) { init(min, max); }
   rexNode (rexNode parent) { 
     init(new Sz(-1, -1), new Sz(-1, -1)); 
     parent.addChild(this);
   }
+  private void init(Sz minp, Sz maxp) { min = minp; max = maxp; }
   
   void addChild(rexNode node) {
     try {
@@ -46,12 +51,6 @@ class rexNode {
     draw(x, y, gray, clickRoot);
   }
   
-  /*--------PROTECTED-------*/
-  protected Sz min, max;//, cur;
-  protected rexNode parent;
-  protected Modes arrangement = new Modes(Modes.PACK);
-  protected String primary = "";
-
   protected void draw(int x, int y, int gray) {
     stroke(gray);
     fill(gray);
@@ -60,99 +59,45 @@ class rexNode {
   
   protected void clickReceived(Pt p) { } // implement where appropriate in child classes
   
-  /*--------PRIVATE-------*/
-  private ArrayList<rexNode> children = new ArrayList<rexNode>();
-  
-  private void init(Sz minp, Sz maxp) { min = minp; max = maxp; }
-  
   private void arrangeChildren(int parent_maxw) {
+    ArrayList<rexNode> use_children = children;
+
     switch(vis.v) {
-      case Visibility.EXPANDED: break; // show everything (handle below)
-      case Visibility.COLLAPSED:       // show nothing
-        rows.box = reduce(rows.box);         // shrink in a visually-pleasing manner
-        return;                    // don't pack the kids
-      case Visibility.PARTIAL:         // show only primary fields for each array element
-        summarize(parent_maxw);
-        return;
+      case Visibility.EXPANDED:    // show everything
+        break;                         // handle below
+      case Visibility.COLLAPSED:   // show nothing
+        rows.box = reduce(rows.box);   // shrink in a visually-pleasing manner
+        return;                        // don't pack the kids
+      case Visibility.PARTIAL:     // show minimal
+        //use_children = labels;       // use labels instead of full objects
+        break;
     }
-    switch (arrangement.m) {
-      case Modes.PACK:   pack (parent_maxw); break;
-      case Modes.COLUMN: stack(parent_maxw); break;
-      case Modes.ROW:    chain(parent_maxw); break;
-    }
-  }
- 
-  private void pack(int parent_maxw) {
-    rows = new RowStack(min);
-    Row row = new Row(new Pt(0, 0));
+
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
-    
-    for (int i = 0; i < children.size(); i++) {
-      rexNode node = children.get(i);
+    rows = new RowStack(min);
+    Row row = new Row(new Pt(0, 0));
+
+    for (rexNode node: use_children){
       node.arrangeChildren(use_maxw); // recurse here!
-      if (     use_maxw != -1
-            && row.elements.size() > 0
-            && row.box.w + node.rows.box.w + 2 * margin > use_maxw ) {
-        row = new Row(rows.add(row));
+      switch (arrangement.m) {
+        case Modes.PACK:     // make a new row any time the current one is full
+           if (    use_maxw != -1
+                && row.elements.size() > 0
+                && row.box.w + node.rows.box.w + 2 * margin > use_maxw ) {
+            row = new Row(rows.add(row));
+          }
+          break;
+        case Modes.COLUMN:  // make a new row after every entry
+          if ( row.elements.size() > 0 ) {
+            row = new Row(rows.add(row));
+          }
+          break;
+        case Modes.ROW:     // never make a new row
+          break;
       }
       row.add(node);
     }
-    
-    if (row.elements.size() > 0) {
-      rows.add(row);
-    }
-  }
-  
-  private void stack(int parent_maxw) {
-    rows = new RowStack(min);
-    Row row = new Row(new Pt(0, 0));
-    int use_maxw = parent_maxw == -1 ? max.w : max(max.w, parent_maxw);
-    
-    for (int i = 0; i < children.size(); i++) {
-      rexNode node = children.get(i);
-      node.arrangeChildren(use_maxw); // recurse here!
-      if ( row.elements.size() > 0 ) {
-        row = new Row(rows.add(row));
-      }
-      row.add(node);
-    }
-    if (row.elements.size() > 0) {
-      rows.add(row);
-    }
-  }
-  
-  private void chain(int parent_maxw) {
-    rows = new RowStack(min);
-    Row row = new Row(new Pt(0, 0));
-    int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
-    
-    for (int i = 0; i < children.size(); i++) {
-      rexNode node = children.get(i);
-      node.arrangeChildren(use_maxw); // recurse here!
-      row.add(node);
-    }
-    
-    if (row.elements.size() > 0) {
-      rows.add(row);
-    }
-  }
-  
-  private void summarize(int parent_maxw) {
-    rows = new RowStack(min);
-    Row row = new Row(new Pt(0, 0));
-    int use_maxw = parent_maxw == -1 ? max.w : max(max.w, parent_maxw);
-    
-    for (int i = 0; i < children.size(); i++) {
-      rexNode node = children.get(i);
-      node.arrangeChildren(use_maxw); // recurse here!
-      if ( row.elements.size() > 0 ) {
-        row = new Row(rows.add(row));
-      }
-      row.add(node);
-    }
-    if (row.elements.size() > 0) {
-      rows.add(row);
-    }
+    if (row.elements.size() > 0) { rows.add(row); }
   }
   
   private void draw(int x, int y, int gray, ClickNet net) {
