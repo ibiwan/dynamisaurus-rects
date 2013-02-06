@@ -18,17 +18,15 @@ void traverseArray(ArrayList a, rexNodeArray parent) {
       kb.partialAvailable = true;
     }
   }
-  for (int i = 0; i < a.size(); i++) {
-    Object element = a.get(i);
-    traverseSomething(element, parent);
+  for (Object o:a) {
+    //rexNodeArray box = new rexNodeArray(parent); // make a dummy array to contain both a label and the value
+    //box.keyBox = new rexKey(box, "");           // upper box contains the label
+    //traverseSomething(o, box);                   // lower box contains the object
+    traverseSomething(o, parent);
   }
 }
 
 void traverseHMap(HashMap<String, Object> o, rexNodeObject parent) {
-  if (parent.parent.keyBox !=  null) {
-    parent.parent.keyBox.namesCollection(parent);
-  }
-  
   String[] keys = o.keySet().toArray(new String[0]);
   String[] prioKeys = new String[keys.length];
   int i = 0;

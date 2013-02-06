@@ -1,6 +1,5 @@
 class rexKey extends rexNodeString{
   int         widget_width = 20;
-  boolean  namesCollection = false;
   boolean partialAvailable = false;
   rexNode       collection = null;
   Rect expander;
@@ -12,14 +11,13 @@ class rexKey extends rexNodeString{
   
   void namesCollection(rexNode c) { 
     min.w += widget_width; 
-    namesCollection = true;
     collection = c;
   }
   
   protected void draw(int x, int y, int gray) {
     super.draw((String)value + ":", x, y, gray);
     
-    if (namesCollection) {
+    if (collection != null) {
       Rect widgetBox = new Rect(x + rows.box.w - widget_width,
                                 y + rows.box.h - useTextSize,
                                 widget_width, useTextSize);
@@ -40,16 +38,13 @@ class rexKey extends rexNodeString{
   }
   
   protected void clickReceived(Pt p) {
-    if (namesCollection && expander.contains(p)) {
+    if (collection != null && expander.contains(p)) {
       switch(collection.vis.v) {
         case Visibility.EXPANDED:
-          if (partialAvailable) collection.vis.v = Visibility.PARTIAL;
-          else                  collection.vis.v = Visibility.COLLAPSED;
-          break;
-        case Visibility.COLLAPSED:  collection.vis.v = Visibility.EXPANDED;
-          break;
-        case Visibility.PARTIAL:    collection.vis.v = Visibility.COLLAPSED;
-          break;
+          if (partialAvailable)     collection.vis.v = Visibility.PARTIAL;
+          else                      collection.vis.v = Visibility.COLLAPSED; break;
+        case Visibility.COLLAPSED:  collection.vis.v = Visibility.EXPANDED;  break;
+        case Visibility.PARTIAL:    collection.vis.v = Visibility.COLLAPSED; break;
       }
     }
   }

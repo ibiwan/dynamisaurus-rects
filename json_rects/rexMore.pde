@@ -22,11 +22,11 @@ class rexNodeString extends rexNode {
 
 class rexNodeArray extends rexNode {
   rexNodeArray (rexNode parent)  { 
-    super(parent); 
+    super(parent);
     arrangement.m = Modes.COLUMN;
   }
   protected void draw(int x, int y, int gray) {
-    stroke(127); fill(gray);
+    stroke(127);   fill(gray);
     rect(x, y, rows.box.w + 2 * margin, rows.box.h + 2 * margin);
   }
 }

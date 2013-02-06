@@ -12,8 +12,7 @@ class Pt {
 class Rect {
   int x, y, w, h;
   Rect(int xp, int yp, int wp, int hp) {
-    x = xp; y = yp; 
-    w = wp; h = hp;
+    x = xp; y = yp;   w = wp; h = hp;
   }
   boolean contains(Pt p) {
     if (x <= p.x && p.x <= x + w && 
@@ -22,9 +21,7 @@ class Rect {
     }
     return false;
   }
-  void print() {
-    println(x + ", " + y + "; " + w + ", " + h);
-  }
+  void print() { println(x + ", " + y + "; " + w + ", " + h); }
 }
 
 class Row {
@@ -43,9 +40,7 @@ class Row {
 class RowStack {
   Rect box;
   ArrayList<Row> rows = new ArrayList<Row>();
-  RowStack (Sz min) {
-    box = new Rect(0, 0, min.w, min.h); 
-  }
+  RowStack (Sz min) { box = new Rect(0, 0, min.w, min.h); }
   Pt add(Row row) {
     rows.add(row);
     box.w = max(box.w, row.box.w);
