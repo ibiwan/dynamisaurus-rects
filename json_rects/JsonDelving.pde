@@ -15,7 +15,6 @@ void traverseArray(ArrayList a, rexNodeArray parent) {
     
     if (primariesMap.containsKey(kb.value)) {
       parent.primary = primariesMap.get(kb.value);
-      println(kb.value + ":" + parent.primary);
       kb.partialAvailable = true;
     }
   }

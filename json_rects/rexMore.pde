@@ -28,15 +28,11 @@ class rexNodeArray extends rexNode {
   protected void draw(int x, int y, int gray) {
     stroke(127); fill(gray);
     rect(x, y, rows.box.w + 2 * margin, rows.box.h + 2 * margin);
-    
-    if (parent.primary != "") {
-      println(parent.primary);
-    }
   }
 }
 
 class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexNode parent, Integer i) { super(parent, i.toString()); } }
 class rexNodeBool   extends rexNodeString{ rexNodeBool  (rexNode parent, Boolean b) { super(parent, b.toString()); } }
 class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexNode parent, Double  d) { super(parent, d.toString()); } }
-class rexNodeObject extends rexNode{  rexNodeObject(rexNode parent) { super(parent); } }
+class rexNodeObject extends rexNode      { rexNodeObject(rexNode parent)            { super(parent); } }
 

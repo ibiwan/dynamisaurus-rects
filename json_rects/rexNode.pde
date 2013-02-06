@@ -17,22 +17,28 @@ class Modes {
 }
 
 class rexNode {
-  Visibility vis = new Visibility(Visibility.EXPANDED);
-  Object value;
+  Object value;  // why we're all here
   rexKey keyBox; // for labeling
   RowStack rows; // for arranging
+  
   protected Sz min, max;
   protected rexNode parent;
-  protected Modes arrangement = new Modes(Modes.PACK);
+  protected Visibility vis;
+  protected Modes arrangement;
   protected String primary = "";
+  
   private ArrayList<rexNode> children = new ArrayList<rexNode>();
 
-  rexNode (Sz min, Sz max) { init(min, max); }
+  rexNode (Sz max) { init(max); }
   rexNode (rexNode parent) { 
-    init(new Sz(-1, -1), new Sz(-1, -1)); 
+    init(new Sz(-1, -1)); 
     if (parent != null) { parent.addChild(this); }
   }
-  private void init(Sz minp, Sz maxp) { min = minp; max = maxp; }
+  private void init(Sz maxp) { 
+    min = new Sz(-1, -1); max = maxp; 
+    vis = new Visibility(Visibility.EXPANDED); 
+    arrangement = new Modes(Modes.PACK);
+  }
   
   void addChild(rexNode node) {
     try {
@@ -47,45 +53,44 @@ class rexNode {
   
   void drawasroot(int x, int y, int gray) {
     clickRoot = new ClickNet(new Rect(x, y, max.w, max.h), this);
-    arrangeChildren(max.w); // not called from draw directly as it needs to be done only once
-    draw(x, y, gray, clickRoot);
+    arrange(max.w);              // one pass to organize everything
+    draw(x, y, gray, clickRoot); // second pass to put on screen
   }
   
   protected void draw(int x, int y, int gray) {
-    stroke(gray);
-    fill(gray);
+    stroke(gray); fill(gray);
     rect(x + margin, y + margin, rows.box.w, rows.box.h);
   }
   
-  protected void clickReceived(Pt p) { } // implement where appropriate in child classes
+  protected void clickReceived(Pt p) { /* abstract */ }
   
-  private void arrangeChildren(int parent_maxw) {
+  private ArrayList<String> getSummaries() {
+    int i = 0;
+    ArrayList<String> ret = new ArrayList<String>();
+    for (rexNode n: children) {    // use labels instead of full objects
+      String use_str = "" + i++;
+      for (rexNode c: n.children) {
+        if (c.keyBox != null && ((String)(c.keyBox.value)).equals(primary)) {
+          use_str = (String)(c.children.get(1).value);
+          break;
+        }
+      }
+      ret.add(use_str);
+    }
+    return ret;
+  }
+  
+  private void arrange(int parent_maxw) {
     ArrayList<rexNode> use_children = children;
 
-    switch(vis.v) {
-      case Visibility.EXPANDED:    // show everything
-        break;                         // handle below
-      case Visibility.COLLAPSED:   // show nothing
+    if (vis.v == Visibility.COLLAPSED) {
         rows.box = reduce(rows.box);   // shrink in a visually-pleasing manner
         return;                        // don't pack the kids
-      case Visibility.PARTIAL:     // show minimal
+    } else if (vis.v == Visibility.PARTIAL) {
         use_children = new ArrayList<rexNode>();
-        int i = 0;
-        ArrayList<String> summaries = new ArrayList<String>();
-        for (rexNode n: children) {    // use labels instead of full objects
-          String use_str = "" + i++;
-          for (rexNode c: n.children) {
-            if (c.keyBox != null && ((String)(c.keyBox.value)).equals(primary)) {
-              use_str = (String)(c.children.get(1).value);
-              break;
-            }
-          }
-          summaries.add(use_str);
-        }
-        for (String s: summaries) {
+        for (String s: getSummaries()) {
           use_children.add(new rexNodeString(null, s));
         }
-        break;
     }
 
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
@@ -93,7 +98,7 @@ class rexNode {
     Row row = new Row(new Pt(0, 0));
 
     for (rexNode node: use_children){
-      node.arrangeChildren(use_maxw); // recurse here!
+      node.arrange(use_maxw); // recurse here!
       switch (arrangement.m) {
         case Modes.PACK:     // make a new row any time the current one is full
            if (    use_maxw != -1
@@ -107,8 +112,6 @@ class rexNode {
             row = new Row(rows.add(row));
           }
           break;
-        case Modes.ROW:     // never make a new row
-          break;
       }
       row.add(node);
     }
@@ -116,11 +119,7 @@ class rexNode {
   }
   
   private void draw(int x, int y, int gray, ClickNet net) {
-    switch(vis.v) {
-      case Visibility.EXPANDED:  break;  // continue to code below
-      case Visibility.COLLAPSED: return; // don't draw
-      case Visibility.PARTIAL:   break;  // figure it out elsewhere
-    }
+    if (vis.v == Visibility.COLLAPSED) { return; }
     
     this.draw(x, y, gray);
     

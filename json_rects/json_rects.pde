@@ -6,7 +6,7 @@ int useTextSize = 12;
 
 void setup() {
   size(800, 600);
-  root = new rexNode(new Sz(-1, -1), new Sz(width, height));
+  root = new rexNode(new Sz(width, height));
   String sData = join(loadStrings("dnd.json"), "");
   textSize(useTextSize);
   
