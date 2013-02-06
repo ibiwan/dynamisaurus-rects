@@ -20,9 +20,16 @@ class rexString extends rexData {
   String s;
   rexString(String s_) { s = s_; }
 }
-
-class rexScalar extends rexData {
-  Object s;
-  rexScalar(Object o) { s = o; }
+class rexBoolean extends rexData {
+  Boolean b;
+  rexBoolean(Boolean b_) { b = b_; }
+}
+class rexInteger extends rexData {
+  Integer i;
+  rexInteger(Integer i_) { i = i_; }
+}
+class rexDouble extends rexData {
+  Double d;
+  rexDouble(Double d_) { d = d_; }
 }
 

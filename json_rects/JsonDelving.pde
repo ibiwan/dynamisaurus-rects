@@ -1,9 +1,9 @@
 void traverseSomething(rexData o, rexNode parent) {
        if (o instanceof rexArray)  { traverseArray((rexArray)o, new rexNodeArray(parent)); }
   else if (o instanceof rexObject) { traverseHMap ((rexObject)o, new rexNodeObject(parent)); }
-  else if (o instanceof rexScalar && ((rexScalar)o).s instanceof Boolean) { new rexNodeBool  (parent, (Boolean)((rexScalar)o).s); }
-  else if (o instanceof rexScalar && ((rexScalar)o).s instanceof Integer) { new rexNodeInt   (parent, (Integer)((rexScalar)o).s); }
-  else if (o instanceof rexScalar && ((rexScalar)o).s instanceof Double) { new rexNodeDouble(parent, (Double)((rexScalar)o).s);  }
+  else if (o instanceof rexBoolean) { new rexNodeBool  (parent, ((rexBoolean)o).b); }
+  else if (o instanceof rexInteger) { new rexNodeInt   (parent, ((rexInteger)o).i); }
+  else if (o instanceof rexDouble) { new rexNodeDouble(parent, ((rexDouble)o).d);  }
   else if (o instanceof rexString) { new rexNodeString(parent, ((rexString)o).s);  }
   else                             { println("iunno...."); (new rexNode(parent)).value = o; }
 }

@@ -11,9 +11,9 @@ rexObject parseJsonObject(String s) {
 rexData translateJsonSomething(Object o) {
        if (o instanceof JSONArray)  { return translateJsonArray ((JSONArray) o); }
   else if (o instanceof JSONObject) { return translateJsonObject((JSONObject)o); }
-  else if (o instanceof Boolean)    { return new rexScalar((Boolean)o);    }
-  else if (o instanceof Integer)    { return new rexScalar((Integer)o);    }
-  else if (o instanceof Double)     { return new rexScalar((Double)o);    }
+  else if (o instanceof Boolean)    { return new rexBoolean((Boolean)o);    }
+  else if (o instanceof Integer)    { return new rexInteger((Integer)o);    }
+  else if (o instanceof Double)     { return new rexDouble((Double)o);    }
   else if (o instanceof String)     { return new rexString((String)o);    }
   else                              { return null; }
 }
