@@ -26,5 +26,7 @@ class ClickNet {
 // keyword function -- called by Processing environment
 void mouseClicked() {
   clickRoot.sendClick(new Pt(mouseX, mouseY));
+  
+  //if (mouseEvent.getClickCount()==2) println("<double click>");
 }
 
