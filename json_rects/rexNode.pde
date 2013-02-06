@@ -30,7 +30,7 @@ class rexNode {
   rexNode (Sz min, Sz max) { init(min, max); }
   rexNode (rexNode parent) { 
     init(new Sz(-1, -1), new Sz(-1, -1)); 
-    parent.addChild(this);
+    if (parent != null) { parent.addChild(this); }
   }
   private void init(Sz minp, Sz maxp) { min = minp; max = maxp; }
   
@@ -69,7 +69,22 @@ class rexNode {
         rows.box = reduce(rows.box);   // shrink in a visually-pleasing manner
         return;                        // don't pack the kids
       case Visibility.PARTIAL:     // show minimal
-        //use_children = labels;       // use labels instead of full objects
+        use_children = new ArrayList<rexNode>();
+        int i = 0;
+        ArrayList<String> summaries = new ArrayList<String>();
+        for (rexNode n: children) {    // use labels instead of full objects
+          String use_str = "" + i++;
+          for (rexNode c: n.children) {
+            if (c.keyBox != null && ((String)(c.keyBox.value)).equals(primary)) {
+              use_str = (String)(c.children.get(1).value);
+              break;
+            }
+          }
+          summaries.add(use_str);
+        }
+        for (String s: summaries) {
+          use_children.add(new rexNodeString(null, s));
+        }
         break;
     }
 
