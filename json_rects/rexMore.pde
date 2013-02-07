@@ -28,7 +28,7 @@ class rexNodeObject extends rexNode {
     int i = 0;
     ArrayList<String> ret = new ArrayList<String>();
     for (String s: backingData.m.keySet()) {
-      println(s);
+      println("s:" + s);
     }
     /*for (rexNode n: children) {    // use labels instead of full objects
       String use_str = "" + i++;
@@ -58,7 +58,7 @@ class rexNodeArray extends rexNode {
     int i = 0;
     ArrayList<String> ret = new ArrayList<String>();
     for (rexData d: backingData.a) {
-      println(d);
+      println(d); // <<FIXME>> this is where you left off
     }
     /*for (rexNode n: children) {    // use labels instead of full objects
       String use_str = "" + i++;
