@@ -10,10 +10,12 @@ rexNode buildSomething(rexData o) {
 
 rexNodeArray buildArray(rexArray a) {
   rexNodeArray ret = new rexNodeArray();
+  ret.backingData = a;
+
   for (rexData d: a.a) {
 
     rexNodeWrapper box = new rexNodeWrapper(); // make a dummy array to contain both a label and a value
-    //ret.addChild(box);
+    ret.addChild(box);
     box.hint = "box";
     /*
     rexNodeKey kb = new rexNodeKey("");           // upper entry contains the label
@@ -27,8 +29,8 @@ rexNodeArray buildArray(rexArray a) {
     
     rexNode n = buildSomething(d);         // lower entry contains the value
 
-    //box.addChild(n);
-    ret.addChild(n);
+    box.addChild(n);
+    //ret.addChild(n);
 
   }
   ret.hint = "array";
@@ -49,6 +51,8 @@ rexNodeArray buildArray(rexArray a) {
 
 rexNodeObject buildHMap(rexObject m) {
   rexNodeObject ret = new rexNodeObject();
+  ret.backingData = m;
+  
   String[] keys = m.m.keySet().toArray(new String[0]);
   String[] prioKeys = new String[keys.length];
   int i = 0;

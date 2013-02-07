@@ -61,7 +61,7 @@ class rexNode {
   
   protected void clickReceived(Pt p) { println(this + " (" + hint + ") received click"); }
   
-  private ArrayList<String> getSummaries() {
+  protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); } /*
     int i = 0;
     ArrayList<String> ret = new ArrayList<String>();
     println(this);
@@ -77,7 +77,7 @@ class rexNode {
     }
     return ret;
   }
-  
+  */
   private void arrange(int parent_maxw) {
     ArrayList<rexNode> use_children = children;
 

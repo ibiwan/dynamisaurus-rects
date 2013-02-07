@@ -20,7 +20,32 @@ class rexNodeString extends rexNode {
   }
 }
 
+class rexNodeObject extends rexNode {
+  rexObject backingData;
+  rexNodeObject() { super(); }
+
+  protected ArrayList<String> getSummaries() {
+    int i = 0;
+    ArrayList<String> ret = new ArrayList<String>();
+    for (String s: backingData.m.keySet()) {
+      println(s);
+    }
+    /*for (rexNode n: children) {    // use labels instead of full objects
+      String use_str = "" + i++;
+      for (rexNode c: n.children) {
+        if (c.keyBox != null && ((String)c.keyBox.value).equals(primary)) {
+          use_str = (String)(c.children.get(1).value);
+          break;
+        }
+      }
+      ret.add(use_str);
+    }*/
+    return ret;
+  }
+}
+
 class rexNodeArray extends rexNode {
+  rexArray backingData;
   rexNodeArray ()  { 
     super();
     arrangement.m = Modes.COLUMN;
@@ -28,6 +53,24 @@ class rexNodeArray extends rexNode {
   protected void draw(int x, int y, int gray) {
     stroke(127);   fill(gray);
     rect(x, y, rows.box.w + 2 * margin, rows.box.h + 2 * margin);
+  }
+  protected ArrayList<String> getSummaries() {
+    int i = 0;
+    ArrayList<String> ret = new ArrayList<String>();
+    for (rexData d: backingData.a) {
+      println(d);
+    }
+    /*for (rexNode n: children) {    // use labels instead of full objects
+      String use_str = "" + i++;
+      for (rexNode c: n.children) {
+        if (c.keyBox != null && ((String)c.keyBox.value).equals(primary)) {
+          use_str = (String)(c.children.get(1).value);
+          break;
+        }
+      }
+      ret.add(use_str);
+    }*/
+    return ret;
   }
 }
 
@@ -37,5 +80,5 @@ class rexNodeWrapper extends rexNodeArray {
 class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexInteger i) { super(i.i.toString()); } }
 class rexNodeBool   extends rexNodeString{ rexNodeBool  (rexBoolean b) { super(b.b.toString()); } }
 class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexDouble  d) { super(d.d.toString()); } }
-class rexNodeObject extends rexNode      { rexNodeObject()             { super(); } }
+
 
