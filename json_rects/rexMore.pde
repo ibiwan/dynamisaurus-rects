@@ -1,6 +1,6 @@
 class rexNodeString extends rexNode {
-  rexNodeString (rexNode parent, String s)  { 
-    super(parent);
+  rexNodeString (String s)  { 
+    super();
     value = s;
     min.w = (int)textWidth(s) + 2 * margin;
     min.h = useTextSize + 2 * margin;
@@ -21,8 +21,8 @@ class rexNodeString extends rexNode {
 }
 
 class rexNodeArray extends rexNode {
-  rexNodeArray (rexNode parent)  { 
-    super(parent);
+  rexNodeArray ()  { 
+    super();
     arrangement.m = Modes.COLUMN;
   }
   protected void draw(int x, int y, int gray) {
@@ -31,8 +31,11 @@ class rexNodeArray extends rexNode {
   }
 }
 
-class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexNode parent, Integer i) { super(parent, i.toString()); } }
-class rexNodeBool   extends rexNodeString{ rexNodeBool  (rexNode parent, Boolean b) { super(parent, b.toString()); } }
-class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexNode parent, Double  d) { super(parent, d.toString()); } }
-class rexNodeObject extends rexNode      { rexNodeObject(rexNode parent)            { super(parent); } }
+class rexNodeWrapper extends rexNodeArray {
+}
+
+class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexInteger i) { super(i.i.toString()); } }
+class rexNodeBool   extends rexNodeString{ rexNodeBool  (rexBoolean b) { super(b.b.toString()); } }
+class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexDouble  d) { super(d.d.toString()); } }
+class rexNodeObject extends rexNode      { rexNodeObject()             { super(); } }
 

@@ -1,33 +1,36 @@
-void traverseSomething(rexData o, rexNode parent) {
-       if (o instanceof rexArray)  { traverseArray((rexArray)o, new rexNodeArray(parent)); }
-  else if (o instanceof rexObject) { traverseHMap ((rexObject)o, new rexNodeObject(parent)); }
-  else if (o instanceof rexBoolean) { new rexNodeBool  (parent, ((rexBoolean)o).b); }
-  else if (o instanceof rexInteger) { new rexNodeInt   (parent, ((rexInteger)o).i); }
-  else if (o instanceof rexDouble) { new rexNodeDouble(parent, ((rexDouble)o).d);  }
-  else if (o instanceof rexString) { new rexNodeString(parent, ((rexString)o).s);  }
-  else                             { println("iunno...."); (new rexNode(parent)).value = o; }
+rexNode buildSomething(rexData o) {
+       if (o instanceof rexArray)   { return     buildArray     ((rexArray)o); }
+  else if (o instanceof rexObject)  { return     buildHMap     ((rexObject)o); }
+  else if (o instanceof rexBoolean) { return new rexNodeBool  ((rexBoolean)o); }
+  else if (o instanceof rexInteger) { return new rexNodeInt   ((rexInteger)o); }
+  else if (o instanceof rexDouble)  { return new rexNodeDouble ((rexDouble)o); }
+  else if (o instanceof rexString)  { return new rexNodeString (((rexString)o).s); }
+  else                              { rexNode generic = new rexNode(); generic.value = o; return generic; }
 }
 
-void traverseArray(rexArray a, rexNodeArray parent) {
-  if (parent.parent.keyBox != null) {
-    rexKey kb = parent.parent.keyBox;
-    kb.namesCollection(parent);
+rexNode buildArray(rexArray a) {
+  if (a.keyDisplayNode != null) {
+    rexNodeKey kb = a.keyDisplayNode;
+    kb.namesCollection(kb.collection);
     
-    if (primariesMap.containsKey(kb.value)) {
-      parent.primary = primariesMap.get(kb.value);
+    String key = (String)(kb.value);
+    if (primariesMap.containsKey(key)) {
+      kb.wrapper.primary = primariesMap.get(kb.value);
       kb.partialAvailable = true;
     }
   }
+  rexNodeArray ret = new rexNodeArray();
   for (rexData o: a.a) {
-    //rexNodeArray box = new rexNodeArray(parent); // make a dummy array to contain both a label and the value
-    //box.keyBox = new rexKey(box, "");           // upper box contains the label
-    //traverseSomething(o, box);                   // lower box contains the object
-    traverseSomething(o, parent);
+    rexNode n = buildSomething(o);
+    ret.addChild(n);
   }
+  ret.hint = "array";
+  return ret;
 }
 
-void traverseHMap(rexObject o, rexNodeObject parent) {
-  String[] keys = o.m.keySet().toArray(new String[0]);
+rexNode buildHMap(rexObject m) {
+  rexNodeObject ret = new rexNodeObject();
+  String[] keys = m.m.keySet().toArray(new String[0]);
   String[] prioKeys = new String[keys.length];
   int i = 0;
   for (String key: keys) {
@@ -37,10 +40,26 @@ void traverseHMap(rexObject o, rexNodeObject parent) {
       
   for (String numKey: prioKeys) {
     String key = numKey.split("#")[1];
-    rexNodeArray box = new rexNodeArray(parent); // make a dummy array to contain both a label and the value
-    box.keyBox = new rexKey(box, key);           // upper box contains the label
-    traverseSomething(o.m.get(key), box);          // lower box contains the object
+    
+    rexNodeArray box = new rexNodeWrapper(); // make a dummy array to contain both a label and a value
+    ret.addChild(box);
+    box.hint = "box";
+    
+    rexNodeKey kb = new rexNodeKey(key);           // upper entry contains the label
+    box.addChild(kb);
+    box.keyBox = kb;
+    kb.wrapper = box;
+    kb.hint = "key";
+    
+    rexData d = m.m.get(key);              // let data know who's displaying it
+    d.keyDisplayNode   = kb;
+    
+    rexNode n = buildSomething(d);         // lower entry contains the value
+    kb.collection = n;
+    box.addChild(n);
   }
+  ret.hint = "object";
+  return ret;
 }
 
 int getPriority(String key) {
@@ -48,4 +67,5 @@ int getPriority(String key) {
   if (orderingMap.containsKey(ORDERING_OTHER)) return orderingMap.get(ORDERING_OTHER);
                                                return 0;
 }
+
 

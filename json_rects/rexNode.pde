@@ -18,11 +18,12 @@ class Modes {
 
 class rexNode {
   Object value;  // why we're all here
-  rexKey keyBox; // for labeling
+  rexNodeKey keyBox; // for labeling
   RowStack rows; // for arranging
   
+  String hint = "";
+  
   protected Sz min, max;         // stretchiness
-  protected rexNode parent;      // containing node
   protected Visibility vis;      // expand/collapse state
   protected Modes arrangement;   // layout state
   protected String primary = ""; // summary field
@@ -30,10 +31,7 @@ class rexNode {
   private ArrayList<rexNode> children = new ArrayList<rexNode>();  // contained nodes
 
   rexNode (Sz max) { init(max); }
-  rexNode (rexNode parent) { 
-    init(new Sz(-1, -1));
-    if (parent != null) { parent.addChild(this); }
-  }
+  rexNode () { init(new Sz(-1, -1)); }
   private void init(Sz maxp) { 
     min = new Sz(-1, -1);   max = maxp;
     vis = new Visibility(Visibility.EXPANDED);
@@ -42,7 +40,6 @@ class rexNode {
   
   void addChild(rexNode node) {
     try {
-      node.parent = this;
       children.add(node);
     }
     catch (Exception e) {
@@ -62,7 +59,7 @@ class rexNode {
     rect(x + margin, y + margin, rows.box.w, rows.box.h);
   }
   
-  protected void clickReceived(Pt p) { /* abstract */ }
+  protected void clickReceived(Pt p) { /*println(this + " (" + hint + ") received click");*/ }
   
   private ArrayList<String> getSummaries() {
     int i = 0;
@@ -89,7 +86,7 @@ class rexNode {
     } else if (vis.v == Visibility.PARTIAL) {
         use_children = new ArrayList<rexNode>();
         for (String s: getSummaries()) {
-          use_children.add(new rexNodeString(null, s));
+          use_children.add(new rexNodeString(s));
         }
     }
 
@@ -106,7 +103,7 @@ class rexNode {
             row = new Row(rows.add(row));
           }
           break;
-        case Modes.COLUMN:  // make a new row after every entry
+        case Modes.COLUMN:  // make a new row after every entry);
           if ( row.elements.size() > 0 ) { row = new Row(rows.add(row)); }
           break;
       }

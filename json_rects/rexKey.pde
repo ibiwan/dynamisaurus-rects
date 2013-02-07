@@ -1,11 +1,12 @@
-class rexKey extends rexNodeString{
+class rexNodeKey extends rexNodeString{
   int         widget_width = 20;
   boolean partialAvailable = false;
   rexNode       collection = null;
+  rexNode          wrapper = null;
   Rect expander;
 
-  rexKey(rexNode parent, String s)  { 
-    super(parent, s);
+  rexNodeKey(String s)  { 
+    super(s);
     min.w += (int)textWidth(":");
   }
   
@@ -18,6 +19,7 @@ class rexKey extends rexNodeString{
     super.draw((String)value + ":", x, y, gray);
     
     if (collection != null) {
+      //println("collection is had!");
       Rect widgetBox = new Rect(x + rows.box.w - widget_width,
                                 y + rows.box.h - useTextSize,
                                 widget_width, useTextSize);
@@ -38,6 +40,7 @@ class rexKey extends rexNodeString{
   }
   
   protected void clickReceived(Pt p) {
+    super.clickReceived(p);
     if (collection != null && expander.contains(p)) {
       switch(collection.vis.v) {
         case Visibility.EXPANDED:

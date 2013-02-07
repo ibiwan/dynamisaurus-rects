@@ -1,7 +1,5 @@
 class rexData {
-  rexNode outerDisplayNode;
-  rexNode innerDisplayNode;
-  rexNode keyDisplayNode;
+  rexNodeKey keyDisplayNode;
 }
 
 class rexArray extends rexData {
@@ -11,6 +9,10 @@ class rexObject extends rexData {
   HashMap<String, rexData> m = new HashMap<String, rexData>();
 }
 
+class rexString extends rexData {
+  String s;
+  rexString(String s_) { s = s_; }
+}
 class rexBoolean extends rexData {
   Boolean b;
   rexBoolean(Boolean b_) { b = b_; }

@@ -15,7 +15,7 @@ void setup() {
   for (int i = 0; i < specials.length; i++) {
     specials[i].chew(pData);
   }
-  traverseSomething(pData, root);
+  root.addChild(buildSomething(pData));
 }
 
 void draw() {
