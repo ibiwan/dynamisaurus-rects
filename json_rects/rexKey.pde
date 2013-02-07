@@ -19,7 +19,6 @@ class rexNodeKey extends rexNodeString{
     super.draw((String)value + ":", x, y, gray);
     
     if (collection != null) {
-      //println("collection is had!");
       Rect widgetBox = new Rect(x + rows.box.w - widget_width,
                                 y + rows.box.h - useTextSize,
                                 widget_width, useTextSize);

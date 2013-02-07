@@ -21,7 +21,7 @@ void setup() {
 void draw() {
   // display's width follows mouse if below is uncommented
   // root.max.w = (mouseX > 0) ? mouseX : width;
-  
+
   background(255);
   root.drawasroot(0, 0, 0);
 }

@@ -8,27 +8,46 @@ rexNode buildSomething(rexData o) {
   else                              { rexNode generic = new rexNode(); generic.value = o; return generic; }
 }
 
-rexNode buildArray(rexArray a) {
+rexNodeArray buildArray(rexArray a) {
+  rexNodeArray ret = new rexNodeArray();
+  for (rexData d: a.a) {
+
+    rexNodeWrapper box = new rexNodeWrapper(); // make a dummy array to contain both a label and a value
+    //ret.addChild(box);
+    box.hint = "box";
+    /*
+    rexNodeKey kb = new rexNodeKey("");           // upper entry contains the label
+    box.addChild(kb);
+    box.keyBox = kb;
+    kb.wrapper = box;
+    kb.hint = "key";
+    
+    //rexData d = m.m.get(key);              // let data know who's displaying it
+    d.keyDisplayNode   = kb;*/
+    
+    rexNode n = buildSomething(d);         // lower entry contains the value
+
+    //box.addChild(n);
+    ret.addChild(n);
+
+  }
+  ret.hint = "array";
+
   if (a.keyDisplayNode != null) {
     rexNodeKey kb = a.keyDisplayNode;
-    kb.namesCollection(kb.collection);
+    kb.namesCollection(ret);
     
     String key = (String)(kb.value);
     if (primariesMap.containsKey(key)) {
-      kb.wrapper.primary = primariesMap.get(kb.value);
+      kb.collection.primary = primariesMap.get(kb.value);
       kb.partialAvailable = true;
     }
   }
-  rexNodeArray ret = new rexNodeArray();
-  for (rexData o: a.a) {
-    rexNode n = buildSomething(o);
-    ret.addChild(n);
-  }
-  ret.hint = "array";
+  
   return ret;
 }
 
-rexNode buildHMap(rexObject m) {
+rexNodeObject buildHMap(rexObject m) {
   rexNodeObject ret = new rexNodeObject();
   String[] keys = m.m.keySet().toArray(new String[0]);
   String[] prioKeys = new String[keys.length];
@@ -41,7 +60,7 @@ rexNode buildHMap(rexObject m) {
   for (String numKey: prioKeys) {
     String key = numKey.split("#")[1];
     
-    rexNodeArray box = new rexNodeWrapper(); // make a dummy array to contain both a label and a value
+    rexNodeWrapper box = new rexNodeWrapper(); // make a dummy array to contain both a label and a value
     ret.addChild(box);
     box.hint = "box";
     
@@ -55,7 +74,6 @@ rexNode buildHMap(rexObject m) {
     d.keyDisplayNode   = kb;
     
     rexNode n = buildSomething(d);         // lower entry contains the value
-    kb.collection = n;
     box.addChild(n);
   }
   ret.hint = "object";

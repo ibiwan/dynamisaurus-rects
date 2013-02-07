@@ -17,9 +17,9 @@ class Modes {
 }
 
 class rexNode {
-  Object value;  // why we're all here
+  Object value;      // why we're all here
   rexNodeKey keyBox; // for labeling
-  RowStack rows; // for arranging
+  RowStack rows;     // for arranging
   
   String hint = "";
   
@@ -59,11 +59,12 @@ class rexNode {
     rect(x + margin, y + margin, rows.box.w, rows.box.h);
   }
   
-  protected void clickReceived(Pt p) { /*println(this + " (" + hint + ") received click");*/ }
+  protected void clickReceived(Pt p) { println(this + " (" + hint + ") received click"); }
   
   private ArrayList<String> getSummaries() {
     int i = 0;
     ArrayList<String> ret = new ArrayList<String>();
+    println(this);
     for (rexNode n: children) {    // use labels instead of full objects
       String use_str = "" + i++;
       for (rexNode c: n.children) {
@@ -121,9 +122,9 @@ class rexNode {
       for (rexNode node: row.elements) {
         Rect nodeBox = new Rect(x + row.box.x + xoffset + margin,  y + row.box.y + margin, 
                                 node.rows.box.w,                   node.rows.box.h);
-        ClickNet subnet = new ClickNet(nodeBox, node);
-        net.add(subnet);
-        node.draw(nodeBox.x, nodeBox.y, gray + 30, subnet); // recurse
+        ClickNet subNet = new ClickNet(nodeBox, node);
+        net.add(subNet);
+        node.draw(nodeBox.x, nodeBox.y, gray + 20, subNet); // recurse
         xoffset += node.rows.box.w + margin;
       }
     }
