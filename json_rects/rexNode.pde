@@ -61,23 +61,8 @@ class rexNode {
   
   protected void clickReceived(Pt p) { println(this + " (" + hint + ") received click"); }
   
-  protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); } /*
-    int i = 0;
-    ArrayList<String> ret = new ArrayList<String>();
-    println(this);
-    for (rexNode n: children) {    // use labels instead of full objects
-      String use_str = "" + i++;
-      for (rexNode c: n.children) {
-        if (c.keyBox != null && ((String)c.keyBox.value).equals(primary)) {
-          use_str = (String)(c.children.get(1).value);
-          break;
-        }
-      }
-      ret.add(use_str);
-    }
-    return ret;
-  }
-  */
+  protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); }
+
   private void arrange(int parent_maxw) {
     ArrayList<rexNode> use_children = children;
 

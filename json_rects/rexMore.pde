@@ -55,21 +55,22 @@ class rexNodeArray extends rexNode {
     rect(x, y, rows.box.w + 2 * margin, rows.box.h + 2 * margin);
   }
   protected ArrayList<String> getSummaries() {
-    int i = 0;
+    int i = 0; String use_str;
     ArrayList<String> ret = new ArrayList<String>();
     for (rexData d: backingData.a) {
-      println(d); // <<FIXME>> this is where you left off
-    }
-    /*for (rexNode n: children) {    // use labels instead of full objects
-      String use_str = "" + i++;
-      for (rexNode c: n.children) {
-        if (c.keyBox != null && ((String)c.keyBox.value).equals(primary)) {
-          use_str = (String)(c.children.get(1).value);
-          break;
+      if (d instanceof rexObject) {
+        use_str = "" + i++;
+        for (String key: ((rexObject)d).m.keySet()) {
+          if (key.equals(primary)) {
+            rexData value = ((rexObject)d).m.get(key);
+            if (value instanceof rexString) {
+              use_str = ((rexString)value).s;
+            }
+          }
         }
+        ret.add(use_str);
       }
-      ret.add(use_str);
-    }*/
+    }
     return ret;
   }
 }
