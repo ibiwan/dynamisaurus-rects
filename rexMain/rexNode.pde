@@ -43,16 +43,16 @@ class rexNode {
       children.add(node);
   }
   
-  void drawasroot(Pt orig, int gray) {
-    clickRoot = new ClickNet(new Rect(orig, max), this);
+  void drawasroot(Pt origin, int gray) {
+    clickRoot = new ClickNet(new Rect(origin, max), this);
     arrange(max.w);              // one pass to organize everything
-    draw(orig, gray, clickRoot); // second pass to put on screen
+    draw(origin, gray, clickRoot); // second pass to put on screen
   }
   
-  protected void draw(Pt orig, int gray) {
+  protected void draw(Pt origin, int gray) {
     stroke(gray);   fill(gray);
     rect((new Rect(margin, margin, rows.box.size()))
-                  .plus(orig));
+                  .plus(origin));
   }
   
   protected void clickReceived(Pt p) { println(this + " (" + hint + ") received click"); }
@@ -102,20 +102,20 @@ class rexNode {
     if (row.elements.size() > 0) { rows.add(row); }
   }
   
-  private void draw(Pt orig, int gray, ClickNet net) {
+  private void draw(Pt origin, int gray, ClickNet net) {
     if (vis.v == Visibility.COLLAPSED) { return; }
     
-    this.draw(orig, gray);     // draw self
+    this.draw(origin, gray);     // draw self
     for (Row row: rows.rows) { // draw children
       int xoffset = 0;
       for (rexNode node: row.elements) {
-        Rect nodeBox = new Rect(row.box.orig(), node.rows.box.size())
-                               .plus(orig)
+        Rect nodeBox = new Rect(row.box.origin(), node.rows.box.size())
+                               .plus(origin)
                                .plus(new Pt(xoffset, 0))
                                .plus(new Pt(margin, margin));
         ClickNet subNet = new ClickNet(nodeBox, node);
         net.add(subNet);
-        node.draw(nodeBox.orig(), gray + 20, subNet); // recurse
+        node.draw(nodeBox.origin(), gray + 20, subNet); // recurse
         xoffset += node.rows.box.w + margin;
       }
     }

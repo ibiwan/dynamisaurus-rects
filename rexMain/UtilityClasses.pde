@@ -23,11 +23,11 @@ class Pt {
 
 class Rect {
   int x, y, w, h;
-  Rect(Pt orig, Sz s) {
-    x = orig.x; y = orig.y;   w = s.w; h = s.h;
+  Rect(Pt origin, Sz s) {
+    x = origin.x; y = origin.y;   w = s.w; h = s.h;
   }
-  Rect(Pt orig, int wp, int hp) {
-    x = orig.x; y = orig.y;   w = wp; h = hp;
+  Rect(Pt origin, int wp, int hp) {
+    x = origin.x; y = origin.y;   w = wp; h = hp;
   }
   Rect(int xp, int yp, Sz s) {
     x = xp; y = yp;   w = s.w; h = s.h;
@@ -35,7 +35,7 @@ class Rect {
   Rect(int xp, int yp, int wp, int hp) {
     x = xp; y = yp;   w = wp; h = hp;
   }
-  Pt orig() { return new Pt(x, y); }
+  Pt origin() { return new Pt(x, y); }
   Sz size() { return new Sz(w, h); }
   boolean contains(Pt p) {
     if (x <= p.x && p.x <= x + w && 

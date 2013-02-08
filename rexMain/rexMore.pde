@@ -8,19 +8,19 @@ class rexNodeString extends rexNode {
                 .plus(new Sz(margin, margin)
                             .times(2));
   }
-  protected void draw(Pt orig, int gray) {
-    draw((String)value, orig, gray);
+  protected void draw(Pt origin, int gray) {
+    draw((String)value, origin, gray);
   }
-  protected void draw(String useStr, Pt orig, int gray) {
-    super.draw(orig, gray);
+  protected void draw(String useStr, Pt origin, int gray) {
+    super.draw(origin, gray);
     
     fill(0);
     text(useStr, (new Pt(2 * margin, margin + useTextSize))
-                        .plus(orig));
+                        .plus(origin));
 
     noFill(); stroke(gray);
     rect((new Rect(margin, margin, rows.box.size()))
-                  .plus(orig));
+                  .plus(origin));
   }
 }
 
@@ -57,9 +57,9 @@ class rexNodeArray extends rexNode {
     super(); hint = "array";
     arrangement.m = Modes.COLUMN;
   }
-  protected void draw(Pt orig, int gray) {
+  protected void draw(Pt origin, int gray) {
     stroke(gray);   fill(gray);
-    Rect r = (new Rect(orig, rows.box.size()))
+    Rect r = (new Rect(origin, rows.box.size()))
                       .plus(new Sz(margin, margin).times(2));
     rect(r);
   }
