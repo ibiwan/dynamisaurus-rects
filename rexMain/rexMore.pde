@@ -69,15 +69,16 @@ class rexNodeArray extends rexNode {
       if (d instanceof rexObject) { // for each array child, look for its "display" field
         use_str = "" + i++;
         if (((rexObject)d).m.containsKey(primary)) {
-          rexData value = ((rexObject)d).m.get(key);
+          rexData value = ((rexObject)d).m.get(primary);
           if (value instanceof rexString) { // <<FIXME>> handle other data types too
             use_str = ((rexString)value).s;
-            break;
+            ret.add(use_str);
           }          
         }
-        ret.add(use_str);
       }
     }
+    
+    println(ret);
     return ret;
   }
 }
