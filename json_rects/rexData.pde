@@ -1,3 +1,4 @@
+// this field is literally the only reason all these classes exist.
 class rexData {
   rexNodeKey keyDisplayNode;
 }

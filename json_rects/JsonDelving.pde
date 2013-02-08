@@ -14,10 +14,10 @@ rexNodeArray buildArray(rexArray a) {
 
   for (rexData d: a.a) {
 
-    rexNodeWrapper box = new rexNodeWrapper(); // make a dummy array to contain both a label and a value
+    rexNodeWrapper box = new rexNodeWrapper(Modes.ROW); // make a dummy array to contain both a label and a value
     ret.addChild(box);
     box.hint = "box";
-    /*
+    
     rexNodeKey kb = new rexNodeKey("");           // upper entry contains the label
     box.addChild(kb);
     box.keyBox = kb;
@@ -25,7 +25,7 @@ rexNodeArray buildArray(rexArray a) {
     kb.hint = "key";
     
     //rexData d = m.m.get(key);              // let data know who's displaying it
-    d.keyDisplayNode   = kb;*/
+    d.keyDisplayNode   = kb;
     
     rexNode n = buildSomething(d);         // lower entry contains the value
 
@@ -64,20 +64,20 @@ rexNodeObject buildHMap(rexObject m) {
   for (String numKey: prioKeys) {
     String key = numKey.split("#")[1];
     
-    rexNodeWrapper box = new rexNodeWrapper(); // make a dummy array to contain both a label and a value
+    rexNodeWrapper box = new rexNodeWrapper(Modes.COLUMN); // make a dummy array to contain both a label and a value
     ret.addChild(box);
     box.hint = "box";
     
-    rexNodeKey kb = new rexNodeKey(key);           // upper entry contains the label
+    rexNodeKey kb = new rexNodeKey(key);  // upper entry contains the label
     box.addChild(kb);
     box.keyBox = kb;
     kb.wrapper = box;
     kb.hint = "key";
     
-    rexData d = m.m.get(key);              // let data know who's displaying it
+    rexData d = m.m.get(key);             // let data know who's displaying it
     d.keyDisplayNode   = kb;
     
-    rexNode n = buildSomething(d);         // lower entry contains the value
+    rexNode n = buildSomething(d);        // lower entry contains the value
     box.addChild(n);
   }
   ret.hint = "object";

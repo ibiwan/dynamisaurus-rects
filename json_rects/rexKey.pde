@@ -45,8 +45,8 @@ class rexNodeKey extends rexNodeString{
         case Visibility.EXPANDED:
           if (partialAvailable)     collection.vis.v = Visibility.PARTIAL;
           else                      collection.vis.v = Visibility.COLLAPSED; break;
-        case Visibility.COLLAPSED:  collection.vis.v = Visibility.EXPANDED;  break;
         case Visibility.PARTIAL:    collection.vis.v = Visibility.COLLAPSED; break;
+        case Visibility.COLLAPSED:  collection.vis.v = Visibility.EXPANDED;  break;
       }
     }
   }

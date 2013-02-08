@@ -14,8 +14,7 @@ class rexNodeString extends rexNode {
     fill(0);
     text(useStr, x + 2 * margin, y + margin + useTextSize);
 
-    noFill();
-    stroke(gray);
+    noFill(); stroke(gray);
     rect(x + margin, y + margin, rows.box.w,rows.box.h);
   }
 }
@@ -65,6 +64,7 @@ class rexNodeArray extends rexNode {
             rexData value = ((rexObject)d).m.get(key);
             if (value instanceof rexString) {
               use_str = ((rexString)value).s;
+              break;
             }
           }
         }
@@ -76,6 +76,7 @@ class rexNodeArray extends rexNode {
 }
 
 class rexNodeWrapper extends rexNodeArray {
+  rexNodeWrapper(int m) { super(); arrangement.m = m; }
 }
 
 class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexInteger i) { super(i.i.toString()); } }
