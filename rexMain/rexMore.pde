@@ -19,7 +19,7 @@ class rexNodeString extends rexNode {
                         .plus(origin));
 
     noFill(); stroke(gray);
-    rect((new Rect(margin, margin, rows.box.size()))
+    rect((new Rect(margin, margin, contents.bounds.size()))
                   .plus(origin));
   }
 }
@@ -59,7 +59,7 @@ class rexNodeArray extends rexNode {
   }
   protected void draw(Pt origin, int gray) {
     stroke(gray);   fill(gray);
-    Rect r = (new Rect(origin, rows.box.size()))
+    Rect r = (new Rect(origin, contents.bounds.size()))
                       .plus(new Sz(margin, margin).times(2));
     rect(r);
   }

@@ -23,7 +23,7 @@ class rexNodeKey extends rexNodeString{
     super.draw(disp, origin, gray);
     
     if (collection != null) {
-      Rect widgetBox = new Rect(rows.box.size().toPt(), 0, 0)
+      Rect widgetBox = new Rect(contents.bounds.size().toPt(), 0, 0)
                                .plus(new Sz(widget_width, useTextSize))
                                .minus(new Pt(widget_width, useTextSize))
                                .plus(origin);

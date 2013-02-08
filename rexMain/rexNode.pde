@@ -20,7 +20,7 @@ class Modes {
 
 class rexNode {
   Object value;      // why we're all here
-  RowStack rows;     // for arranging
+  RowStack contents;     // for arranging
   
   String hint = "?";
   
@@ -51,7 +51,7 @@ class rexNode {
   
   protected void draw(Pt origin, int gray) {
     stroke(gray);   fill(gray);
-    rect((new Rect(margin, margin, rows.box.size()))
+    rect((new Rect(margin, margin, contents.bounds.size()))
                   .plus(origin));
   }
   
@@ -64,8 +64,8 @@ class rexNode {
 
     // handle visibility options: expanded, collapsed, partial
     if (vis.v == Visibility.COLLAPSED) {
-        rows.box = reduce(rows.box);   // shrink in a visually-pleasing manner
-        return;                        // don't pack the kids
+        contents.bounds = reduce(contents.bounds);   // shrink in a visually-pleasing manner
+        return;                              // don't pack the kids
     } else if (vis.v == Visibility.PARTIAL) {
         use_children = new ArrayList<rexNode>();
         for (String s: getSummaries()) {
@@ -75,7 +75,7 @@ class rexNode {
 
     // constrain size if specified by parent
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
-    rows = new RowStack(min);
+    contents = new RowStack(min);
     Row row = new Row(new Pt(0, 0));
 
     // start fillin' rows
@@ -88,35 +88,35 @@ class rexNode {
            // make a new row any time the current one is full
            if (    use_maxw != -1
                 && row.elements.size() > 0
-                && row.box.w + node.rows.box.w + 2 * margin > use_maxw ) {
-            row = new Row(rows.add(row));
+                && row.bounds.w + node.contents.bounds.w + 2 * margin > use_maxw ) {
+            row = new Row(contents.add(row));
           }
           break;
         case Modes.COLUMN:
           // make a new row after every entry);
-          if ( row.elements.size() > 0 ) { row = new Row(rows.add(row)); }
+          if ( row.elements.size() > 0 ) { row = new Row(contents.add(row)); }
           break;
       }
       row.add(node);
     }
-    if (row.elements.size() > 0) { rows.add(row); }
+    if (row.elements.size() > 0) { contents.add(row); }
   }
   
   private void draw(Pt origin, int gray, ClickNet net) {
     if (vis.v == Visibility.COLLAPSED) { return; }
     
-    this.draw(origin, gray);     // draw self
-    for (Row row: rows.rows) { // draw children
+    this.draw(origin, gray);       // draw self
+    for (Row row: contents.rows) { // draw children
       int xoffset = 0;
       for (rexNode node: row.elements) {
-        Rect nodeBox = new Rect(row.box.origin(), node.rows.box.size())
+        Rect nodeBox = new Rect(row.bounds.origin(), node.contents.bounds.size())
                                .plus(origin)
                                .plus(new Pt(xoffset, 0))
                                .plus(new Pt(margin, margin));
         ClickNet subNet = new ClickNet(nodeBox, node);
         net.add(subNet);
         node.draw(nodeBox.origin(), gray + 20, subNet); // recurse
-        xoffset += node.rows.box.w + margin;
+        xoffset += node.contents.bounds.w + margin;
       }
     }
   }
