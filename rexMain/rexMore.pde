@@ -5,21 +5,20 @@ class rexNodeString extends rexNode {
     value = s;
     int w = (s != null) ? (int)textWidth(s) : 0;
     min = new Sz(w, useTextSize)
-                .plus(new Sz(margin, margin)
-                            .times(2));
+                .plus(new Sz(margin));
   }
   protected void draw(Pt origin, int gray) {
     draw((String)value, origin, gray);
   }
-  protected void draw(String useStr, Pt origin, int gray) {
+  protected void draw(String t, Pt origin, int gray) {
     super.draw(origin, gray);
     
     fill(0);
-    text(useStr, (new Pt(2 * margin, margin + useTextSize))
-                        .plus(origin));
+    text(t, (new Pt(2 * margin, margin + useTextSize))
+                   .plus(origin));
 
     noFill(); stroke(gray);
-    rect((new Rect(margin, margin, contents.bounds.size()))
+    rect((new Rect(new Pt(margin), contents.bounds.size()))
                   .plus(origin));
   }
 }
@@ -60,7 +59,7 @@ class rexNodeArray extends rexNode {
   protected void draw(Pt origin, int gray) {
     stroke(gray);   fill(gray);
     Rect r = (new Rect(origin, contents.bounds.size()))
-                      .plus(new Sz(margin, margin).times(2));
+                      .plus(new Sz(margin));
     rect(r);
   }
   protected ArrayList<String> getSummaries() {

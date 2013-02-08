@@ -1,35 +1,34 @@
 rexNode buildSomething(rexData o) {
-       if (o instanceof rexArray)   { return     buildArray     ((rexArray)o); }
-  else if (o instanceof rexObject)  { return     buildHMap     ((rexObject)o); }
-  else if (o instanceof rexBoolean) { return new rexNodeBool  ((rexBoolean)o); }
-  else if (o instanceof rexInteger) { return new rexNodeInt   ((rexInteger)o); }
-  else if (o instanceof rexDouble)  { return new rexNodeDouble ((rexDouble)o); }
-  else if (o instanceof rexString)  { return new rexNodeString (((rexString)o).s); }
-  else                              { rexNode generic = new rexNode(); generic.value = o; return generic; }
+  if (o instanceof rexArray)   { return     buildArray     ((rexArray)o); }
+  if (o instanceof rexObject)  { return     buildHMap     ((rexObject)o); }
+  if (o instanceof rexBoolean) { return new rexNodeBool  ((rexBoolean)o); }
+  if (o instanceof rexInteger) { return new rexNodeInt   ((rexInteger)o); }
+  if (o instanceof rexDouble)  { return new rexNodeDouble ((rexDouble)o); }
+  if (o instanceof rexString)  { return new rexNodeString(((rexString)o).s); }
+  rexNode generic = new rexNode();
+  generic.value = o; 
+  return generic;
 }
 
 rexNodeArray buildArray(rexArray a) {
   rexNodeArray ret = new rexNodeArray();
   ret.backingData = a;
 
-  for (rexData d: a.a) {
+  for (rexData d: a.a)
     ret.addChild(wrapIt(null, d, Modes.ROW));
-  }
   setupCollection(a.keyDisplayNode, ret);  
 
   return ret;
 }
 
 rexNodeObject buildHMap(rexObject m) {
-  String[] prioKeys = getPrioritizedKeys(m.keys());
-
   rexNodeObject ret = new rexNodeObject();
   ret.backingData = m;
 
+  String[] prioKeys = getPrioritizedKeys(m.keys());
   for (String numKey: prioKeys) {
-    String key = untag(numKey);
-    rexData d = m.m.get(key);             
-    ret.addChild(wrapIt(key, d, Modes.COLUMN));
+    String key = untag(numKey);  
+    ret.addChild(wrapIt(key, m.m.get(key), Modes.COLUMN));
   }
   setupCollection(m.keyDisplayNode, ret);
 

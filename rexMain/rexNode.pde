@@ -20,7 +20,7 @@ class Modes {
 
 class rexNode {
   Object value;      // why we're all here
-  RowStack contents;     // for arranging
+  RowStack contents; // for arranging
   
   String hint = "?";
   
@@ -45,13 +45,13 @@ class rexNode {
   
   void drawasroot(Pt origin, int gray) {
     clickRoot = new ClickNet(new Rect(origin, max), this);
-    arrange(max.w);              // one pass to organize everything
+    arrange(max.w);                // one pass to organize everything
     draw(origin, gray, clickRoot); // second pass to put on screen
   }
   
   protected void draw(Pt origin, int gray) {
     stroke(gray);   fill(gray);
-    rect((new Rect(margin, margin, contents.bounds.size()))
+    rect((new Rect(new Pt(margin), contents.bounds.size()))
                   .plus(origin));
   }
   
@@ -65,7 +65,7 @@ class rexNode {
     // handle visibility options: expanded, collapsed, partial
     if (vis.v == Visibility.COLLAPSED) {
         contents.bounds = reduce(contents.bounds);   // shrink in a visually-pleasing manner
-        return;                              // don't pack the kids
+        return;                                      // don't pack the kids
     } else if (vis.v == Visibility.PARTIAL) {
         use_children = new ArrayList<rexNode>();
         for (String s: getSummaries()) {
@@ -112,7 +112,7 @@ class rexNode {
         Rect nodeBox = new Rect(row.bounds.origin(), node.contents.bounds.size())
                                .plus(origin)
                                .plus(new Pt(xoffset, 0))
-                               .plus(new Pt(margin, margin));
+                               .plus(new Pt(margin));
         ClickNet subNet = new ClickNet(nodeBox, node);
         net.add(subNet);
         node.draw(nodeBox.origin(), gray + 20, subNet); // recurse

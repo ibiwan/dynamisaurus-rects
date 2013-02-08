@@ -12,9 +12,9 @@ void setup() {
   
   rexObject pData = parseJsonObject(sData);
   
-  for (int i = 0; i < specials.length; i++) {
+  for (int i = 0; i < specials.length; i++)
     specials[i].chew(pData);
-  }
+    
   root.addChild(buildSomething(pData));
 }
 

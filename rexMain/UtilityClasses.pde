@@ -1,7 +1,8 @@
 class Sz {
   int w, h;
   Sz() { w = -1; h = -1; }
-  Sz(int wp, int hp) { w = wp; h = hp; }
+  Sz(int s) { w = s; h = s; }
+  Sz(int w_, int h_) { w = w_; h = h_; }
   
   Sz plus(Sz s)   { return new Sz(w + s.w, h + s.h); }
   Sz minus(Sz s)  { return new Sz(w - s.w, h - s.h); }
@@ -15,7 +16,8 @@ class Sz {
 class Pt {
   int x, y;
   Pt() { x = -1; y = -1; }
-  Pt(int xp, int yp) { x = xp; y = yp; }
+  Pt(int s) { x = s; y = s; }
+  Pt(int x_, int y_) { x = x_; y = y_; }
 
   Pt plus(Pt p)   { return new Pt(x + p.x, y + p.y); }
   Pt minus(Pt p)  { return new Pt(x - p.x, y - p.y); }
@@ -40,9 +42,8 @@ class Rect {
   Sz size() { return new Sz(w, h); }
   boolean contains(Pt p) {
     if (x <= p.x && p.x <= x + w && 
-        y <= p.y && p.y <= y + h) {
+        y <= p.y && p.y <= y + h)
       return true;
-    }
     return false;
   }
   Rect plus(Rect r)  { return new Rect(x + r.x, y + r.y, w + r.w, h + r.h); }
@@ -58,7 +59,7 @@ class Row {
   Rect bounds;
   ArrayList<rexNode> elements = new ArrayList<rexNode>();
   Row (Pt corner) {
-    bounds = new Rect(corner.x, corner.y, margin, margin); 
+    bounds = new Rect(corner, new Sz(margin)); 
   }
   void add(rexNode node) {
     elements.add(node);

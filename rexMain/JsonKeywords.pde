@@ -1,9 +1,3 @@
-SpecialParser[] specials = {new OrderParser(), new PrimariesParser()};
-HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();
-HashMap<String, String> primariesMap = new HashMap<String, String>();
-
-String ORDERING_OTHER = "OTHER";
-
 abstract class SpecialParser {
   String key;
   abstract void digest(rexData o);
@@ -11,34 +5,32 @@ abstract class SpecialParser {
     if (hm.m.containsKey(key)) {
       digest((rexData)hm.m.get(key));
       hm.m.remove(key);
-    } else {
     }
   }
 }
+SpecialParser[] specials = {new OrderParser(), new PrimariesParser()};
 
+String ORDERING_OTHER = "OTHER";
 class OrderParser extends SpecialParser {
   OrderParser() { key = "rex-ordering"; }
   void digest(rexData d) {
-    rexArray a = (rexArray)d;
-    for (Object token: (a.a)) {
-      String key = ((rexString)token).s;
-      orderingMap.put(key, orderingMap.size());
-    }
-    if (!orderingMap.containsKey(ORDERING_OTHER)) {
+    for (Object token: ((rexArray)d).a)
+      orderingMap.put(((rexString)token).s, orderingMap.size());
+    if (!orderingMap.containsKey(ORDERING_OTHER))
       orderingMap.put(ORDERING_OTHER, orderingMap.size());
-    }
   }
 }
+HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();
 
 class PrimariesParser extends SpecialParser {
   PrimariesParser() { key = "rex-primaries"; }
   void digest(rexData d) {
-    rexObject o = (rexObject)d;
-    HashMap<String, rexData> primaries = o.m;
+    HashMap<String, rexData> primaries = ((rexObject)d).m;
     for (String key: primaries.keySet()) {
       rexString field = (rexString)primaries.get(key);
       primariesMap.put(key, field.s);
     }
   }
 }
+HashMap<String, String> primariesMap = new HashMap<String, String>();
 

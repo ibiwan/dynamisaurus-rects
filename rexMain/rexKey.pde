@@ -8,9 +8,8 @@ class rexNodeKey extends rexNodeString{
   rexNodeKey(String s)  { 
     super(s);
     hint = "key";
-    if (s != null) {
+    if (s != null)
       min.w += (int)textWidth(":");
-    }
   }
   
   void namesCollection(rexNode c) { 
@@ -23,24 +22,24 @@ class rexNodeKey extends rexNodeString{
     super.draw(disp, origin, gray);
     
     if (collection != null) {
+      // place widget space using bottom right of container
       Rect widgetBox = new Rect(contents.bounds.size().toPt(), 0, 0)
                                .plus(new Sz(widget_width, useTextSize))
                                .minus(new Pt(widget_width, useTextSize))
                                .plus(origin);
       
       int squareEdge = min(widget_width, useTextSize);
-      Rect s = new Rect(widgetBox.origin(), squareEdge, squareEdge)
-                       .plus(widgetBox.size()
-                                      .toPt()
-                                      .minus(new Pt(squareEdge, squareEdge))
-                                      .div(2));
-      expander = s;
+      expander = new Rect(widgetBox.origin(), new Sz(squareEdge))
+                         .plus(widgetBox.size()
+                                        .toPt()
+                                        .minus(new Pt(squareEdge))
+                                        .div(2));
       
       stroke(0);   noFill();
       switch(collection.vis.v) {
-        case Visibility.EXPANDED:  drawExpandedWidget(s);  break;
-        case Visibility.COLLAPSED: drawCollapsedWidget(s); break;
-        case Visibility.PARTIAL:   drawPartialWidget(s);   break;
+        case Visibility.EXPANDED:  drawExpandedWidget (expander);  break;
+        case Visibility.COLLAPSED: drawCollapsedWidget(expander); break;
+        case Visibility.PARTIAL:   drawPartialWidget  (expander);   break;
       }
     }
   }

@@ -13,20 +13,8 @@ class rexObject extends rexData {
   String[] keys() { return m.keySet().toArray(new String[0]); }
 }
 
-class rexString extends rexData {
-  String s;
-  rexString(String s_) { s = s_; }
-}
-class rexBoolean extends rexData {
-  Boolean b;
-  rexBoolean(Boolean b_) { b = b_; }
-}
-class rexInteger extends rexData {
-  Integer i;
-  rexInteger(Integer i_) { i = i_; }
-}
-class rexDouble extends rexData {
-  Double d;
-  rexDouble(Double d_) { d = d_; }
-}
+class rexString  extends rexData { String s;  rexString (String  s_) { s = s_; } }
+class rexBoolean extends rexData { Boolean b; rexBoolean(Boolean b_) { b = b_; } }
+class rexInteger extends rexData { Integer i; rexInteger(Integer i_) { i = i_; } }
+class rexDouble  extends rexData { Double d;  rexDouble (Double  d_) { d = d_; } }
 
