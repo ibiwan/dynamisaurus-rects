@@ -5,9 +5,7 @@ rexNode buildSomething(rexData o) {
   if (o instanceof rexInteger) { return new rexNodeInt   ((rexInteger)o); }
   if (o instanceof rexDouble)  { return new rexNodeDouble ((rexDouble)o); }
   if (o instanceof rexString)  { return new rexNodeString(((rexString)o).s); }
-  rexNode generic = new rexNode();
-  generic.value = o; 
-  return generic;
+  return new rexNode(o);
 }
 
 rexNodeArray buildArray(rexArray a) {
@@ -55,17 +53,10 @@ int getPriority(String key) {
 }
 
 rexNodeWrapper wrapIt(String key, rexData datum, int displayDirection) {
-  // make a dummy array to contain both a label and a value
-  rexNodeWrapper box = new rexNodeWrapper(displayDirection);
-  rexNodeKey      kb = new rexNodeKey(key);
- 
-  kb.wrapper = box;                      // let key know who's holding it
-  datum.keyDisplayNode = kb;             // let data know who's controlling/displaying it
-
-  box.addChild(kb);                      // upper/left entry contains the label
-  box.addChild(buildSomething(datum));   // lower/right entry contains the value
-  
-  return box;
+  rexNodeWrapper wrap = new rexNodeWrapper(displayDirection); // dummy array
+  wrap.addChild(new rexNodeKey(key, wrap, datum)); // upper/left entry contains the label
+  wrap.addChild(buildSomething(datum));            // lower/right entry contains the value
+  return wrap;
 }
 
 void setupCollection(rexNodeKey kb, rexNode collection) {

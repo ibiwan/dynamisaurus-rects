@@ -64,18 +64,20 @@ class Row {
   void add(rexNode node) {
     elements.add(node);
     bounds.w += node.contents.bounds.w + margin;
-    bounds.h = max(bounds.h, node.contents.bounds.h + 2 * margin);
+    bounds.h = max(bounds.h, node.contents.bounds.h + margin);
   }
 }
 
-class RowStack {
+class RowStack { // returns best location for next row
   Rect bounds;
   ArrayList<Row> rows = new ArrayList<Row>();
-  RowStack (Sz min) { bounds = new Rect(0, 0, min.w, min.h); }
-  Pt add(Row row) {
+  RowStack (Sz min) { bounds = new Rect(0, 0, min); }
+  void add(Row row) {
     rows.add(row);
     bounds.w = max(bounds.w, row.bounds.w);
     bounds.h += row.bounds.h + margin;
+  }
+  Pt nextRowLoc() {
     return new Pt(0, bounds.y + bounds.h);
   }
 }

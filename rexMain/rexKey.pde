@@ -1,19 +1,21 @@
 class rexNodeKey extends rexNodeString{
-  int         widget_width = 20;
+  int         widget_width = useTextSize + 4;
   boolean partialAvailable = false;
   rexNode       collection = null;
   rexNode          wrapper = null;
   Rect expander;
 
-  rexNodeKey(String s)  { 
+  rexNodeKey(String s, rexNode w, rexData datum)  { 
     super(s);
     hint = "key";
     if (s != null)
       min.w += (int)textWidth(":");
+    wrapper = w;
+    datum.keyDisplayNode = this;
   }
   
   void namesCollection(rexNode c) { 
-    min.w += widget_width; 
+    min.w += widget_width + margin; 
     collection = c;
   }
   
@@ -23,10 +25,9 @@ class rexNodeKey extends rexNodeString{
     
     if (collection != null) {
       // place widget space using bottom right of container
-      Rect widgetBox = new Rect(contents.bounds.size().toPt(), 0, 0)
-                               .plus(new Sz(widget_width, useTextSize))
-                               .minus(new Pt(widget_width, useTextSize))
-                               .plus(origin);
+      Rect widgetBox = new Rect(contents.bounds.size().toPt(), new Sz(widget_width, useTextSize))
+                               .plus(origin)                             // place encloser
+                               .minus(new Pt(widget_width, useTextSize)); // place within encloser
       
       int squareEdge = min(widget_width, useTextSize);
       expander = new Rect(widgetBox.origin(), new Sz(squareEdge))

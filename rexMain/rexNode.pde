@@ -33,6 +33,7 @@ class rexNode {
 
   rexNode (Sz max) { init(max); }
   rexNode () { init(new Sz()); }
+  rexNode (Object o) { init(new Sz()); value = o; }
   private void init(Sz maxp) { 
     min = new Sz();   max = maxp;
     vis = new Visibility(Visibility.EXPANDED);
@@ -76,7 +77,7 @@ class rexNode {
     // constrain size if specified by parent
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
     contents = new RowStack(min);
-    Row row = new Row(new Pt(0, 0));
+    Row row = new Row(contents.nextRowLoc());
 
     // start fillin' rows
     for (rexNode node: use_children){
@@ -89,12 +90,16 @@ class rexNode {
            if (    use_maxw != -1
                 && row.elements.size() > 0
                 && row.bounds.w + node.contents.bounds.w + 2 * margin > use_maxw ) {
-            row = new Row(contents.add(row));
+            contents.add(row);
+            row = new Row(contents.nextRowLoc());
           }
           break;
         case Modes.COLUMN:
           // make a new row after every entry);
-          if ( row.elements.size() > 0 ) { row = new Row(contents.add(row)); }
+          if ( row.elements.size() > 0 ) {
+            contents.add(row);
+            row = new Row(contents.nextRowLoc());
+          }
           break;
       }
       row.add(node);
