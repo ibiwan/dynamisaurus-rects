@@ -16,6 +16,8 @@ class Modes {
   Modes(int m_) { m = m_; }
 }
 
+// base class for displayed nodes; loosely corresponds to nodes in data tree parsed from json
+
 class rexNode {
   Object value;      // why we're all here
   RowStack rows;     // for arranging

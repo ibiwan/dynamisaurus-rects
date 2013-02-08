@@ -57,12 +57,12 @@ class rexNodeArray extends rexNode {
     int i = 0; String use_str;
     ArrayList<String> ret = new ArrayList<String>();
     for (rexData d: backingData.a) {
-      if (d instanceof rexObject) {
+      if (d instanceof rexObject) { // for each array child, look for its "display" field
         use_str = "" + i++;
         for (String key: ((rexObject)d).m.keySet()) {
           if (key.equals(primary)) {
             rexData value = ((rexObject)d).m.get(key);
-            if (value instanceof rexString) {
+            if (value instanceof rexString) { // <<FIXME>> handle other data types too
               use_str = ((rexString)value).s;
               break;
             }

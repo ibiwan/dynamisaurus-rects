@@ -3,6 +3,8 @@ class rexData {
   rexNodeKey keyDisplayNode;
 }
 
+// wrappers not children because String is "final".  stupid String.
+
 class rexArray extends rexData {
   ArrayList<rexData> a = new ArrayList<rexData>();
 }
