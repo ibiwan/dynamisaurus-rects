@@ -18,7 +18,6 @@ class Modes {
 
 class rexNode {
   Object value;      // why we're all here
-  rexNodeKey keyBox; // for labeling
   RowStack rows;     // for arranging
   
   String hint = "";

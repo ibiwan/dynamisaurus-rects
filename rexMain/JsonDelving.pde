@@ -20,7 +20,6 @@ rexNodeArray buildArray(rexArray a) {
     
     rexNodeKey kb = new rexNodeKey("");           // upper entry contains the label
     box.addChild(kb);
-    box.keyBox = kb;
     kb.wrapper = box;
     kb.hint = "key";
     
@@ -70,7 +69,6 @@ rexNodeObject buildHMap(rexObject m) {
     
     rexNodeKey kb = new rexNodeKey(key);  // upper entry contains the label
     box.addChild(kb);
-    box.keyBox = kb;
     kb.wrapper = box;
     kb.hint = "key";
     
