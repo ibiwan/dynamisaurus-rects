@@ -23,6 +23,6 @@ void draw() {
   // root.max.w = (mouseX > 0) ? mouseX : width;
 
   background(255);
-  root.drawasroot(0, 0, 0);
+  root.drawasroot(new Pt(0, 0), 0);
 }
 

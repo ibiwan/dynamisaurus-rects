@@ -38,3 +38,11 @@ Rect reduce (Rect r) {
   return new Rect(r.x, r.y, reduce(r.w), reduce(r.h));
 }
 
+void text(String s, Pt p) {
+  text(s, p.x, p.y);
+}
+
+void rect(Rect r) {
+  rect(r.x, r.y, r.w, r.h);
+}
+

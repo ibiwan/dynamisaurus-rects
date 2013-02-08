@@ -4,20 +4,23 @@ class rexNodeString extends rexNode {
     hint = "string";
     value = s;
     int w = (s != null) ? (int)textWidth(s) : 0;
-    min.w = w + 2 * margin;
-    min.h = useTextSize + 2 * margin;
+    min = new Sz(w, useTextSize)
+                .plus(new Sz(margin, margin)
+                            .times(2));
   }
-  protected void draw(int x, int y, int gray) {
-    draw((String)value, x, y, gray);
+  protected void draw(Pt orig, int gray) {
+    draw((String)value, orig, gray);
   }
-  protected void draw(String useStr, int x, int y, int gray) {
-    super.draw(x, y, gray);
+  protected void draw(String useStr, Pt orig, int gray) {
+    super.draw(orig, gray);
     
     fill(0);
-    text(useStr, x + 2 * margin, y + margin + useTextSize);
+    text(useStr, (new Pt(2 * margin, margin + useTextSize))
+                        .plus(orig));
 
     noFill(); stroke(gray);
-    rect(x + margin, y + margin, rows.box.w,rows.box.h);
+    rect((new Rect(margin, margin, rows.box.size()))
+                  .plus(orig));
   }
 }
 
@@ -43,6 +46,7 @@ class rexNodeObject extends rexNode {
       }
       ret.add(use_str);
     }*/
+    ret.add("hey, there");
     return ret;
   }
 }
@@ -53,9 +57,11 @@ class rexNodeArray extends rexNode {
     super(); hint = "array";
     arrangement.m = Modes.COLUMN;
   }
-  protected void draw(int x, int y, int gray) {
-    stroke(127);   fill(gray);
-    rect(x, y, rows.box.w + 2 * margin, rows.box.h + 2 * margin);
+  protected void draw(Pt orig, int gray) {
+    stroke(gray);   fill(gray);
+    Rect r = (new Rect(orig, rows.box.size()))
+                      .plus(new Sz(margin, margin).times(2));
+    rect(r);
   }
   protected ArrayList<String> getSummaries() {
     int i = 0; String use_str;
@@ -63,14 +69,12 @@ class rexNodeArray extends rexNode {
     for (rexData d: backingData.a) {
       if (d instanceof rexObject) { // for each array child, look for its "display" field
         use_str = "" + i++;
-        for (String key: ((rexObject)d).m.keySet()) {
-          if (key.equals(primary)) {
-            rexData value = ((rexObject)d).m.get(key);
-            if (value instanceof rexString) { // <<FIXME>> handle other data types too
-              use_str = ((rexString)value).s;
-              break;
-            }
-          }
+        if (((rexObject)d).m.containsKey(primary)) {
+          rexData value = ((rexObject)d).m.get(key);
+          if (value instanceof rexString) { // <<FIXME>> handle other data types too
+            use_str = ((rexString)value).s;
+            break;
+          }          
         }
         ret.add(use_str);
       }

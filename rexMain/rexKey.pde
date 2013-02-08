@@ -18,19 +18,22 @@ class rexNodeKey extends rexNodeString{
     collection = c;
   }
   
-  protected void draw(int x, int y, int gray) {
+  protected void draw(Pt orig, int gray) {
     String disp = (value == null) ? "" : (String)value + ":";
-    super.draw(disp, x, y, gray);
+    super.draw(disp, orig, gray);
     
     if (collection != null) {
-      Rect widgetBox = new Rect(x + rows.box.w - widget_width,
-                                y + rows.box.h - useTextSize,
-                                widget_width, useTextSize);
+      Rect widgetBox = new Rect(rows.box.size().toPt(), 0, 0)
+                               .plus(new Sz(widget_width, useTextSize))
+                               .minus(new Pt(widget_width, useTextSize))
+                               .plus(orig);
       
       int squareEdge = min(widget_width, useTextSize);
-      Rect s = new Rect(widgetBox.x + (widgetBox.w - squareEdge) / 2,
-                        widgetBox.y + (widgetBox.h - squareEdge) / 2,
-                        squareEdge, squareEdge);
+      Rect s = new Rect(widgetBox.orig(), squareEdge, squareEdge)
+                       .plus(widgetBox.size()
+                                      .toPt()
+                                      .minus(new Pt(squareEdge, squareEdge))
+                                      .div(2));
       expander = s;
       
       stroke(0);   noFill();
