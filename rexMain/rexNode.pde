@@ -22,7 +22,7 @@ class rexNode {
   Object value;      // why we're all here
   RowStack rows;     // for arranging
   
-  String hint = "";
+  String hint = "?";
   
   protected Sz min, max;         // stretchiness
   protected Visibility vis;      // expand/collapse state
@@ -40,13 +40,7 @@ class rexNode {
   }
   
   void addChild(rexNode node) {
-    try {
       children.add(node);
-    }
-    catch (Exception e) {
-      println("Exception adding child to node");
-      e.printStackTrace();
-    }
   }
   
   void drawasroot(int x, int y, int gray) {
@@ -67,6 +61,7 @@ class rexNode {
   private void arrange(int parent_maxw) {
     ArrayList<rexNode> use_children = children;
 
+    // handle visibility options: expanded, collapsed, partial
     if (vis.v == Visibility.COLLAPSED) {
         rows.box = reduce(rows.box);   // shrink in a visually-pleasing manner
         return;                        // don't pack the kids
@@ -77,20 +72,27 @@ class rexNode {
         }
     }
 
+    // constrain size if specified by parent
     int use_maxw = (parent_maxw == -1) ? max.w : max(max.w, parent_maxw);
     rows = new RowStack(min);
     Row row = new Row(new Pt(0, 0));
 
+    // start fillin' rows
     for (rexNode node: use_children){
       node.arrange(use_maxw); // recurse here!
+      
+      // handle layout modes: row, column, best-packing
       switch (arrangement.m) {
-        case Modes.PACK:     // make a new row any time the current one is full
-           if (    use_maxw != -1 && row.elements.size() > 0
+        case Modes.PACK:
+           // make a new row any time the current one is full
+           if (    use_maxw != -1
+                && row.elements.size() > 0
                 && row.box.w + node.rows.box.w + 2 * margin > use_maxw ) {
             row = new Row(rows.add(row));
           }
           break;
-        case Modes.COLUMN:  // make a new row after every entry);
+        case Modes.COLUMN:
+          // make a new row after every entry);
           if ( row.elements.size() > 0 ) { row = new Row(rows.add(row)); }
           break;
       }

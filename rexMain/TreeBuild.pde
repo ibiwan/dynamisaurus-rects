@@ -13,73 +13,40 @@ rexNodeArray buildArray(rexArray a) {
   ret.backingData = a;
 
   for (rexData d: a.a) {
-
-    rexNodeWrapper box = new rexNodeWrapper(Modes.ROW); // make a dummy array to contain both a label and a value
-    ret.addChild(box);
-    box.hint = "box";
-    
-    rexNodeKey kb = new rexNodeKey("");           // upper entry contains the label
-    box.addChild(kb);
-    kb.wrapper = box;
-    kb.hint = "key";
-    
-    //rexData d = m.m.get(key);              // let data know who's displaying it
-    d.keyDisplayNode   = kb;
-    
-    rexNode n = buildSomething(d);         // lower entry contains the value
-
-    box.addChild(n);
-    //ret.addChild(n);
-
+    ret.addChild(wrapIt(null, d, Modes.ROW));
   }
-  ret.hint = "array";
+  setupCollection(a.keyDisplayNode, ret);  
 
-  if (a.keyDisplayNode != null) {
-    rexNodeKey kb = a.keyDisplayNode;
-    kb.namesCollection(ret);
-    
-    String key = (String)(kb.value);
-    if (primariesMap.containsKey(key)) {
-      kb.collection.primary = primariesMap.get(kb.value);
-      kb.partialAvailable = true;
-    }
-  }
-  
   return ret;
 }
 
 rexNodeObject buildHMap(rexObject m) {
+  String[] prioKeys = getPrioritizedKeys(m.keys());
+
   rexNodeObject ret = new rexNodeObject();
   ret.backingData = m;
-  
-  String[] keys = m.m.keySet().toArray(new String[0]);
-  String[] prioKeys = new String[keys.length];
-  int i = 0;
-  for (String key: keys) {
-    prioKeys[i++] =String.format("%010d", getPriority(key)) + "#" + key;
-  }
-  prioKeys = sort(prioKeys);
-      
+
   for (String numKey: prioKeys) {
-    String key = numKey.split("#")[1];
-    
-    rexNodeWrapper box = new rexNodeWrapper(Modes.COLUMN); // make a dummy array to contain both a label and a value
-    ret.addChild(box);
-    box.hint = "box";
-    
-    rexNodeKey kb = new rexNodeKey(key);  // upper entry contains the label
-    box.addChild(kb);
-    kb.wrapper = box;
-    kb.hint = "key";
-    
-    rexData d = m.m.get(key);             // let data know who's displaying it
-    d.keyDisplayNode   = kb;
-    
-    rexNode n = buildSomething(d);        // lower entry contains the value
-    box.addChild(n);
+    String key = untag(numKey);
+    rexData d = m.m.get(key);             
+    ret.addChild(wrapIt(key, d, Modes.COLUMN));
   }
-  ret.hint = "object";
+  setupCollection(m.keyDisplayNode, ret);
+
   return ret;
+}
+
+// Processing can only sort on ints and strings, so just prepend priority to key
+String   tag(String key, int priority) { return String.format("%010d", priority) + "#" + key; }
+String untag(String taggedKey)         { return taggedKey.split("#")[1]; }
+
+String[] getPrioritizedKeys(String[] keys) {
+  int i = 0;
+  String[] prioKeys = new String[keys.length];
+  for (String key: keys)
+    prioKeys[i++] = tag(key, getPriority(key));
+  prioKeys = sort(prioKeys);
+  return prioKeys;  
 }
 
 int getPriority(String key) {
@@ -88,4 +55,29 @@ int getPriority(String key) {
                                                return 0;
 }
 
+rexNodeWrapper wrapIt(String key, rexData datum, int displayDirection) {
+  // make a dummy array to contain both a label and a value
+  rexNodeWrapper box = new rexNodeWrapper(displayDirection);
+  rexNodeKey      kb = new rexNodeKey(key);
+ 
+  kb.wrapper = box;                      // let key know who's holding it
+  datum.keyDisplayNode = kb;             // let data know who's controlling/displaying it
+
+  box.addChild(kb);                      // upper/left entry contains the label
+  box.addChild(buildSomething(datum));   // lower/right entry contains the value
+  
+  return box;
+}
+
+void setupCollection(rexNodeKey kb, rexNode collection) {
+  if (kb != null) {
+    kb.namesCollection(collection);
+    
+    String key = (String)(kb.value);
+    if (primariesMap.containsKey(key)) {
+      kb.collection.primary = primariesMap.get(kb.value);
+      kb.partialAvailable = true;
+    }
+  }
+}
 

@@ -10,6 +10,7 @@ class rexArray extends rexData {
 }
 class rexObject extends rexData {
   HashMap<String, rexData> m = new HashMap<String, rexData>();
+  String[] keys() { return m.keySet().toArray(new String[0]); }
 }
 
 class rexString extends rexData {

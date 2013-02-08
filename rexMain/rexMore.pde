@@ -1,8 +1,10 @@
 class rexNodeString extends rexNode {
   rexNodeString (String s)  { 
     super();
+    hint = "string";
     value = s;
-    min.w = (int)textWidth(s) + 2 * margin;
+    int w = (s != null) ? (int)textWidth(s) : 0;
+    min.w = w + 2 * margin;
     min.h = useTextSize + 2 * margin;
   }
   protected void draw(int x, int y, int gray) {
@@ -21,7 +23,7 @@ class rexNodeString extends rexNode {
 
 class rexNodeObject extends rexNode {
   rexObject backingData;
-  rexNodeObject() { super(); }
+  rexNodeObject() { super(); hint = "object"; }
 
   protected ArrayList<String> getSummaries() {
     int i = 0;
@@ -29,6 +31,8 @@ class rexNodeObject extends rexNode {
     for (String s: backingData.m.keySet()) {
       println("s:" + s);
     }
+    println("primary: " + primary);
+    // <<FIXME>> get object label from containing array's kb.collection,primary
     /*for (rexNode n: children) {    // use labels instead of full objects
       String use_str = "" + i++;
       for (rexNode c: n.children) {
@@ -46,7 +50,7 @@ class rexNodeObject extends rexNode {
 class rexNodeArray extends rexNode {
   rexArray backingData;
   rexNodeArray ()  { 
-    super();
+    super(); hint = "array";
     arrangement.m = Modes.COLUMN;
   }
   protected void draw(int x, int y, int gray) {
@@ -76,11 +80,10 @@ class rexNodeArray extends rexNode {
 }
 
 class rexNodeWrapper extends rexNodeArray {
-  rexNodeWrapper(int m) { super(); arrangement.m = m; }
+  rexNodeWrapper(int m) { super(); hint = "wrapper"; arrangement.m = m; }
 }
 
-class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexInteger i) { super(i.i.toString()); } }
-class rexNodeBool   extends rexNodeString{ rexNodeBool  (rexBoolean b) { super(b.b.toString()); } }
-class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexDouble  d) { super(d.d.toString()); } }
-
+class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexInteger i) { super(i.i.toString()); hint = "int"; } }
+class rexNodeBool   extends rexNodeString{ rexNodeBool  (rexBoolean b) { super(b.b.toString()); hint = "bool"; } }
+class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexDouble  d) { super(d.d.toString()); hint = "double"; } }
 

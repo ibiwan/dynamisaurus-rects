@@ -7,7 +7,10 @@ class rexNodeKey extends rexNodeString{
 
   rexNodeKey(String s)  { 
     super(s);
-    min.w += (int)textWidth(":");
+    hint = "key";
+    if (s != null) {
+      min.w += (int)textWidth(":");
+    }
   }
   
   void namesCollection(rexNode c) { 
@@ -16,7 +19,8 @@ class rexNodeKey extends rexNodeString{
   }
   
   protected void draw(int x, int y, int gray) {
-    super.draw((String)value + ":", x, y, gray);
+    String disp = (value == null) ? "" : (String)value + ":";
+    super.draw(disp, x, y, gray);
     
     if (collection != null) {
       Rect widgetBox = new Rect(x + rows.box.w - widget_width,
