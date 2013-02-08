@@ -77,8 +77,6 @@ class rexNodeArray extends rexNode {
         }
       }
     }
-    
-    println(ret);
     return ret;
   }
 }
