@@ -1,9 +1,12 @@
 class rexNodeString extends rexNode {
-  rexNodeString (String s)  { 
-    super();
+  boolean       displayKey = true;
+  rexNodeString (String s)            { super(); init(s, true); }
+  rexNodeString (String s, boolean d) { super(); init(s, d);    }
+  void init(String s, boolean d) {
     hint = "string";
     value = s;
-    int w = (s != null) ? (int)textWidth(s) : 0;
+    displayKey = d;
+    int w = (s != null && displayKey == true) ? (int)textWidth(s) : 0;
     min = new Sz(w, useTextSize)
                 .plus(new Sz(margin));
   }
@@ -13,10 +16,12 @@ class rexNodeString extends rexNode {
   protected void draw(String t, Pt origin, int gray) {
     super.draw(origin, gray);
     
-    fill(0);
-    text(t, (new Pt(2 * margin, margin + useTextSize))
-                   .plus(origin));
-
+    if (displayKey) {
+      fill(0);
+      text(t, (new Pt(2 * margin, margin + useTextSize))
+                     .plus(origin));
+    }
+    
     noFill(); stroke(gray);
     rect((new Rect(new Pt(margin), contents.bounds.size()))
                   .plus(origin));
@@ -30,22 +35,9 @@ class rexNodeObject extends rexNode {
   protected ArrayList<String> getSummaries() {
     int i = 0;
     ArrayList<String> ret = new ArrayList<String>();
-    for (String s: backingData.m.keySet()) {
-      println("s:" + s);
+    if (backingData.m.containsKey(primary)) {
+      ret.add (((rexString)backingData.m.get(primary)).s);
     }
-    println("primary: " + primary);
-    // <<FIXME>> get object label from containing array's kb.collection,primary
-    /*for (rexNode n: children) {    // use labels instead of full objects
-      String use_str = "" + i++;
-      for (rexNode c: n.children) {
-        if (c.keyBox != null && ((String)c.keyBox.value).equals(primary)) {
-          use_str = (String)(c.children.get(1).value);
-          break;
-        }
-      }
-      ret.add(use_str);
-    }*/
-    ret.add("hey, there");
     return ret;
   }
 }

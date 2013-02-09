@@ -27,7 +27,7 @@ void loadJson(String filename) {
 
   frame.setTitle(filename);
   root = new rexNode(new Sz(width, height));
-  root.addChild(buildSomething(pData));
+  root.addChild(buildSomething(pData, null));
 }
 
 String randomFile() {

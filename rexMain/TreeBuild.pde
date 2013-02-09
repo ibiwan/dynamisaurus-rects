@@ -1,5 +1,5 @@
-rexNode buildSomething(rexData o) {
-  if (o instanceof rexArray)   { return     buildArray     ((rexArray)o); }
+rexNode buildSomething(rexData o, String lastKey) {
+  if (o instanceof rexArray)   { return     buildArray     ((rexArray)o, lastKey); }
   if (o instanceof rexObject)  { return     buildHMap     ((rexObject)o); }
   if (o instanceof rexBoolean) { return new rexNodeBool  ((rexBoolean)o); }
   if (o instanceof rexInteger) { return new rexNodeInt   ((rexInteger)o); }
@@ -8,12 +8,12 @@ rexNode buildSomething(rexData o) {
   return new rexNode(o);
 }
 
-rexNodeArray buildArray(rexArray a) {
+rexNodeArray buildArray(rexArray a, String lastKey) {
   rexNodeArray ret = new rexNodeArray();
   ret.backingData = a;
 
   for (rexData d: a.a)
-    ret.addChild(wrapIt(null, d, Modes.ROW));
+    ret.addChild(wrapIt(lastKey, d, Modes.ROW, false));
   setupCollection(a.keyDisplayNode, ret);  
 
   return ret;
@@ -26,7 +26,7 @@ rexNodeObject buildHMap(rexObject m) {
   String[] prioKeys = getPrioritizedKeys(m.keys());
   for (String numKey: prioKeys) {
     String key = untag(numKey);  
-    ret.addChild(wrapIt(key, m.m.get(key), Modes.COLUMN));
+    ret.addChild(wrapIt(key, m.m.get(key), Modes.COLUMN, true));
   }
   setupCollection(m.keyDisplayNode, ret);
 
@@ -52,11 +52,11 @@ int getPriority(String key) {
                                                return 0;
 }
 
-rexNodeWrapper wrapIt(String key, rexData datum, int displayDirection) {
+rexNodeWrapper wrapIt(String key, rexData datum, int displayDirection, boolean displayKey) {
   datum = (datum != null) ? datum : new rexString("");
   rexNodeWrapper wrap = new rexNodeWrapper(displayDirection); // dummy array
-  wrap.addChild(new rexNodeKey(key, wrap, datum)); // upper/left entry contains the label
-  wrap.addChild(buildSomething(datum));            // lower/right entry contains the value
+  wrap.addChild(new rexNodeKey(key, wrap, datum, displayKey)); // upper/left entry contains the label
+  wrap.addChild(buildSomething(datum, key));            // lower/right entry contains the value
   return wrap;
 }
 
@@ -66,7 +66,7 @@ void setupCollection(rexNodeKey kb, rexNode collection) {
     
     String key = (String)(kb.value);
     if (primariesMap.containsKey(key)) {
-      kb.collection.primary = primariesMap.get(kb.value);
+      kb.collection.primary = primariesMap.get(key);
       kb.partialAvailable = true;
     }
   }
