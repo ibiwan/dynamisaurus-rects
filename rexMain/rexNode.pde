@@ -56,7 +56,7 @@ class rexNode {
                   .plus(origin));
   }
   
-  protected void clickReceived(Pt p) { println(this + " (" + hint + ") received click"); }
+  protected void clickReceived(Pt p) { println(this + " (" + hint + ") received click"); if (this == root) loadJson(randomFile()); }
   
   protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); }
 

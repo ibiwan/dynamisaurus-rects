@@ -10,9 +10,11 @@ abstract class SpecialParser {
 }
 SpecialParser[] specials = {new OrderParser(), new PrimariesParser()};
 
-String ORDERING_OTHER = "OTHER";
+String ORDERING_OTHER = "REX_OTHER";
 class OrderParser extends SpecialParser {
-  OrderParser() { key = "rex-ordering"; }
+  
+  OrderParser() { /***/ key = "rex-ordering"; /***/ }
+  
   void digest(rexData d) {
     for (Object token: ((rexArray)d).a)
       orderingMap.put(((rexString)token).s, orderingMap.size());
@@ -23,7 +25,9 @@ class OrderParser extends SpecialParser {
 HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();
 
 class PrimariesParser extends SpecialParser {
-  PrimariesParser() { key = "rex-primaries"; }
+  
+  PrimariesParser() { /***/ key = "rex-primaries"; /***/ }
+  
   void digest(rexData d) {
     HashMap<String, rexData> primaries = ((rexObject)d).m;
     for (String key: primaries.keySet()) {
