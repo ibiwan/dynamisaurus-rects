@@ -53,6 +53,7 @@ int getPriority(String key) {
 }
 
 rexNodeWrapper wrapIt(String key, rexData datum, int displayDirection) {
+  datum = (datum != null) ? datum : new rexString("");
   rexNodeWrapper wrap = new rexNodeWrapper(displayDirection); // dummy array
   wrap.addChild(new rexNodeKey(key, wrap, datum)); // upper/left entry contains the label
   wrap.addChild(buildSomething(datum));            // lower/right entry contains the value
