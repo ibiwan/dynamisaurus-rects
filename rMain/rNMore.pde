@@ -118,7 +118,7 @@ class rexNodeInt    extends rexNodeString {
       } else if (key == DELETE) {
         t = "0";
       } else if (key == '-') {
-        t = (- Integer.valueOf(t)).toString();
+        t = ((Integer)(- Integer.valueOf(t))).toString();
       } else if (key == BACKSPACE) {
         t = t.substring(0, t.length() - 1);
         if (t.equals("")) 
