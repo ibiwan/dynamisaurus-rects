@@ -9,6 +9,7 @@ class rexNodeString extends rexNode {
     value = s;
     displayKey = d;
     setW(s);
+    editable = true;
   }
   protected void draw(Pt origin, int gray) {
     draw((String)value, origin, gray, "");
@@ -82,11 +83,10 @@ class rexNodeString extends rexNode {
   }
   
   protected void finishEditing(boolean save) {
+    println("rNS fE");
     if(save && selected != null) 
       selected.value = editString;
-    selected = null;
-    editMode = false;
-    editString = null;
+    super.finishEditing();
   }
 }
 

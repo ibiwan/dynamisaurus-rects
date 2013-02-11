@@ -9,6 +9,7 @@ class rexNode {
   protected Modes arrangement;   // layout state
   protected Visibility vis;      // expand/collapse state
   protected String primary = ""; // summary field
+  protected boolean editable = false;
   
   private ArrayList<rexNode> children = new ArrayList<rexNode>();  // contained nodes
 
@@ -33,13 +34,10 @@ class rexNode {
   }
   
   protected void draw(Pt origin, int gray) {
-    if (this == selected && editMode) {
-      if (editMode) {
-        fill(255);
-      }
-    } else {
+    if (this == selected && editMode)
+      fill(255);
+    else
       fill(gray);
-    }
     stroke(gray);   
     rect((new Rect(new Pt(margin), contents.bounds.size()))
                   .plus(origin));
@@ -47,11 +45,15 @@ class rexNode {
   
   protected void clickReceived(Pt p)
   {
+    println("clickied");
     if (selected == this) {
+      println("already selected");
       editMode = true;
     } else {
+      println("switching");
       finishEditing(true);
-      selected = this;
+      if (editable)
+        selected = this;
     } 
     if (this == root) 
       loadJson(randomFile()); 
@@ -61,7 +63,12 @@ class rexNode {
     return false; // key was not handled
   }
   
-  protected void finishEditing(boolean save) { /* handle elsewhere */ }
+  protected void finishEditing(boolean save) { 
+    println("rN fE");
+    selected = null;
+    editMode = false;
+    editString = null;
+ }
   
   protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); }
 
