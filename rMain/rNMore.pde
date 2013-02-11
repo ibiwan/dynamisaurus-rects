@@ -41,7 +41,32 @@ class rexNodeWrapper extends rexNodeArray {
   rexNodeWrapper(int m) { super(); hint = "wrapper"; arrangement.m = m; }
 }
 
+class rexNodeBool extends rexNodeString{ 
+  rexNodeBool  (rexBoolean b) { super(b.b.toString()); hint = "bool"; }   
+  
+  protected boolean keyReceived(int key) {
+   if (editMode == false || editString == null)
+      return false;
+      
+    if (key == ESC) {
+      finishEditing(false); // cancel edit
+    } else  if (key == 't' || key == 'T') {
+      editString = "true";
+    } else if (key == 'f' || key == 'F' || key == DELETE || key == BACKSPACE) {
+      editString = "false";
+    } else if (key == TAB) {
+      editString = (editString.equals("true")) ? "false" : "true";
+    } else if (key == ENTER || key == RETURN) {
+      finishEditing(true); // save edit
+    } else {
+      return false;
+    }
+    return true;
+  }
+}
+
+
+
 class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexInteger i) { super(i.i.toString()); hint = "int"; } }
-class rexNodeBool   extends rexNodeString{ rexNodeBool  (rexBoolean b) { super(b.b.toString()); hint = "bool"; } }
 class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexDouble  d) { super(d.d.toString()); hint = "double"; } }
 

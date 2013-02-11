@@ -61,6 +61,8 @@ class rexNode {
     return false; // key was not handled
   }
   
+  protected void finishEditing(boolean save) { /* handle elsewhere */ }
+  
   protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); }
 
   private boolean arrange(int parent_maxw) {

@@ -1,11 +1,3 @@
-void finishEditing(boolean save) {
-  if(save && selected != null) 
-    selected.value = editString;
-  selected = null;
-  editMode = false;
-  editString = null;
-}
-
 class rexNodeString extends rexNode {
   boolean displayKey = true;
   boolean showCursor = true;
@@ -67,33 +59,34 @@ class rexNodeString extends rexNode {
                 .plus(new Sz(margin + 2, margin));
   }
   protected boolean keyReceived(int key) {
-   if (editMode == false || editString == null)
+    if (editMode == false || editString == null)
       return false;
       
     if (key == ESC) {
       finishEditing(false);
-      return true;
-    }
-    if ((key >= 'a' && key <= 'z') ||
+    } else if ((key >= 'a' && key <= 'z') ||
         (key >= 'A' && key <= 'Z') ||
         (key >= '0' && key <= '9') ||
         key == '-' || key == '.' || key == ' ') {
       editString += (char)key;
-      return true;
-    }
-    if (key == TAB || key == ENTER || key == RETURN) {
+    } else if (key == TAB || key == ENTER || key == RETURN) {
       finishEditing(true);
-      return true;
-    }
-    if (key == DELETE) {
+    } else if (key == DELETE) {
       editString = "";
-      return true;
-    }
-    if (key == BACKSPACE) {
+    } else if (key == BACKSPACE) {
       editString = editString.substring(0, editString.length() - 1);
-      return true;
+    } else {
+      return false;
     }
-    return false;
+    return true;
+  }
+  
+  protected void finishEditing(boolean save) {
+    if(save && selected != null) 
+      selected.value = editString;
+    selected = null;
+    editMode = false;
+    editString = null;
   }
 }
 
