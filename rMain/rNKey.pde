@@ -49,25 +49,18 @@ class rexNodeKey extends rexNodeString {
     super.clickReceived(p);
     if (collection != null && expander.contains(p)) {
       switch(collection.vis.v) {
-      case Visibility.EXPANDED:
-        if (partialAvailable)     collection.vis.v = Visibility.PARTIAL;
-        else                      collection.vis.v = Visibility.COLLAPSED; 
-        break;
-      case Visibility.PARTIAL:    
-        collection.vis.v = Visibility.COLLAPSED; 
-        break;
-      case Visibility.COLLAPSED:  
-        collection.vis.v = Visibility.EXPANDED;  
-        break;
+        case Visibility.EXPANDED:
+          if (partialAvailable)     collection.vis.v = Visibility.PARTIAL;
+          else                      collection.vis.v = Visibility.COLLAPSED; break;
+        case Visibility.PARTIAL:    collection.vis.v = Visibility.COLLAPSED; break;
+        case Visibility.COLLAPSED:  collection.vis.v = Visibility.EXPANDED;  break;
       }
     }
   }
   protected void setW(String s) {
-    super.setW(s);
     int w = (s != null && displayKey == true) ? (int)textWidth(s) : 0;
-    if (collection != null) {
+    if (collection != null)
       w += widgetWidth + margin;
-    }
     min = new Sz(w, useTextSize)
                 .plus(new Sz(margin));
   }
