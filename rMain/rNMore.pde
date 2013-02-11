@@ -65,8 +65,6 @@ class rexNodeBool extends rexNodeString{
   }
 }
 
-
-
 class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexInteger i) { super(i.i.toString()); hint = "int"; } }
 class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexDouble  d) { super(d.d.toString()); hint = "double"; } }
 
