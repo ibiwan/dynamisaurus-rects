@@ -26,4 +26,18 @@ void mouseClicked() {
   //if (mouseEvent.getClickCount()==2) println("<double click>");
 }
 
+rexNode selected = null;
+boolean editMode = false;
+String editString = null;
 
+void keyPressed() {
+  if (key == ESC && selected != null) {
+    selected.keyReceived(key);
+    key = 0; // always trap ESC to keep from exiting
+  }
+}
+
+void keyReleased() {
+  if (selected != null && selected.keyReceived(key))
+    key = 0; // trap any other key, IF handled
+}

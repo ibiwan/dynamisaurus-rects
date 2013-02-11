@@ -8,7 +8,7 @@ class rexNodeToggle extends rexNode {
     hint = "toggle";
     key = k;
     min = new Sz(widgetWidth, useTextSize)
-                .plus(new Sz(margin));
+                .plus(new Sz(margin + 2, margin));
   }
 
   protected void draw(Pt origin, int gray) {

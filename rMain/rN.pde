@@ -33,11 +33,9 @@ class rexNode {
   }
   
   protected void draw(Pt origin, int gray) {
-    if (this == selected) {
+    if (this == selected && editMode) {
       if (editMode) {
-        fill(0, 0, 255);
-      } else {
-        fill(255, 0, 0);
+        fill(255);
       }
     } else {
       fill(gray);
@@ -52,12 +50,15 @@ class rexNode {
     if (selected == this) {
       editMode = true;
     } else {
+      finishEditing(true);
       selected = this;
-      editString = null;
-      editMode = false;
     } 
     if (this == root) 
       loadJson(randomFile()); 
+  }
+  
+  protected boolean keyReceived(int key) {
+    return false; // key was not handled
   }
   
   protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); }

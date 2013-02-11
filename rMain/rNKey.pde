@@ -21,8 +21,9 @@ class rexNodeKey extends rexNodeString {
   }
 
   protected void draw(Pt origin, int gray) {
-    String disp = (value == null || displayKey == false) ? "" : (String)value + ":";
-    super.draw(disp, origin, gray);
+    String v = (String)value;
+    String disp = (value == null || displayKey == false) ? "" : v;
+    super.draw(disp, origin, gray, ":");
   }
 
   protected void clickReceived(Pt p) {
@@ -39,7 +40,7 @@ class rexNodeKey extends rexNodeString {
   }
   protected void setW(String s) {
     if (s != null && displayKey == true) {
-      min = new Sz((int)textWidth(s), useTextSize).plus(new Sz(margin));
+      min = new Sz((int)textWidth(s), useTextSize).plus(new Sz(margin + 2, margin));
     } else {
       min = new Sz(10, 10);
       vis = new Visibility(Visibility.COLLAPSED);
