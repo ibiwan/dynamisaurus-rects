@@ -27,21 +27,18 @@ class rexNodeString extends rexNode {
     setW(t + suffix);
     
     // unlike everything else, text is positioned by its bottom left point
-    Pt textLoc = origin.move(new Sz(margin, 0)) // left margin for bounding box
-                       .move(new Sz(0, useTextSize)) // height of text
-                       .move(new Sz(margin, margin)); // space for readability
-    Sz textDim = new Sz((int)textWidth(t), -useTextSize); // up is negative
+    Pt textLoc = origin.move(new Sz(margin, 0))           // left margin for bounding box
+                       .move(new Sz(margin, margin));     // space for readability
+    Sz textDim = new Sz((int)textWidth(t), useTextSize);
     
     if (displayKey) {
       fill(0);
-      text(t + suffix, textLoc);
+      saneText(t + suffix, textLoc);
     }
         
     noFill(); stroke(gray);
     rect((new Rect(new Pt(margin), contents.bounds.size()))
                   .move(origin));
-
-
 
     if (selected == this && editMode) {
       if (cursorToggleTimer < millis()) {
@@ -50,7 +47,7 @@ class rexNodeString extends rexNode {
       }
       if (showCursor) {
         stroke(0);
-        line(textLoc.move(new Sz(textDim.w, margin)), new Sz(0, -margin-useTextSize));
+        line(textLoc.move(new Sz(textDim.w, margin)), new Sz(0, useTextSize - margin));
       }
     }
   }
@@ -66,9 +63,9 @@ class rexNodeString extends rexNode {
     if (key == ESC) {
       finishEditing(false);
     } else if ((key >= 'a' && key <= 'z') ||
-        (key >= 'A' && key <= 'Z') ||
-        (key >= '0' && key <= '9') ||
-        key == '-' || key == '.' || key == ' ') {
+               (key >= 'A' && key <= 'Z') ||
+               (key >= '0' && key <= '9') ||
+               key == '-' || key == '.' || key == ' ') {
       editString += (char)key;
     } else if (key == TAB || key == ENTER || key == RETURN) {
       finishEditing(true);
@@ -81,9 +78,5 @@ class rexNodeString extends rexNode {
     }
     return true;
   }
- protected void saveChanges() {
-   println("saving string.");
-   selected.value = editString;
- }
+  protected void saveChanges() { selected.value = editString; }
 }
-

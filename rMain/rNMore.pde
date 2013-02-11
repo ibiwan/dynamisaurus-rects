@@ -98,10 +98,41 @@ class rexNodeInt    extends rexNodeString {
     textFont(normalFont);
   }
   protected void saveChanges() {
-    println("saving int");
-    selected.value = Integer.valueOf(editString);
+    try {
+      Integer i = Integer.valueOf(editString);
+      selected.value = (i).toString();
+    } catch (NumberFormatException e) {
+      // do nuthin'
+    }
+  }
+  protected boolean keyReceived(int key) {
+    if (key == ESC || key == TAB || key == ENTER || key == RETURN)
+      return super.keyReceived(key);
+    if (editMode == false || editString == null)
+      return false;      
+ 
+    try {
+      String t = editString; Integer i;
+      if ( key >= '0' && key <= '9' ) {
+        t += (char)key;
+      } else if (key == DELETE) {
+        t = "0";
+      } else if (key == '-') {
+        t = (- Integer.valueOf(t)).toString();
+      } else if (key == BACKSPACE) {
+        t = t.substring(0, t.length() - 1);
+        if (t.equals("")) 
+          t = "0";
+      } else {
+        return false;
+      }
+      i = Integer.valueOf(t); // convert to trigger exception on bad chars
+      editString = t;         // keep change if valid int
+    } catch (NumberFormatException e) { /* do nuthin' */ }
+    return true;
   }
 }
+
 class rexNodeDouble extends rexNodeString { 
   rexNodeDouble(rexDouble  d) { 
     super(d.d.toString()); 

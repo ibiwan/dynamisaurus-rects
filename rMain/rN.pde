@@ -62,7 +62,7 @@ class rexNode {
   
   protected void finishEditing(boolean save) { 
     if(save && selected != null) 
-      saveChanges();
+      selected.saveChanges();
     selected = null;
     editMode = false;
     editString = null;
