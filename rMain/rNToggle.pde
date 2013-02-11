@@ -14,8 +14,9 @@ class rexNodeToggle extends rexNode {
   protected void draw(Pt origin, int gray) {
     super.draw(origin, gray);
     Rect widgetBox = new Rect(contents.bounds.size().toPt(), new Sz(widgetWidth, useTextSize))
-      .plus(origin)                             // place encloser
-      .minus(new Pt(widgetWidth, useTextSize)); // place within encloser
+      .plus(origin)                             // place encloser on screen
+      .minus(new Pt(widgetWidth, useTextSize)) // place widget within encloser
+      .plus(new Sz(margin));
 
     int squareEdge = min(widgetWidth, useTextSize);
     expander = new Rect(widgetBox.origin(), new Sz(squareEdge))
@@ -23,6 +24,8 @@ class rexNodeToggle extends rexNode {
                             .toPt()
                             .minus(new Sz(squareEdge))
                             .div(2));
+    //fill(255); rect(widgetBox);
+    //fill(0); rect(expander);
                               
     stroke(0); noFill();
     if (key.collection != null)

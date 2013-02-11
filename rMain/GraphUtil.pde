@@ -12,13 +12,13 @@ void drawCollapsedWidget(Rect b) {
 
 void drawPartialWidget(Rect b) {
   int dy;
-  for (dy = 0; dy <= b.h; dy += 3) {
+  for (dy = 1; dy < b.h; dy += 3) {
     line(b.x + b.w /   4,  b.y + dy, 
          b.x + b.w * 3/4,  b.y + dy);
   }
-  line(b.x + b.w /   4,  b.y, 
+  line(b.x + b.w /   4,  b.y + 1, 
        b.x + b.w /   4,  b.y + dy);
-  line(b.x + b.w * 3/4,  b.y, 
+  line(b.x + b.w * 3/4,  b.y + 1, 
        b.x + b.w * 3/4,  b.y + dy);
 }
  

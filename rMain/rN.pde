@@ -3,7 +3,6 @@
 class rexNode {
   Object value;      // why we're all here
   RowStack contents; // for arranging
-  
   String hint = "?";
   
   protected Sz min, max;         // stretchiness
@@ -70,7 +69,7 @@ class rexNode {
     if (vis.v == Visibility.COLLAPSED) {
         contents.bounds = reduce(contents.bounds); // shrink in a visually-pleasing manner
         if(contents.bounds.w == 0 && contents.bounds.h == 0)
-          return true;                              // don't pack the kids
+          return false;                              // don't pack the kids
         return true;
     } else if (vis.v == Visibility.PARTIAL) {
         use_children = new ArrayList<rexNode>();
@@ -88,6 +87,7 @@ class rexNode {
     for (rexNode node: use_children){
       if(!node.arrange(use_maxw))
         continue;
+
       // handle layout modes: row, column, best-packing
       switch (arrangement.m) {
         case Modes.PACK:
