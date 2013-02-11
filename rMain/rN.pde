@@ -40,17 +40,14 @@ class rexNode {
       fill(gray);
     stroke(gray);   
     rect((new Rect(new Pt(margin), contents.bounds.size()))
-                  .plus(origin));
+                  .move(origin));
   }
   
   protected void clickReceived(Pt p)
   {
-    println("clickied");
     if (selected == this) {
-      println("already selected");
       editMode = true;
     } else {
-      println("switching");
       finishEditing(true);
       if (editable)
         selected = this;
@@ -64,11 +61,14 @@ class rexNode {
   }
   
   protected void finishEditing(boolean save) { 
-    println("rN fE");
+    if(save && selected != null) 
+      saveChanges();
     selected = null;
     editMode = false;
     editString = null;
- }
+  }
+ 
+  protected void saveChanges() { println("saving nuthin'"); }
   
   protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); }
 
@@ -131,9 +131,9 @@ class rexNode {
       int xoffset = 0;
       for (rexNode node: row.elements) {
         Rect nodeBox = new Rect(row.bounds.origin(), node.contents.bounds.size())
-                               .plus(origin)
-                               .plus(new Pt(xoffset, 0))
-                               .plus(new Pt(margin));
+                               .move(origin)
+                               .move(new Pt(xoffset, 0))
+                               .move(new Pt(margin));
         ClickNet subNet = new ClickNet(nodeBox, node);
         net.add(subNet);
         node.draw(nodeBox.origin(), gray + 20, subNet); // recurse

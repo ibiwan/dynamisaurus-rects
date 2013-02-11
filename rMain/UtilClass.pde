@@ -4,9 +4,8 @@ class Sz {
   Sz(int s) { w = h = s; }
   Sz(int w_, int h_) { w = w_; h = h_; }
   
-  Sz plus(Sz s)   { return new Sz(w + s.w, h + s.h); }
-  Sz minus(Sz s)  { return new Sz(w - s.w, h - s.h); }
-  Sz times(int a) { return new Sz(w * a, h * a); }
+  Sz grow(Sz s)   { return new Sz(w + s.w, h + s.h); }
+  //Sz grow(int a)  { return new Sz(w * a, h * a); }
   Sz div(int a)   { return new Sz(w / a, h / a); }
 
   Sz copy() { return new Sz(w, h); }
@@ -19,10 +18,8 @@ class Pt {
   Pt(int s) { x = y = s; }
   Pt(int x_, int y_) { x = x_; y = y_; }
 
-  Pt plus(Sz s)   { return new Pt(x + s.w, y + s.h); }
-  Pt minus(Sz s)  { return new Pt(x - s.w, y - s.h); }
-  Pt times(int a) { return new Pt(x * a, y * a); }
-  Pt div(int a)   { return new Pt(x / a, y / a); }
+  Pt move(Sz s)   { return new Pt(x + s.w, y + s.h); }
+  //Pt div(int a)   { return new Pt(x / a, y / a); }
 }
 
 class Rect {
@@ -44,12 +41,8 @@ class Rect {
       return true;
     return false;
   }
-  Rect plus(Rect r)  { return new Rect(x + r.x, y + r.y, w + r.w, h + r.h); }
-  Rect plus(Sz s)    { return new Rect(        origin(), w + s.w, h + s.h); }
-  Rect plus(Pt p)    { return new Rect(x + p.x, y + p.y, w      , h      ); }
-  Rect minus(Rect r) { return new Rect(x - r.x, y - r.y, w - r.w, h - r.h); }
-  Rect minus(Sz s)   { return new Rect(x      , y      , w - s.w, h - s.h); }
-  Rect minus(Pt p)   { return new Rect(x - p.x, y - p.y, w      , h      ); }
+  Rect grow(Sz s)    { return new Rect(        origin(), w + s.w, h + s.h); }
+  Rect move(Pt p)    { return new Rect(x + p.x, y + p.y, size()  ); }
   void print() { println(x + ", " + y + "; " + w + ", " + h); }
 }
 

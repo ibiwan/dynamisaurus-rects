@@ -1,6 +1,9 @@
 class rexNodeObject extends rexNode {
   rexObject backingData;
-  rexNodeObject() { super(); hint = "object"; }
+  rexNodeObject() { 
+    super(); 
+    hint = "object";
+  }
 
   protected ArrayList<String> getSummaries() {
     int i = 0;
@@ -14,12 +17,14 @@ class rexNodeObject extends rexNode {
 
 class rexNodeArray extends rexNode {
   rexArray backingData;
-  rexNodeArray ()  { 
-    super(); hint = "array";
+  rexNodeArray () { 
+    super(); 
+    hint = "array";
     arrangement.m = Modes.COLUMN;
   }
   protected ArrayList<String> getSummaries() {
-    int i = 0; String use_str;
+    int i = 0; 
+    String use_str;
     ArrayList<String> ret = new ArrayList<String>();
     for (rexData d: backingData.a) {
       if (d instanceof rexObject) { // for each array child, look for its "display" field
@@ -29,7 +34,7 @@ class rexNodeArray extends rexNode {
           if (value instanceof rexString) { // <<FIXME>> handle other data types too
             use_str = ((rexString)value).s;
             ret.add(use_str);
-          }          
+          }
         }
       }
     }
@@ -38,33 +43,74 @@ class rexNodeArray extends rexNode {
 }
 
 class rexNodeWrapper extends rexNodeArray {
-  rexNodeWrapper(int m) { super(); hint = "wrapper"; arrangement.m = m; }
+  rexNodeWrapper(int m) { 
+    super(); 
+    hint = "wrapper"; 
+    arrangement.m = m;
+  }
 }
 
-class rexNodeBool extends rexNodeString{ 
-  rexNodeBool  (rexBoolean b) { super(b.b.toString()); hint = "bool"; }   
-  
+class rexNodeBool extends rexNodeString { 
+  rexNodeBool  (rexBoolean b) { 
+    super(b.b.toString()); 
+    hint = "bool";
+  }   
+  protected void draw(Pt origin, int gray) {
+    textFont(italicFont);
+    super.draw(origin, gray);
+    textFont(normalFont);
+  }
+
   protected boolean keyReceived(int key) {
-   if (editMode == false || editString == null)
+    if (editMode == false || editString == null)
       return false;
-      
+
     if (key == ESC) {
       finishEditing(false); // cancel edit
-    } else  if (key == 't' || key == 'T') {
+    } 
+    else  if (key == 't' || key == 'T') {
       editString = "true";
-    } else if (key == 'f' || key == 'F' || key == DELETE || key == BACKSPACE) {
+    } 
+    else if (key == 'f' || key == 'F' || key == DELETE || key == BACKSPACE) {
       editString = "false";
-    } else if (key == TAB) {
+    } 
+    else if (key == TAB) {
       editString = (editString.equals("true")) ? "false" : "true";
-    } else if (key == ENTER || key == RETURN) {
+    } 
+    else if (key == ENTER || key == RETURN) {
       finishEditing(true); // save edit
-    } else {
+    } 
+    else {
       return false;
     }
     return true;
   }
 }
 
-class rexNodeInt    extends rexNodeString{ rexNodeInt   (rexInteger i) { super(i.i.toString()); hint = "int"; } }
-class rexNodeDouble extends rexNodeString{ rexNodeDouble(rexDouble  d) { super(d.d.toString()); hint = "double"; } }
+class rexNodeInt    extends rexNodeString { 
+  rexNodeInt   (rexInteger i) { 
+    super(i.i.toString()); 
+    hint = "int";
+  } 
+  protected void draw(Pt origin, int gray) {
+    textFont(monospFont);
+    super.draw(origin, gray);
+    textFont(normalFont);
+  }
+  protected void saveChanges() {
+    println("saving int");
+    selected.value = Integer.valueOf(editString);
+  }
+}
+class rexNodeDouble extends rexNodeString { 
+  rexNodeDouble(rexDouble  d) { 
+    super(d.d.toString()); 
+    hint = "double";
+  } 
+  protected void draw(Pt origin, int gray) {
+    textFont(monospFont);
+    super.draw(origin, gray);
+    textFont(normalFont);
+  }
+}
 

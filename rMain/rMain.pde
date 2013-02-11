@@ -3,10 +3,17 @@ ClickNet clickRoot;
 
 int margin = 3;
 int useTextSize = 12;
+PFont normalFont;
+PFont italicFont;
+PFont monospFont;
 
 void setup() {
   size(800, 600);
   textSize(useTextSize);
+  normalFont = loadFont("SansSerif.plain-12.vlw");
+  italicFont = loadFont("SansSerif.italic-12.vlw");
+  monospFont = loadFont("Monospaced.bold-12.vlw");
+  textFont(normalFont);
   loadJson("dnd.json");
 }
 

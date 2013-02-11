@@ -27,9 +27,9 @@ class rexNodeString extends rexNode {
     setW(t + suffix);
     
     // unlike everything else, text is positioned by its bottom left point
-    Pt textLoc = origin.plus(new Sz(margin, 0)) // left margin for bounding box
-                       .plus(new Sz(0, useTextSize)) // height of text
-                       .plus(new Sz(margin, margin)); // space for readability
+    Pt textLoc = origin.move(new Sz(margin, 0)) // left margin for bounding box
+                       .move(new Sz(0, useTextSize)) // height of text
+                       .move(new Sz(margin, margin)); // space for readability
     Sz textDim = new Sz((int)textWidth(t), -useTextSize); // up is negative
     
     if (displayKey) {
@@ -39,7 +39,7 @@ class rexNodeString extends rexNode {
         
     noFill(); stroke(gray);
     rect((new Rect(new Pt(margin), contents.bounds.size()))
-                  .plus(origin));
+                  .move(origin));
 
 
 
@@ -50,14 +50,14 @@ class rexNodeString extends rexNode {
       }
       if (showCursor) {
         stroke(0);
-        line(textLoc.plus(new Sz(textDim.w, margin)), new Sz(0, -margin-useTextSize));
+        line(textLoc.move(new Sz(textDim.w, margin)), new Sz(0, -margin-useTextSize));
       }
     }
   }
   protected void setW(String s) {
     int w = (s != null && displayKey == true) ? (int)textWidth(s) : 0;
     min = new Sz(w, useTextSize)
-                .plus(new Sz(margin + 2, margin));
+                .grow(new Sz(margin + 2, margin));
   }
   protected boolean keyReceived(int key) {
     if (editMode == false || editString == null)
@@ -81,12 +81,9 @@ class rexNodeString extends rexNode {
     }
     return true;
   }
-  
-  protected void finishEditing(boolean save) {
-    println("rNS fE");
-    if(save && selected != null) 
-      selected.value = editString;
-    super.finishEditing();
-  }
+ protected void saveChanges() {
+   println("saving string.");
+   selected.value = editString;
+ }
 }
 

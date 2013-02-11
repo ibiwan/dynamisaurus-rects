@@ -8,24 +8,22 @@ class rexNodeToggle extends rexNode {
     hint = "toggle";
     key = k;
     min = new Sz(widgetWidth, useTextSize)
-                .plus(new Sz(margin + 2, margin));
+                .grow(new Sz(margin + 2, margin));
   }
 
   protected void draw(Pt origin, int gray) {
     super.draw(origin, gray);
     Rect widgetBox = new Rect(contents.bounds.size().toPt(), new Sz(widgetWidth, useTextSize))
-      .plus(origin)                             // place encloser on screen
-      .minus(new Pt(widgetWidth, useTextSize)) // place widget within encloser
-      .plus(new Sz(margin));
+      .move(origin)                             // place encloser on screen
+      .move(new Pt(-widgetWidth, -useTextSize)) // place widget within encloser
+      .grow(new Sz(margin));
 
     int squareEdge = min(widgetWidth, useTextSize);
     expander = new Rect(widgetBox.origin(), new Sz(squareEdge))
-                       .plus(widgetBox.size()
-                            .toPt()
-                            .minus(new Sz(squareEdge))
-                            .div(2));
-    //fill(255); rect(widgetBox);
-    //fill(0); rect(expander);
+                       .move(widgetBox.size()
+                            .grow(new Sz(-squareEdge))
+                            .div(2)
+                            .toPt());
                               
     stroke(0); noFill();
     if (key.collection != null)

@@ -40,7 +40,7 @@ class rexNodeKey extends rexNodeString {
   }
   protected void setW(String s) {
     if (s != null && displayKey == true) {
-      min = new Sz((int)textWidth(s), useTextSize).plus(new Sz(margin + 2, margin));
+      min = new Sz((int)textWidth(s), useTextSize).grow(new Sz(margin + 2, margin));
     } else {
       min = new Sz(10, 10);
       vis = new Visibility(Visibility.COLLAPSED);
