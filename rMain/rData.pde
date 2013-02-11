@@ -3,11 +3,12 @@ class rexData {
   rexNodeKey keyDisplayNode;
 }
 
-// wrappers not children because String is "final".  stupid String.
+// wrappers, not children, because String is "final".  stupid String.
 
 class rexArray extends rexData {
   ArrayList<rexData> a = new ArrayList<rexData>();
 }
+
 class rexObject extends rexData {
   HashMap<String, rexData> m = new HashMap<String, rexData>();
   String[] keys() { return m.keySet().toArray(new String[0]); }

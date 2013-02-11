@@ -1,7 +1,7 @@
 class Sz {
   int w, h;
   Sz() { w = -1; h = -1; }
-  Sz(int s) { w = s; h = s; }
+  Sz(int s) { w = h = s; }
   Sz(int w_, int h_) { w = w_; h = h_; }
   
   Sz plus(Sz s)   { return new Sz(w + s.w, h + s.h); }
@@ -16,15 +16,13 @@ class Sz {
 class Pt {
   int x, y;
   Pt() { x = -1; y = -1; }
-  Pt(int s) { x = s; y = s; }
+  Pt(int s) { x = y = s; }
   Pt(int x_, int y_) { x = x_; y = y_; }
 
   Pt plus(Sz s)   { return new Pt(x + s.w, y + s.h); }
   Pt minus(Sz s)  { return new Pt(x - s.w, y - s.h); }
   Pt times(int a) { return new Pt(x * a, y * a); }
   Pt div(int a)   { return new Pt(x / a, y / a); }
-
-  Sz toSz() { return new Sz(x, y); }
 }
 
 class Rect {
@@ -57,6 +55,7 @@ class Rect {
 
 class Row {
   Rect bounds;
+  int count = 0;
   ArrayList<rexNode> elements = new ArrayList<rexNode>();
   Row (Pt corner) {
     bounds = new Rect(corner, new Sz(margin)); 
@@ -65,10 +64,12 @@ class Row {
     elements.add(node);
     bounds.w += node.contents.bounds.w + margin;
     bounds.h = max(bounds.h, node.contents.bounds.h + margin);
+    count++;
   }
 }
 
 class RowStack { // returns best location for next row
+  int count = 0;
   Rect bounds;
   ArrayList<Row> rows = new ArrayList<Row>();
   RowStack (Sz min) { bounds = new Rect(0, 0, min); }
@@ -76,6 +77,7 @@ class RowStack { // returns best location for next row
     rows.add(row);
     bounds.w = max(bounds.w, row.bounds.w);
     bounds.h += row.bounds.h + margin;
+    count++;
   }
   Pt nextRowLoc() {
     return new Pt(0, bounds.y + bounds.h);

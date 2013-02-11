@@ -12,6 +12,7 @@ class rexNodeKey extends rexNodeString {
       min.w += (int)textWidth(":");
     wrapper = w;
     datum.keyDisplayNode = this;
+    arrangement = new Modes(Modes.ROW);
   }
 
   void namesCollection(rexNode c) { 
@@ -22,32 +23,11 @@ class rexNodeKey extends rexNodeString {
   protected void draw(Pt origin, int gray) {
     String disp = (value == null || displayKey == false) ? "" : (String)value + ":";
     super.draw(disp, origin, gray);
-
-    if (collection != null) {
-      // place widget space using bottom right of container
-      Rect widgetBox = new Rect(contents.bounds.size().toPt(), new Sz(widgetWidth, useTextSize))
-        .plus(origin)                             // place encloser
-        .minus(new Pt(widgetWidth, useTextSize)); // place within encloser
-
-      int squareEdge = min(widgetWidth, useTextSize);
-      expander = new Rect(widgetBox.origin(), new Sz(squareEdge))
-                         .plus(widgetBox.size()
-                              .toPt()
-                              .minus(new Sz(squareEdge))
-                              .div(2));
-
-      stroke(0); noFill();
-      switch(collection.vis.v) {
-        case Visibility.EXPANDED:  drawExpandedWidget (expander); break;
-        case Visibility.COLLAPSED: drawCollapsedWidget(expander); break;
-        case Visibility.PARTIAL:   drawPartialWidget  (expander); break;
-      }
-    }
   }
 
   protected void clickReceived(Pt p) {
     super.clickReceived(p);
-    if (collection != null && expander.contains(p)) {
+    if (collection != null && expander != null && expander.contains(p)) {
       switch(collection.vis.v) {
         case Visibility.EXPANDED:
           if (partialAvailable)     collection.vis.v = Visibility.PARTIAL;
@@ -58,11 +38,12 @@ class rexNodeKey extends rexNodeString {
     }
   }
   protected void setW(String s) {
-    int w = (s != null && displayKey == true) ? (int)textWidth(s) : 0;
-    if (collection != null)
-      w += widgetWidth + margin;
-    min = new Sz(w, useTextSize)
-                .plus(new Sz(margin));
+    if (s != null && displayKey == true) {
+      min = new Sz((int)textWidth(s), useTextSize).plus(new Sz(margin));
+    } else {
+      min = new Sz(10, 10);
+      vis = new Visibility(Visibility.COLLAPSED);
+    }
   }
 }
 

@@ -1,21 +1,3 @@
-//this sucks.  is there a better enum?
-
-class Visibility {
-  final static int EXPANDED  = 1;
-  final static int COLLAPSED = 2;
-  final static int PARTIAL   = 3;
-  int v;
-  Visibility(int v_) { v = v_; }
-}
-
-class Modes {
-  final static int PACK   = 1;
-  final static int COLUMN = 2;
-  final static int ROW    = 3;
-  int m;
-  Modes(int m_) { m = m_; }
-}
-
 // base class for displayed nodes; loosely corresponds to nodes in data tree parsed from json
 
 class rexNode {
@@ -25,8 +7,8 @@ class rexNode {
   String hint = "?";
   
   protected Sz min, max;         // stretchiness
-  protected Visibility vis;      // expand/collapse state
   protected Modes arrangement;   // layout state
+  protected Visibility vis;      // expand/collapse state
   protected String primary = ""; // summary field
   
   private ArrayList<rexNode> children = new ArrayList<rexNode>();  // contained nodes
@@ -38,6 +20,7 @@ class rexNode {
     min = new Sz();   max = maxp;
     vis = new Visibility(Visibility.EXPANDED);
     arrangement = new Modes(Modes.PACK);
+    contents = new RowStack(min);
   }
   
   void addChild(rexNode node) {
@@ -71,23 +54,24 @@ class rexNode {
       editMode = true;
     } else {
       selected = this;
-      editMode = false;
       editString = null;
+      editMode = false;
     } 
-    println(this + " (" + hint + ") received click"); 
     if (this == root) 
       loadJson(randomFile()); 
   }
   
   protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); }
 
-  private void arrange(int parent_maxw) {
+  private boolean arrange(int parent_maxw) {
     ArrayList<rexNode> use_children = children;
 
     // handle visibility options: expanded, collapsed, partial
     if (vis.v == Visibility.COLLAPSED) {
         contents.bounds = reduce(contents.bounds); // shrink in a visually-pleasing manner
-        return;                                    // don't pack the kids
+        if(contents.bounds.w == 0 && contents.bounds.h == 0)
+          return true;                              // don't pack the kids
+        return true;
     } else if (vis.v == Visibility.PARTIAL) {
         use_children = new ArrayList<rexNode>();
         for (String s: getSummaries()) {
@@ -102,14 +86,14 @@ class rexNode {
 
     // start fillin' rows
     for (rexNode node: use_children){
-      node.arrange(use_maxw); // recurse here!
-      
+      if(!node.arrange(use_maxw))
+        continue;
       // handle layout modes: row, column, best-packing
       switch (arrangement.m) {
         case Modes.PACK:
            // make a new row any time the current one is full
            if (    use_maxw != -1
-                && row.elements.size() > 0
+                && row.count > 0
                 && row.bounds.w + node.contents.bounds.w + 2 * margin > use_maxw ) {
             contents.add(row);
             row = new Row(contents.nextRowLoc());
@@ -117,7 +101,7 @@ class rexNode {
           break;
         case Modes.COLUMN:
           // make a new row after every entry);
-          if ( row.elements.size() > 0 ) {
+          if ( row.count > 0 ) {
             contents.add(row);
             row = new Row(contents.nextRowLoc());
           }
@@ -126,6 +110,7 @@ class rexNode {
       row.add(node);
     }
     if (row.elements.size() > 0) { contents.add(row); }
+    return true;
   }
   
   private void draw(Pt origin, int gray, ClickNet net) {

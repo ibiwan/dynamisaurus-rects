@@ -37,6 +37,8 @@ class rexNodeString extends rexNode {
     rect((new Rect(new Pt(margin), contents.bounds.size()))
                   .plus(origin));
 
+
+
     if (selected == this && editMode) {
       if (cursorToggleTimer < millis()) {
         cursorToggleTimer = millis() + 500;

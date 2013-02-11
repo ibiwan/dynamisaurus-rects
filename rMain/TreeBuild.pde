@@ -13,7 +13,7 @@ rexNodeArray buildArray(rexArray a, String lastKey) {
   ret.backingData = a;
 
   for (rexData d: a.a)
-    ret.addChild(wrapIt(lastKey, d, Modes.ROW, false));
+    ret.addChild(wrapElement(lastKey, d));
   setupCollection(a.keyDisplayNode, ret);  
 
   return ret;
@@ -26,7 +26,7 @@ rexNodeObject buildHMap(rexObject m) {
   String[] prioKeys = getPrioritizedKeys(m.keys());
   for (String numKey: prioKeys) {
     String key = untag(numKey);  
-    ret.addChild(wrapIt(key, m.m.get(key), Modes.COLUMN, true));
+    ret.addChild(wrapMember(key, m.m.get(key)));
   }
   setupCollection(m.keyDisplayNode, ret);
 
@@ -52,11 +52,34 @@ int getPriority(String key) {
                                                return 0;
 }
 
-rexNodeWrapper wrapIt(String key, rexData datum, int displayDirection, boolean displayKey) {
+rexNodeWrapper wrapElement(String key, rexData datum) {
   datum = (datum != null) ? datum : new rexString("");
-  rexNodeWrapper wrap = new rexNodeWrapper(displayDirection);  // dummy array
-  wrap.addChild(new rexNodeKey(key, wrap, datum, displayKey)); // upper/left entry contains the label
-  wrap.addChild(buildSomething(datum, key));                   // lower/right entry contains the value
+  rexNodeWrapper wrap = new rexNodeWrapper(Modes.ROW);  // dummy array
+  rexNodeKey k = new rexNodeKey(key, wrap, datum, false);
+  
+  wrap.addChild(new rexNodeToggle(k)); 
+  wrap.addChild(k); // left entry contains the label
+  wrap.addChild(buildSomething(datum, key));                   // right entry contains the value
+  return wrap;
+}
+
+rexNodeWrapper wrapMember(String key, rexData datum) {
+  datum = (datum != null) ? datum : new rexString("");
+  rexNodeWrapper wrap = new rexNodeWrapper(Modes.COLUMN);  // dummy array
+  rexNodeKey k = new rexNodeKey(key, wrap, datum, true); 
+  
+  // upper entry contains the label
+  if (primariesMap.containsKey(key)) {
+    // if it's a known collection, include expander widget
+    rexNodeWrapper w2 = new rexNodeWrapper(Modes.ROW);
+    
+    w2.addChild(k);   
+    w2.addChild(new rexNodeToggle(k));
+    wrap.addChild(w2);
+  } else {
+    wrap.addChild(k);
+  }
+  wrap.addChild(buildSomething(datum, key));    // lower entry contains the value
   return wrap;
 }
 
