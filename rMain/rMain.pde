@@ -1,7 +1,10 @@
 rexNode root;
+rexNode selected = null;
+boolean editMode = false;
+String editString = null;
 ClickNet clickRoot;
 
-int margin = 2;
+int margin = 3;
 int useTextSize = 12;
 
 void setup() {

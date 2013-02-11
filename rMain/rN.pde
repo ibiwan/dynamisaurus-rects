@@ -51,12 +51,33 @@ class rexNode {
   }
   
   protected void draw(Pt origin, int gray) {
-    stroke(gray);   fill(gray);
+    if (this == selected) {
+      if (editMode) {
+        fill(0, 0, 255);
+      } else {
+        fill(255, 0, 0);
+      }
+    } else {
+      fill(gray);
+    }
+    stroke(gray);   
     rect((new Rect(new Pt(margin), contents.bounds.size()))
                   .plus(origin));
   }
   
-  protected void clickReceived(Pt p) { println(this + " (" + hint + ") received click"); if (this == root) loadJson(randomFile()); }
+  protected void clickReceived(Pt p)
+  {
+    if (selected == this) {
+      editMode = true;
+    } else {
+      selected = this;
+      editMode = false;
+      editString = null;
+    } 
+    println(this + " (" + hint + ") received click"); 
+    if (this == root) 
+      loadJson(randomFile()); 
+  }
   
   protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); }
 
@@ -65,8 +86,8 @@ class rexNode {
 
     // handle visibility options: expanded, collapsed, partial
     if (vis.v == Visibility.COLLAPSED) {
-        contents.bounds = reduce(contents.bounds);   // shrink in a visually-pleasing manner
-        return;                                      // don't pack the kids
+        contents.bounds = reduce(contents.bounds); // shrink in a visually-pleasing manner
+        return;                                    // don't pack the kids
     } else if (vis.v == Visibility.PARTIAL) {
         use_children = new ArrayList<rexNode>();
         for (String s: getSummaries()) {

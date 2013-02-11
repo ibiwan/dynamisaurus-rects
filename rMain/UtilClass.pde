@@ -19,8 +19,8 @@ class Pt {
   Pt(int s) { x = s; y = s; }
   Pt(int x_, int y_) { x = x_; y = y_; }
 
-  Pt plus(Pt p)   { return new Pt(x + p.x, y + p.y); }
-  Pt minus(Pt p)  { return new Pt(x - p.x, y - p.y); }
+  Pt plus(Sz s)   { return new Pt(x + s.w, y + s.h); }
+  Pt minus(Sz s)  { return new Pt(x - s.w, y - s.h); }
   Pt times(int a) { return new Pt(x * a, y * a); }
   Pt div(int a)   { return new Pt(x / a, y / a); }
 
