@@ -1,3 +1,31 @@
+rexNode selected = null;
+boolean editMode = false;
+String editString = null;
+
+void keyReleased() {
+  if ((key >= 'a' && key <= 'z') ||
+      (key >= 'A' && key <= 'Z') ||
+      (key >= '0' && key <= '9') ||
+      key == '-' || key == '.' || key == ' ') {
+    editString += key;
+  }
+  if (key == TAB || key == ENTER || key == RETURN || key == ESC) {
+    finishEditing();
+  }
+  if (key == DELETE) {
+    editString = editString.substring(0, 0);
+  }
+  if (key == BACKSPACE) {
+    editString = editString.substring(0, editString.length() - 1);
+  }
+}
+
+void finishEditing() {
+  selected.value = editString;
+  editMode = false;
+  editString = null;
+}
+
 class rexNodeString extends rexNode {
   boolean displayKey = true;
   boolean showCursor = true;

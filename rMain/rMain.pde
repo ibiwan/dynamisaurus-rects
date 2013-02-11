@@ -1,7 +1,4 @@
 rexNode root;
-rexNode selected = null;
-boolean editMode = false;
-String editString = null;
 ClickNet clickRoot;
 
 int margin = 3;
