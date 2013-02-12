@@ -83,11 +83,9 @@ class rexNodeString extends rexNode {
     return true;
   }
   protected void saveChanges() { 
-    //println("saving");
     selected.value = editString; 
     if (backingData != null) {
       backingData.s = editString;
-      //println(getJsonString(pData));
       saveFile();
     }
   }

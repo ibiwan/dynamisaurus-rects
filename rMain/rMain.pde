@@ -49,7 +49,6 @@ String randomFile() {
   String[] files = {"google", "twitter", "facebook", "colors", "flickr", "youtube", "iphone", "customer", "products", "interoperability"};
   int r = (int)random(files.length);
   filename = "testJson/" + files[r] + ".json";
-  println(filename);
   return filename;
 }
 

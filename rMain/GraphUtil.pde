@@ -21,13 +21,6 @@ void drawPartialWidget(Rect b) {
   line(b.x + b.w * 3/4,  b.y + 1, 
        b.x + b.w * 3/4,  b.y + dy);
 }
- 
-int reduce(int dim) {
-  println(dim);
-  //if (dim > 300) return dim / 2;
-  if (dim > 0)   return dim - 1;
-                 return 0;
-}
 
 //void text(String s, Pt p) { text(s, p.x, p.y); }
 void rect(Rect r)         { rect(r.x, r.y, r.w, r.h); }

@@ -56,7 +56,6 @@ class rexNodeKey extends rexNodeString {
       backingKey = editString;
       backingObject.m.put(backingKey, value);
       saveFile();
-      //println(getJsonString(pData));
     } else {
       println("no key :(");
     }
