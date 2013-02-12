@@ -4,7 +4,7 @@ rexNode buildSomething(rexData o, String lastKey) {
   if (o instanceof rexBoolean) { return new rexNodeBool  ((rexBoolean)o); }
   if (o instanceof rexInteger) { return new rexNodeInt   ((rexInteger)o); }
   if (o instanceof rexDouble)  { return new rexNodeDouble ((rexDouble)o); }
-  if (o instanceof rexString)  { return new rexNodeString(((rexString)o).s); }
+  if (o instanceof rexString)  { return new rexNodeString(((rexString)o)); }
   return new rexNode(o);
 }
 

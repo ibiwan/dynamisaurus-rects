@@ -84,7 +84,7 @@ class rexNode {
     } else if (vis.v == Visibility.PARTIAL) {
         use_children = new ArrayList<rexNode>();
         for (String s: getSummaries()) {
-          use_children.add(new rexNodeString(s));
+          use_children.add(new rexNodeString(new rexString(s)));
         }
     }
 

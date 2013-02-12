@@ -1,6 +1,9 @@
 class rexNodeBool extends rexNodeString { 
+  rexBoolean backingData;
+  
   rexNodeBool  (rexBoolean b) { 
     super(b.b.toString()); 
+    backingData = b;
     hint = "bool";
   }   
   protected void draw(Pt origin, int gray) {
@@ -33,11 +36,21 @@ class rexNodeBool extends rexNodeString {
     }
     return true;
   }
+  protected void saveChanges() { 
+    selected.value = editString; 
+    if (backingData != null) {
+      backingData.b = new Boolean(editString == "true");
+      println(getJsonString(pData));
+    }
+  }
 }
 
 class rexNodeInt    extends rexNodeString { 
+  rexInteger backingData;
+  
   rexNodeInt   (rexInteger i) { 
     super(i.i.toString()); 
+    backingData = i;
     hint = "int";
   } 
   protected void draw(Pt origin, int gray) {
@@ -49,6 +62,10 @@ class rexNodeInt    extends rexNodeString {
     try {
       Integer i = Integer.valueOf(editString);
       selected.value = (i).toString();
+      if (backingData != null) {
+        backingData.i = i;
+        println(getJsonString(pData));
+      }
     } catch (NumberFormatException e) {
       // do nuthin'
     }
@@ -82,8 +99,11 @@ class rexNodeInt    extends rexNodeString {
 }
 
 class rexNodeDouble extends rexNodeString { 
+  rexDouble backingData;
+  
   rexNodeDouble(rexDouble  d) { 
     super(d.d.toString()); 
+    backingData = d;
     hint = "double";
   } 
   protected void draw(Pt origin, int gray) {
@@ -95,6 +115,10 @@ class rexNodeDouble extends rexNodeString {
     try {
       Double d = Double.valueOf(editString);
       selected.value = (d).toString();
+      if (backingData != null) {
+        backingData.d = d;
+        println(getJsonString(pData));
+      }
     } catch (NumberFormatException e) {
       // do nuthin'
     }

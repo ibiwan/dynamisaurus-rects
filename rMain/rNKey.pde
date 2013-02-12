@@ -5,7 +5,7 @@ class rexNodeKey extends rexNodeString {
   rexNode          wrapper = null;
   Rect expander;
 
-  rexNodeKey(String s, rexNode w, rexData datum, boolean d) { 
+  rexNodeKey(String s, rexNode w, rexData datum, boolean d) {
     super(s, d);
     hint = "key";
     if (displayKey == true && s != null)

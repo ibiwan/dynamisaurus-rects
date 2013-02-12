@@ -16,8 +16,7 @@ void setup() {
   monospFont = loadFont("Monospaced.bold-12.vlw");
   textFont(normalFont);
   loadJson("dnd.json");
-  
-  println(getJsonString(pData));
+  setupStringKeys();
 }
 
 void draw() {
@@ -46,5 +45,23 @@ String randomFile() {
   String filename = "testJson/" + files[r] + ".json";
   println(filename);
   return filename;
+}
+
+void setupStringKeys() {
+  stringKeys = new HashMap<Character, Boolean>();
+  for(char i = 'a'; i <= 'z'; i++)
+    stringKeys.put(i, true);
+  for(char i = 'A'; i <= 'Z'; i++)
+    stringKeys.put(i, true);
+  for(char i = '0'; i <= '9'; i++)
+    stringKeys.put(i, true);
+  stringKeys.put('=', true);
+  stringKeys.put('-', true);
+  stringKeys.put('.', true);
+  stringKeys.put(' ', true);
+  stringKeys.put('[', true);
+  stringKeys.put(']', true);
+  stringKeys.put('(', true);
+  stringKeys.put(')', true);
 }
 

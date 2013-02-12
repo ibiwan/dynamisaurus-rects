@@ -1,15 +1,23 @@
+HashMap<Character, Boolean> stringKeys;
+
 class rexNodeString extends rexNode {
   boolean displayKey = true;
   boolean showCursor = true;
   int cursorToggleTimer = 0;
-  rexNodeString (String s)            { super(); init(s, true); }
-  rexNodeString (String s, boolean d) { super(); init(s, d);    }
-  void init(String s, boolean d) {
+  rexString backingData;
+  rexNodeString (rexString rs)                      { super(); init(rs, rs.s, true); }
+  rexNodeString (rexString rs, String s)            { super(); init(rs, rs.s, true); }
+  rexNodeString (rexString rs, String s, boolean d) { super(); init(rs, rs.s, d);    }
+  rexNodeString (String s, boolean d)               { super(); init(null,  s, d);    }
+  rexNodeString (String s)                          { super(); init(null,  s, true);    }
+  void init(rexString rs, String s, boolean d) {
     hint = "string";
     value = s;
     displayKey = d;
     setW(s);
     editable = true;
+    if (rs != null)
+      backingData = rs;
   }
   protected void draw(Pt origin, int gray) {
     draw((String)value, origin, gray, "");
@@ -59,13 +67,9 @@ class rexNodeString extends rexNode {
   protected boolean keyReceived(int key) {
     if (editMode == false || editString == null)
       return false;
-      
     if (key == ESC) {
       finishEditing(false);
-    } else if ((key >= 'a' && key <= 'z') ||
-               (key >= 'A' && key <= 'Z') ||
-               (key >= '0' && key <= '9') ||
-               key == '-' || key == '.' || key == ' ') {
+    } else if (stringKeys.containsKey(new Character((char)key))) {
       editString += (char)key;
     } else if (key == TAB || key == ENTER || key == RETURN) {
       finishEditing(true);
@@ -78,5 +82,12 @@ class rexNodeString extends rexNode {
     }
     return true;
   }
-  protected void saveChanges() { selected.value = editString; }
+  protected void saveChanges() { 
+    println("saving");
+    selected.value = editString; 
+    if (backingData != null) {
+      backingData.s = editString;
+      println(getJsonString(pData));
+    }
+  }
 }
