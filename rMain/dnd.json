@@ -41,9 +41,9 @@
       ],
       "name": "exultation",
       "vitals": {
-        "age": "25years",
+        "age": "25 years",
         "height": "6 ' 3\"",
-        "weight": "200lb"
+        "weight": "200 lb."
       }
     },
     {
@@ -86,9 +86,9 @@
       "name": "kahlan",
       "totallevels": "=sum(this.parent.levels[*].level)",
       "vitals": {
-        "age": "22years",
+        "age": "22 years",
         "height": "5 ' 7\"",
-        "weight": "170lb"
+        "weight": "170 lb."
       }
     }
   ],
