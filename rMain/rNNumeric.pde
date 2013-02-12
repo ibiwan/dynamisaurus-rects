@@ -1,55 +1,3 @@
-class rexNodeObject extends rexNode {
-  rexObject backingData;
-  rexNodeObject() { 
-    super(); 
-    hint = "object";
-  }
-
-  protected ArrayList<String> getSummaries() {
-    int i = 0;
-    ArrayList<String> ret = new ArrayList<String>();
-    if (backingData.m.containsKey(primary)) {
-      ret.add (((rexString)backingData.m.get(primary)).s);
-    }
-    return ret;
-  }
-}
-
-class rexNodeArray extends rexNode {
-  rexArray backingData;
-  rexNodeArray () { 
-    super(); 
-    hint = "array";
-    arrangement.m = Modes.COLUMN;
-  }
-  protected ArrayList<String> getSummaries() {
-    int i = 0; 
-    String use_str;
-    ArrayList<String> ret = new ArrayList<String>();
-    for (rexData d: backingData.a) {
-      if (d instanceof rexObject) { // for each array child, look for its "display" field
-        use_str = "" + i++;
-        if (((rexObject)d).m.containsKey(primary)) {
-          rexData value = ((rexObject)d).m.get(primary);
-          if (value instanceof rexString) { // <<FIXME>> handle other data types too
-            use_str = ((rexString)value).s;
-            ret.add(use_str);
-          }
-        }
-      }
-    }
-    return ret;
-  }
-}
-
-class rexNodeWrapper extends rexNodeArray {
-  rexNodeWrapper(int m) { 
-    super(); 
-    hint = "wrapper"; 
-    arrangement.m = m;
-  }
-}
-
 class rexNodeBool extends rexNodeString { 
   rexNodeBool  (rexBoolean b) { 
     super(b.b.toString()); 
@@ -74,7 +22,7 @@ class rexNodeBool extends rexNodeString {
     else if (key == 'f' || key == 'F' || key == DELETE || key == BACKSPACE) {
       editString = "false";
     } 
-    else if (key == TAB) {
+    else if (key == TAB || key == '-') {
       editString = (editString.equals("true")) ? "false" : "true";
     } 
     else if (key == ENTER || key == RETURN) {
@@ -142,6 +90,40 @@ class rexNodeDouble extends rexNodeString {
     textFont(monospFont);
     super.draw(origin, gray);
     textFont(normalFont);
+  }
+  protected void saveChanges() {
+    try {
+      Double d = Double.valueOf(editString);
+      selected.value = (d).toString();
+    } catch (NumberFormatException e) {
+      // do nuthin'
+    }
+  }
+  protected boolean keyReceived(int key) {
+    if (key == ESC || key == TAB || key == ENTER || key == RETURN)
+      return super.keyReceived(key);
+    if (editMode == false || editString == null)
+      return false;      
+ 
+    try {
+      String t = editString; Double d;
+      if ( (key >= '0' && key <= '9') || key == '.' ) {
+        t += (char)key;
+      } else if (key == DELETE) {
+        t = "0";
+      } else if (key == '-') {
+        t = ((Double)(- Double.valueOf(t))).toString();
+      } else if (key == BACKSPACE) {
+        t = t.substring(0, t.length() - 1);
+        if (t.equals("")) 
+          t = "0";
+      } else {
+        return false;
+      }
+      d = Double.valueOf(t); // convert to trigger exception on bad chars
+      editString = t;         // keep change if valid int
+    } catch (NumberFormatException e) { /* do nuthin' */ }
+    return true;
   }
 }
 
