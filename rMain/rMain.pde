@@ -64,19 +64,13 @@ void saveFile() {
 
 void setupStringKeys() {
   stringKeys = new HashMap<Character, Boolean>();
-  for(char i = 'a'; i <= 'z'; i++)
-    stringKeys.put(i, true);
-  for(char i = 'A'; i <= 'Z'; i++)
-    stringKeys.put(i, true);
-  for(char i = '0'; i <= '9'; i++)
-    stringKeys.put(i, true);
-  stringKeys.put('=', true);
-  stringKeys.put('-', true);
-  stringKeys.put('.', true);
-  stringKeys.put(' ', true);
-  stringKeys.put('[', true);
-  stringKeys.put(']', true);
-  stringKeys.put('(', true);
-  stringKeys.put(')', true);
+  for(char c = 'a'; c <= 'z'; c++)
+    stringKeys.put(c, true);
+  for(char c = 'A'; c <= 'Z'; c++)
+    stringKeys.put(c, true);
+  for(char c = '0'; c <= '9'; c++)
+    stringKeys.put(c, true);
+  for(char c: new char[]{'=', '-', '.', ' ', '[', ']', '(', ')'})
+    stringKeys.put(c, true);
 }
 
