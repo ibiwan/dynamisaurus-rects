@@ -1,5 +1,6 @@
 rexNode root;
 ClickNet clickRoot;
+rexObject pData;
 
 int margin = 3;
 int useTextSize = 12;
@@ -15,6 +16,8 @@ void setup() {
   monospFont = loadFont("Monospaced.bold-12.vlw");
   textFont(normalFont);
   loadJson("dnd.json");
+  
+  println(getJsonString(pData));
 }
 
 void draw() {
@@ -27,7 +30,7 @@ void draw() {
 
 void loadJson(String filename) {
   String sData = join(loadStrings(filename), "");
-  rexObject pData = parseJsonObject(sData);
+  pData = parseJsonObject(sData);
 
   for (int i = 0; i < specials.length; i++)
     specials[i].chew(pData);
