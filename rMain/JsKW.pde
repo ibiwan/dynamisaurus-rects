@@ -19,6 +19,7 @@ class OrderParser extends SpecialParser {
   OrderParser() { /***/ key = "rex-ordering"; /***/ }
   
   void digest(rexData d) {
+    orderingMap = new HashMap<String, Integer>();
     for (Object token: ((rexArray)d).a)
       orderingMap.put(((rexString)token).s, orderingMap.size());
     if (!orderingMap.containsKey(ORDERING_OTHER))
@@ -32,6 +33,7 @@ class PrimariesParser extends SpecialParser {
   PrimariesParser() { /***/ key = "rex-primaries"; /***/ }
   
   void digest(rexData d) {
+    primariesMap = new HashMap<String, String>();
     HashMap<String, rexData> primaries = ((rexObject)d).m;
     for (String key: primaries.keySet()) {
       rexString field = (rexString)primaries.get(key);
