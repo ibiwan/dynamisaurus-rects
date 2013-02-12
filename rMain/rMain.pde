@@ -35,6 +35,10 @@ void loadJson(String filename) {
     specials[i].chew(pData);
 
   frame.setTitle(filename);
+  buildRoot();
+}
+
+void buildRoot() {
   root = new rexNode(new Sz(width, height));
   root.addChild(buildSomething(pData, null));
 }

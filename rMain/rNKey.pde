@@ -4,6 +4,8 @@ class rexNodeKey extends rexNodeString {
   rexNode       collection = null;
   rexNode          wrapper = null;
   Rect expander;
+  rexObject backingObject;
+  String backingKey;
 
   rexNodeKey(String s, rexNode w, rexData datum, boolean d) {
     super(s, d);
@@ -44,6 +46,18 @@ class rexNodeKey extends rexNodeString {
     } else {
       min = new Sz(10, 10);
       vis = new Visibility(Visibility.COLLAPSED);
+    }
+  }
+  protected void saveChanges() { 
+    selected.value = editString; 
+    if (backingKey != null) {
+      rexData value = backingObject.m.get(backingKey);
+      backingObject.m.remove(backingKey);
+      backingKey = editString;
+      backingObject.m.put(backingKey, value);
+      println(getJsonString(pData));
+    } else {
+      println("no key :(");
     }
   }
 }

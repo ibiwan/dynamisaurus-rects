@@ -26,7 +26,7 @@ rexNodeObject buildHMap(rexObject m) {
   String[] prioKeys = getPrioritizedKeys(m.keys());
   for (String numKey: prioKeys) {
     String key = untag(numKey);  
-    ret.addChild(wrapMember(key, m.m.get(key)));
+    ret.addChild(wrapMember(key, m.m.get(key), m));
   }
   setupCollection(m.keyDisplayNode, ret);
 
@@ -63,11 +63,12 @@ rexNodeWrapper wrapElement(String key, rexData datum) {
   return wrap;
 }
 
-rexNodeWrapper wrapMember(String key, rexData datum) {
+rexNodeWrapper wrapMember(String key, rexData datum, rexObject container) {
   datum = (datum != null) ? datum : new rexString("");
   rexNodeWrapper wrap = new rexNodeWrapper(Modes.COLUMN);  // dummy array
   rexNodeKey k = new rexNodeKey(key, wrap, datum, true); 
-  
+  k.backingKey = key;
+  k.backingObject = container;
   // upper entry contains the label
   if (primariesMap.containsKey(key)) {
     // if it's a known collection, include expander widget
