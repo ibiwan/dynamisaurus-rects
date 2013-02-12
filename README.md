@@ -26,4 +26,5 @@ Installation:
 
 * Download and install http://processing.org/download/
 * Copy "json" folder from repo root to "libraries" folder in Processing's documents directory.
-
+* Check out dynamisaurus-rects into Processing's documents directory
+* Double-click rMain/rMain.pde or open from Processing's Sketches menu
