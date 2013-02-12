@@ -22,7 +22,12 @@ class ClickNet {
 
 // keyword function -- called by Processing environment
 void mouseClicked() {
-  clickRoot.sendClick(new Pt(mouseX, mouseY));
+  float[] mouseVec = {mouseX, mouseY};
+  float[] xMouse = null;
+  PMatrix2D transform = new PMatrix2D(this.g.getMatrix());
+  transform.invert();
+  xMouse = transform.mult(mouseVec, xMouse);
+  clickRoot.sendClick(new Pt(xMouse));
 
   //if (mouseEvent.getClickCount()==2) println("<double click>");
 }
@@ -76,3 +81,4 @@ void mouseWheel(int delta) {
     scrollPt.y = -root.contents.bounds.h;
   }
 }
+

@@ -17,6 +17,7 @@ class Pt {
   Pt() { x = -1; y = -1; }
   Pt(int s) { x = y = s; }
   Pt(int x_, int y_) { x = x_; y = y_; }
+  Pt(float[] v) { x = (int)v[0]; y = (int)v[1]; }
 
   Pt move(Sz s)   { return new Pt(x + s.w, y + s.h); }
   //Pt div(int a)   { return new Pt(x / a, y / a); }

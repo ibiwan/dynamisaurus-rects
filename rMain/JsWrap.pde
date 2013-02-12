@@ -78,4 +78,3 @@ JSONArray getJson(rexArray a) {
   return ret;
 }
 
-

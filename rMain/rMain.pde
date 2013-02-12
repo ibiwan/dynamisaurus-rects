@@ -28,7 +28,8 @@ void draw() {
   // root.max.w = (mouseX > 0) ? mouseX : width;
 
   background(255);
-  root.drawasroot(scrollPt, 0);
+  translate(scrollPt.x, scrollPt.y);
+  root.drawasroot(new Pt(0, 0), 0);
 }
 
 void loadJson(String filename) {
