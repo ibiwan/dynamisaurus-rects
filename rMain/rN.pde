@@ -16,6 +16,7 @@ class rexNode {
   rexNode (Sz max) { init(max); }
   rexNode () { init(new Sz()); }
   rexNode (Object o) { init(new Sz()); value = o; }
+  
   private void init(Sz maxp) { 
     min = new Sz();   max = maxp;
     vis = new Visibility(Visibility.EXPANDED);
@@ -75,12 +76,11 @@ class rexNode {
   private boolean arrange(int parent_maxw) {
     ArrayList<rexNode> use_children = children;
 
-    // handle visibility options: expanded, collapsed, partial
-    if (vis.v == Visibility.COLLAPSED) {
-        contents.bounds = reduce(contents.bounds); // shrink in a visually-pleasing manner
-        if(contents.bounds.w == 0 && contents.bounds.h == 0)
-          return false;                              // don't pack the kids
-        return true;
+    // handle visibility options: expanded, collapsed, partial, none (never)
+    if (vis.v == Visibility.NONE) {
+        return false;
+    } else if (vis.v == Visibility.COLLAPSED) {
+        return false;
     } else if (vis.v == Visibility.PARTIAL) {
         use_children = new ArrayList<rexNode>();
         for (String s: getSummaries()) {
@@ -95,9 +95,9 @@ class rexNode {
 
     // start fillin' rows
     for (rexNode node: use_children){
-      if(!node.arrange(use_maxw))
+      if(!node.arrange(use_maxw)) // curse, and re-curse!
         continue;
-
+      
       // handle layout modes: row, column, best-packing
       switch (arrangement.m) {
         case Modes.PACK:
@@ -124,8 +124,6 @@ class rexNode {
   }
   
   private void draw(Pt origin, int gray, ClickNet net) {
-    if (vis.v == Visibility.COLLAPSED) { return; }
-    
     this.draw(origin, gray);       // draw self
     for (Row row: contents.rows) { // draw children
       int xoffset = 0;

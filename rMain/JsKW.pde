@@ -1,9 +1,12 @@
 abstract class SpecialParser {
   String key;
+  rexData data;
   abstract void digest(rexData o);
   void chew(rexObject hm) {
     if (hm.m.containsKey(key)) {
-      digest((rexData)hm.m.get(key));
+      rexData d = (rexData)hm.m.get(key);
+      digest(d);
+      data = d;
       hm.m.remove(key);
     }
   }

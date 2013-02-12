@@ -45,7 +45,7 @@ class rexNodeKey extends rexNodeString {
       min = new Sz((int)textWidth(s), useTextSize).grow(new Sz(margin + 2, margin));
     } else {
       min = new Sz(10, 10);
-      vis = new Visibility(Visibility.COLLAPSED);
+      vis = new Visibility(Visibility.NONE);
     }
   }
   protected void saveChanges() { 
@@ -55,7 +55,8 @@ class rexNodeKey extends rexNodeString {
       backingObject.m.remove(backingKey);
       backingKey = editString;
       backingObject.m.put(backingKey, value);
-      println(getJsonString(pData));
+      saveFile();
+      //println(getJsonString(pData));
     } else {
       println("no key :(");
     }

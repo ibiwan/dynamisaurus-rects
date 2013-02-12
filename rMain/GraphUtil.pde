@@ -23,13 +23,11 @@ void drawPartialWidget(Rect b) {
 }
  
 int reduce(int dim) {
-  if (dim > 200) return dim / 2;
-  if (dim > 0)   return dim - 20;
+  println(dim);
+  //if (dim > 300) return dim / 2;
+  if (dim > 0)   return dim - 1;
                  return 0;
 }
-
-  Sz reduce (Sz s)   { return new   Sz(            reduce(s.w), reduce(s.h)); }
-Rect reduce (Rect r) { return new Rect(r.origin(), reduce(r.w), reduce(r.h)); }
 
 //void text(String s, Pt p) { text(s, p.x, p.y); }
 void rect(Rect r)         { rect(r.x, r.y, r.w, r.h); }

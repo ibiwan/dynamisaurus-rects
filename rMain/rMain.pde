@@ -7,6 +7,7 @@ int useTextSize = 12;
 PFont normalFont;
 PFont italicFont;
 PFont monospFont;
+String filename = "dnd.json";
 
 void setup() {
   size(800, 600);
@@ -15,8 +16,9 @@ void setup() {
   italicFont = loadFont("SansSerif.italic-12.vlw");
   monospFont = loadFont("Monospaced.bold-12.vlw");
   textFont(normalFont);
-  loadJson("dnd.json");
   setupStringKeys();
+
+  loadJson(filename);
 }
 
 void draw() {
@@ -46,9 +48,17 @@ void buildRoot() {
 String randomFile() {
   String[] files = {"google", "twitter", "facebook", "colors", "flickr", "youtube", "iphone", "customer", "products", "interoperability"};
   int r = (int)random(files.length);
-  String filename = "testJson/" + files[r] + ".json";
+  filename = "testJson/" + files[r] + ".json";
   println(filename);
   return filename;
+}
+
+void saveFile() {
+  rexObject saveData = new rexObject(pData);
+  for (int i = 0; i < specials.length; i++)
+    saveData.m.put(specials[i].key, specials[i].data);
+  String[] lines = split(getJsonString(pData), '\n');
+  saveStrings(filename, lines);
 }
 
 void setupStringKeys() {

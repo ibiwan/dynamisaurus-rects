@@ -40,7 +40,8 @@ class rexNodeBool extends rexNodeString {
     selected.value = editString; 
     if (backingData != null) {
       backingData.b = new Boolean(editString == "true");
-      println(getJsonString(pData));
+      //println(getJsonString(pData));
+      saveFile();
     }
   }
 }
@@ -64,7 +65,8 @@ class rexNodeInt    extends rexNodeString {
       selected.value = (i).toString();
       if (backingData != null) {
         backingData.i = i;
-        println(getJsonString(pData));
+        //println(getJsonString(pData));
+        saveFile();
       }
     } catch (NumberFormatException e) {
       // do nuthin'
@@ -117,7 +119,8 @@ class rexNodeDouble extends rexNodeString {
       selected.value = (d).toString();
       if (backingData != null) {
         backingData.d = d;
-        println(getJsonString(pData));
+        //println(getJsonString(pData));
+        saveFile();
       }
     } catch (NumberFormatException e) {
       // do nuthin'
