@@ -57,3 +57,22 @@ void keyReleased() {
   }
 }
 
+
+import java.awt.event.*;
+void setupScrollResponse() {
+  addMouseWheelListener(new MouseWheelListener() { 
+    public void mouseWheelMoved(MouseWheelEvent mwe) { 
+      mouseWheel(mwe.getWheelRotation());
+  }}); 
+}
+
+void mouseWheel(int delta) {
+  scrollPt.y -= 2 * delta;
+  if (scrollPt.y > height)
+  {
+    scrollPt.y = height;
+  }
+  if (root.contents.bounds.h != -1 && scrollPt.y < -root.contents.bounds.h) {
+    scrollPt.y = -root.contents.bounds.h;
+  }
+}

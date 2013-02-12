@@ -8,6 +8,7 @@ PFont normalFont;
 PFont italicFont;
 PFont monospFont;
 String filename = "dnd.json";
+Pt scrollPt = new Pt(0, 0);
 
 void setup() {
   size(800, 600);
@@ -17,6 +18,7 @@ void setup() {
   monospFont = loadFont("Monospaced.bold-12.vlw");
   textFont(normalFont);
   setupStringKeys();
+  setupScrollResponse();
 
   loadJson(filename);
 }
@@ -26,7 +28,7 @@ void draw() {
   // root.max.w = (mouseX > 0) ? mouseX : width;
 
   background(255);
-  root.drawasroot(new Pt(0, 0), 0);
+  root.drawasroot(scrollPt, 0);
 }
 
 void loadJson(String filename) {
