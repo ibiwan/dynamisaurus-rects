@@ -6,7 +6,7 @@ Dynamic Non-Linear JSON-backed Spreadsheet, currently written in Processing
 Current Features:
 * Open any well-formed json file and display it sanely
 * Collapse any array or object, completely or as a summary
-* Add "rex-ordering" array to specify display order of keys
+* Add "rex-ordering" array to source json, to specify display order of keys
 * Add "rex-primaries" dictionary to specify summary fields
 * Edit any field (Key, String, Integer, Double, Boolean)
 * Changes save automatically
