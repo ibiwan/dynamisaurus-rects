@@ -4,7 +4,6 @@ class rexNodeBool extends rexNodeString {
   rexNodeBool  (rexBoolean b) { 
     super(b.b.toString()); 
     backingData = b;
-    hint = "bool";
   }   
   protected void draw(Pt origin, int gray) {
     textFont(italicFont);
@@ -51,7 +50,6 @@ class rexNodeInt    extends rexNodeString {
   rexNodeInt   (rexInteger i) { 
     super(i.i.toString()); 
     backingData = i;
-    hint = "int";
   } 
   protected void draw(Pt origin, int gray) {
     textFont(monospFont);
@@ -66,9 +64,7 @@ class rexNodeInt    extends rexNodeString {
         backingData.i = i;
         saveFile();
       }
-    } catch (NumberFormatException e) {
-      // do nuthin'
-    }
+    } catch (NumberFormatException e) { /* do nuthin' */ }
   }
   protected boolean keyReceived(int key) {
     if (key == ESC || key == TAB || key == ENTER || key == RETURN)
@@ -104,7 +100,6 @@ class rexNodeDouble extends rexNodeString {
   rexNodeDouble(rexDouble  d) { 
     super(d.d.toString()); 
     backingData = d;
-    hint = "double";
   } 
   protected void draw(Pt origin, int gray) {
     textFont(monospFont);
@@ -119,9 +114,7 @@ class rexNodeDouble extends rexNodeString {
         backingData.d = d;
         saveFile();
       }
-    } catch (NumberFormatException e) {
-      // do nuthin'
-    }
+    } catch (NumberFormatException e) { /* do nuthin' */ }
   }
   protected boolean keyReceived(int key) {
     if (key == ESC || key == TAB || key == ENTER || key == RETURN)

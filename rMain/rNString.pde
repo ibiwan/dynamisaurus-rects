@@ -11,7 +11,6 @@ class rexNodeString extends rexNode {
   rexNodeString (String s, boolean d)               { super(); init(null,  s, d);    }
   rexNodeString (String s)                          { super(); init(null,  s, true);    }
   void init(rexString rs, String s, boolean d) {
-    hint = "string";
     value = s;
     displayKey = d;
     setW(s);

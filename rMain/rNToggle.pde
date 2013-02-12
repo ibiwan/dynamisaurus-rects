@@ -5,7 +5,6 @@ class rexNodeToggle extends rexNode {
 
   rexNodeToggle(rexNodeKey k) { 
     super();
-    hint = "toggle";
     key = k;
     min = new Sz(widgetWidth, useTextSize)
                 .grow(new Sz(margin + 2, margin));

@@ -3,7 +3,6 @@
 class rexNode {
   Object value;      // why we're all here
   RowStack contents; // for arranging
-  String hint = "?";
   
   protected Sz min, max;         // stretchiness
   protected Modes arrangement;   // layout state

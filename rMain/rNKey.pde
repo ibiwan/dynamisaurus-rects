@@ -9,7 +9,6 @@ class rexNodeKey extends rexNodeString {
 
   rexNodeKey(String s, rexNode w, rexData datum, boolean d) {
     super(s, d);
-    hint = "key";
     if (displayKey == true && s != null)
       min.w += (int)textWidth(":");
     wrapper = w;
