@@ -72,7 +72,7 @@ void setupScrollResponse() {
 }
 
 void mouseWheel(int delta) {
-  scrollPt.y -= 2 * delta;
+  scrollPt.y -= 20 * delta;
   if (scrollPt.y > height)
   {
     scrollPt.y = height;
