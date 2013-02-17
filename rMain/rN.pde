@@ -49,9 +49,8 @@ class rexNode {
       editMode = true;
     } else {
       if (editMode)
-      {
         finishEditing(true);
-      }
+
       if (editable)
         selected = this;
     } 
