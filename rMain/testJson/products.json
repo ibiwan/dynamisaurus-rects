@@ -1,26 +1,25 @@
 {
-    "name": "Product",
-    "properties": {
-        "id": {
-            "type": "number",
-            "description": "Product identifier",
-            "required": true
-        },
-        "name": {
-            "description": "Name of the product",
-            "type": "string",
-            "required": true
-        },
-        "price": {
-            "type": "number",
-            "minimum": 0,
-            "required": true
-        },
-        "tags": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        }
+  "name": "Product",
+  "properties": {
+    "id": {
+      "description": "Product identifier",
+      "required": true,
+      "type": "number"
+    },
+    "name": {
+      "description": "Name of the product",
+      "required": true,
+      "type": "string"
+    },
+    "price": {
+      "minimum": 0,
+      "required": true,
+      "type": "number"
+    },
+    "tags": {
+      "items": {"type": "string"},
+      "type": "array"
     }
+  }
 }
+
