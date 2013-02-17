@@ -90,3 +90,15 @@ class rexNodeString extends rexNode {
   }
 }
 
+void setupStringKeys() {
+  stringKeys = new HashMap<Character, Boolean>();
+  for(char c = 'a'; c <= 'z'; c++)
+    stringKeys.put(c, true);
+  for(char c = 'A'; c <= 'Z'; c++)
+    stringKeys.put(c, true);
+  for(char c = '0'; c <= '9'; c++)
+    stringKeys.put(c, true);
+  for(char c: new char[]{'=', '-', '.', ' ', '[', ']', '(', ')'})
+    stringKeys.put(c, true);
+}
+
