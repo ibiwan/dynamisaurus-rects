@@ -24,8 +24,10 @@ class rexNodeString extends rexNode {
   protected void draw(String t, Pt origin, int gray, String suffix) {
     super.draw(origin, gray);
     
-    if (t == null)
+    if (t == null) {
       println("I'm confused...");
+      t = "XXX"; // don't do this <<FIXME>>
+    }
 
     if (selected == this && editMode) {
       if (editString != null) {
