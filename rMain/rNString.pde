@@ -36,6 +36,10 @@ class rexNodeString extends rexNode {
     // unlike everything else, text is positioned by its bottom left point
     Pt textLoc = origin.move(new Sz(margin, 0))           // left margin for bounding box
                        .move(new Sz(margin, margin));     // space for readability
+    if (t == null)
+      println("I don't know what text to use!");
+    if (useTextSize != 12)
+      println("I don't know what size to make stuff!");
     Sz textDim = new Sz((int)textWidth(t), useTextSize);
     
     if (displayKey) {
