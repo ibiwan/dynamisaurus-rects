@@ -4,7 +4,7 @@ class Visibility {
   final static int PARTIAL   = 3;
   final static int NONE      = 4;
   int v;
-  Visibility(int v_) { v = v_; }
+  Visibility(int v) { this.v = v; }
 }
 
 class Modes {
@@ -12,6 +12,6 @@ class Modes {
   final static int COLUMN = 2;
   final static int ROW    = 3;
   int m;
-  Modes(int m_) { m = m_; }
+  Modes(int m) { this.m = m; }
 }
 

@@ -2,7 +2,7 @@ class Sz {
   int w, h;
   Sz() { w = -1; h = -1; }
   Sz(int s) { w = h = s; }
-  Sz(int w_, int h_) { w = w_; h = h_; }
+  Sz(int w, int h) { this.w = w; this.h = h; }
   
   Sz grow(Sz s)   { return new Sz(w + s.w, h + s.h); }
   //Sz grow(int a)  { return new Sz(w * a, h * a); }
@@ -16,7 +16,7 @@ class Pt {
   int x, y;
   Pt() { x = -1; y = -1; }
   Pt(int s) { x = y = s; }
-  Pt(int x_, int y_) { x = x_; y = y_; }
+  Pt(int x, int y) { this.x = x; this.y = y; }
   Pt(float[] v) { x = (int)v[0]; y = (int)v[1]; }
 
   Pt move(Sz s)   { return new Pt(x + s.w, y + s.h); }
@@ -25,13 +25,13 @@ class Pt {
 
 class Rect {
   int x, y, w, h;
-  Rect(Pt o, Sz s)                     { init(o.x, o.y, s.w, s.h); }
-  Rect(Pt o, int w_, int h_)           { init(o.x, o.y,  w_,  h_); }
-  Rect(int x_, int y_, Sz s)           { init( x_,  y_, s.w, s.h); }
-  Rect(int x_, int y_, int w_, int h_) { init( x_,  y_,  w_,  h_); }
+  Rect(Pt o, Sz s)                 { init(o.x, o.y, s.w, s.h); }
+  Rect(Pt o, int w, int h)         { init(o.x, o.y,   w,   h); }
+  Rect(int x, int y, Sz s)         { init(  x,   y, s.w, s.h); }
+  Rect(int x, int y, int w, int h) { init(  x,   y,   w,   h); }
   
-  void init(int x_, int y_, int w_, int h_) {
-    x = x_; y = y_; w = w_; h = h_;
+  void init(int x, int y, int w, int h) {
+    this.x = x; this.y = y; this.w = w; this.h = h;
   }
   
   Pt origin() { return new Pt(x, y); }
