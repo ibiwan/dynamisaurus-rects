@@ -25,8 +25,7 @@ class rexNodeString extends rexNode {
     super.draw(origin, gray);
     
     if (t == null) {
-      println("I'm confused...");
-      t = "XXX"; // don't do this <<FIXME>>
+      t = "<<FIXME>>"; // if you see this, there's a bug to fix
     }
 
     if (selected == this && editMode) {

@@ -48,10 +48,14 @@ class rexNode {
     if (selected == this) {
       editMode = true;
     } else {
-      finishEditing(true);
+      if (editMode)
+      {
+        finishEditing(true);
+      }
       if (editable)
         selected = this;
     } 
+
     if (this == root) 
       loadJson(randomFile()); 
   }
