@@ -62,7 +62,7 @@ Object getJsonD(rexData d) {
   if (d instanceof rexInteger) { return ((rexInteger)d).i; }
   if (d instanceof rexDouble)  { return  ((rexDouble)d).d; }
   if (d instanceof rexBoolean) { return ((rexBoolean)d).b; }
-  return "";
+  return null;
 }
 
 JSONObject getJsonO(rexObject o) {
