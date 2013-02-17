@@ -17,6 +17,7 @@ abstract class SpecialParser {
 }
 SpecialParser[] specials = {new OrderParser(), new PrimariesParser()};
 
+
 String ORDERING_OTHER = "REX_OTHER";
 class OrderParser extends SpecialParser {
   
@@ -31,6 +32,7 @@ class OrderParser extends SpecialParser {
   }
 }
 HashMap<String, Integer> orderingMap = new HashMap<String, Integer>();
+
 
 class PrimariesParser extends SpecialParser {
   

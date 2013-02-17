@@ -48,7 +48,7 @@ class rexNodeKey extends rexNodeString {
     }
   }
   protected void saveChanges() { 
-    selected.value = editString; 
+    value = editString; 
     if (backingKey != null) {
       rexData value = backingObject.m.get(backingKey);
       backingObject.m.remove(backingKey);

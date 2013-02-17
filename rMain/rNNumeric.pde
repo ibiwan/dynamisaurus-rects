@@ -36,7 +36,7 @@ class rexNodeBool extends rexNodeString {
     return true;
   }
   protected void saveChanges() { 
-    selected.value = editString; 
+    value = editString; 
     if (backingData != null) {
       backingData.b = new Boolean(editString == "true");
       saveFile();
@@ -59,7 +59,7 @@ class rexNodeInt    extends rexNodeString {
   protected void saveChanges() {
     try {
       Integer i = Integer.valueOf(editString);
-      selected.value = (i).toString();
+      value = (i).toString();
       if (backingData != null) {
         backingData.i = i;
         saveFile();
@@ -109,7 +109,7 @@ class rexNodeDouble extends rexNodeString {
   protected void saveChanges() {
     try {
       Double d = Double.valueOf(editString);
-      selected.value = (d).toString();
+      value = (d).toString();
       if (backingData != null) {
         backingData.d = d;
         saveFile();

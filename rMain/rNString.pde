@@ -9,7 +9,7 @@ class rexNodeString extends rexNode {
   rexNodeString (rexString rs, String s)            { super(); init(rs, rs.s, true); }
   rexNodeString (rexString rs, String s, boolean d) { super(); init(rs, rs.s, d);    }
   rexNodeString (String s, boolean d)               { super(); init(null,  s, d);    }
-  rexNodeString (String s)                          { super(); init(null,  s, true);    }
+  rexNodeString (String s)                          { super(); init(null,  s, true); }
   void init(rexString rs, String s, boolean d) {
     value = s;
     displayKey = d;
@@ -24,6 +24,9 @@ class rexNodeString extends rexNode {
   protected void draw(String t, Pt origin, int gray, String suffix) {
     super.draw(origin, gray);
     
+    if (t == null)
+      println("I'm confused...");
+
     if (selected == this && editMode) {
       if (editString != null) {
         t = editString;
@@ -38,8 +41,6 @@ class rexNodeString extends rexNode {
                        .move(new Sz(margin, margin));     // space for readability
     if (t == null)
       println("I don't know what text to use!");
-    if (useTextSize != 12)
-      println("I don't know what size to make stuff!");
     Sz textDim = new Sz((int)textWidth(t), useTextSize);
     
     if (displayKey) {
@@ -86,7 +87,7 @@ class rexNodeString extends rexNode {
     return true;
   }
   protected void saveChanges() { 
-    selected.value = editString; 
+    value = editString; 
     if (backingData != null) {
       backingData.s = editString;
       saveFile();
