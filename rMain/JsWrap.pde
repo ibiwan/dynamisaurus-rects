@@ -25,7 +25,11 @@ rexData translateJsonSomething(Object o) throws JSONException {
 
 rexObject translateJsonObject(JSONObject o) throws JSONException {
   rexObject ret = new rexObject();
-  for (String key: o.getNames(o))
+  String[] keys = o.getNames(o);
+  if (keys == null) {
+    keys = new String[0];
+  }
+  for (String key: keys)
     ret.m.put(key, translateJsonSomething(o.get(key)));
   return ret;
 }
@@ -41,7 +45,7 @@ rexArray translateJsonArray(JSONArray a) throws JSONException {
 
 String getJsonString(rexData d) {
   try {
-    Object o = getJson(d);
+    Object o = getJsonD(d);
     if (o instanceof JSONArray)
       return ((JSONArray)o).toString(2);
     if (o instanceof JSONObject)
@@ -51,9 +55,9 @@ String getJsonString(rexData d) {
   return "";
 }
 
-Object getJson(rexData d) {
-  if (d instanceof rexObject)  { return getJson((rexObject)d); }
-  if (d instanceof rexArray)   { return getJson( (rexArray)d); }
+Object getJsonD(rexData d) {
+  if (d instanceof rexObject)  { return getJsonO((rexObject)d); }
+  if (d instanceof rexArray)   { return getJsonA( (rexArray)d); }
   if (d instanceof rexString)  { return  ((rexString)d).s; }
   if (d instanceof rexInteger) { return ((rexInteger)d).i; }
   if (d instanceof rexDouble)  { return  ((rexDouble)d).d; }
@@ -61,20 +65,20 @@ Object getJson(rexData d) {
   return "";
 }
 
-JSONObject getJson(rexObject o) {
+JSONObject getJsonO(rexObject o) {
   JSONObject ret = new JSONObject();
   try {
     for (String key: o.keys()) {
-      ret.put(key, getJson(o.m.get(key)));
+      ret.put(key, getJsonD(o.m.get(key)));
     }
   } catch (JSONException e) { handleJsonException(e); }
   return ret;
 }
 
-JSONArray getJson(rexArray a) {
+JSONArray getJsonA(rexArray a) {
   JSONArray ret = new JSONArray();
   for (rexData d: a.a)
-    ret.put(getJson(d));
+    ret.put(getJsonD(d));
   return ret;
 }
 
