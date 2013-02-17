@@ -69,7 +69,8 @@ JSONObject getJsonO(rexObject o) {
   JSONObject ret = new JSONObject();
   try {
     for (String key: o.keys()) {
-      ret.put(key, getJsonD(o.m.get(key)));
+      if (key != null)
+        ret.put(key, getJsonD(o.m.get(key)));
     }
   } catch (JSONException e) { handleJsonException(e); }
   return ret;
