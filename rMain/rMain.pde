@@ -57,9 +57,12 @@ String randomFile() {
 
 void saveFile() {
   rexObject saveData = new rexObject(pData);
-  for (int i = 0; i < specials.length; i++)
-    saveData.m.put(specials[i].key, specials[i].data);
-  String[] lines = split(getJsonString(pData), '\n');
+  for (int i = 0; i < specials.length; i++) {
+    if (specials[i].data != null) {
+      saveData.m.put(specials[i].key, specials[i].data);
+    }
+  }
+  String[] lines = split(getJsonString(pData) + '\n', '\n');
   saveStrings(filename, lines);
 }
 

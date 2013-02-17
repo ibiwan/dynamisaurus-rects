@@ -1,3 +1,5 @@
+// JSON file KeyWord objects (semantic content)
+
 abstract class SpecialParser {
   String key;
   rexData data;
@@ -6,8 +8,10 @@ abstract class SpecialParser {
     if (hm.m.containsKey(key)) {
       rexData d = (rexData)hm.m.get(key);
       digest(d);
-      data = d;
+      data = d; // store for saving
       hm.m.remove(key);
+    } else {
+      data = null;
     }
   }
 }
