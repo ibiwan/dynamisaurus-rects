@@ -80,14 +80,14 @@ class rexNode {
 
     // handle visibility options: expanded, collapsed, partial, none (never)
     if (vis.v == Visibility.NONE) {
-        return false;
+      return false;
     } else if (vis.v == Visibility.COLLAPSED) {
-        return false;
+      return false;
     } else if (vis.v == Visibility.PARTIAL) {
-        use_children = new ArrayList<rexNode>();
-        for (String s: getSummaries()) {
-          use_children.add(new rexNodeString(new rexString(s)));
-        }
+      use_children = new ArrayList<rexNode>();
+      for (String s: getSummaries()) {
+        use_children.add(new rexNodeString(new rexString(s)));
+      }
     }
 
     // constrain size if specified by parent

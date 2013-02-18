@@ -57,15 +57,15 @@ class rexNodeToggle extends rexNodeWidget {
 }
 
 void drawExpandedToggle(Rect b) {
-  triangle(b.x + b.w / 4, b.y + b.h / 4,    b.x + b.w * 3 / 4, b.y + b.h     / 4,    b.x + b.w     / 2, b.y + b.h * 3 / 4);
+  triangle(b.x + b.w / 4, b.y + b.h / 4,    b.x + b.w * 3 / 4, b.y + b.h / 4,    b.x + b.w / 2, b.y + b.h * 3 / 4);
 }
 void drawCollapsedToggle(Rect b) {
-  triangle(b.x + b.w / 4, b.y + b.h / 4,    b.x + b.w     / 4, b.y + b.h * 3 / 4,    b.x + b.w * 3 / 4, b.y + b.h     / 2);
+  triangle(b.x + b.w / 4, b.y + b.h / 4,    b.x + b.w / 4, b.y + b.h * 3 / 4,    b.x + b.w * 3 / 4, b.y + b.h / 2);
 }
 void drawPartialToggle(Rect b) {
   int dy;
   for (dy = 1; dy < b.h; dy += 3)
-    line(b.x + b.w / 4,  b.y + dy,   b.x + b.w * 3/4,  b.y + dy);
+    line(b.x + b.w / 4,  b.y + dy,    b.x + b.w * 3/4,  b.y + dy);
   line(b.x + b.w /   4,  b.y + 1,   b.x + b.w /   4,  b.y + dy);
   line(b.x + b.w * 3/4,  b.y + 1,   b.x + b.w * 3/4,  b.y + dy);
 }
