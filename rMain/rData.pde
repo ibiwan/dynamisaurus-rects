@@ -24,3 +24,14 @@ class rexBoolean extends rexData { Boolean b; rexBoolean(Boolean b) { this.b = b
 class rexInteger extends rexData { Integer i; rexInteger(Integer i) { this.i = i; } }
 class rexDouble  extends rexData { Double d;  rexDouble (Double  d) { this.d = d; } }
 
+void saveFile() {
+  rexObject saveData = new rexObject(pData);
+  for (int i = 0; i < specials.length; i++) {
+    if (specials[i].data != null) {
+      saveData.m.put(specials[i].key, specials[i].data);
+    }
+  }
+  String[] lines = split(getJsonString(pData) + '\n', '\n');
+  saveStrings(filename, lines);
+}
+

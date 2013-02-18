@@ -24,8 +24,7 @@ void setup() {
 }
 
 void draw() {
-  // display's width follows mouse if below is uncommented
-  // root.max.w = (mouseX > 0) ? mouseX : width;
+  // root.max.w = (mouseX > 0) ? mouseX : width; // display's width follows mouse if uncommented
 
   background(255);
   translate(scrollPt.x, scrollPt.y);
@@ -55,14 +54,4 @@ String randomFile() {
   return filename;
 }
 
-void saveFile() {
-  rexObject saveData = new rexObject(pData);
-  for (int i = 0; i < specials.length; i++) {
-    if (specials[i].data != null) {
-      saveData.m.put(specials[i].key, specials[i].data);
-    }
-  }
-  String[] lines = split(getJsonString(pData) + '\n', '\n');
-  saveStrings(filename, lines);
-}
 

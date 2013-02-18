@@ -28,8 +28,6 @@ void mouseClicked() {
   transform.invert();
   xMouse = transform.mult(mouseVec, xMouse);
   clickRoot.sendClick(new Pt(xMouse));
-
-  //if (mouseEvent.getClickCount()==2) println("<double click>");
 }
 
 rexNode selected = null;
