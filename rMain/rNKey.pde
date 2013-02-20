@@ -24,8 +24,8 @@ class rexNodeKey extends rexNodeString {
   rexObject backingObject;
   String backingKey;
 
-  rexNodeKey(String s, rexNode w, rexData datum, boolean d) {
-    super(s, d);
+  rexNodeKey(String s, rexNode w, rexData datum, boolean display) {
+    super(s, display);
     if (displayKey == true && s != null)
       min.w += (int)textWidth(":");
     wrapper = w;

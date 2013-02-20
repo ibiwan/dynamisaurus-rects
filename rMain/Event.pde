@@ -1,3 +1,6 @@
+ClickNet clickRoot;
+Pt scrollPt = new Pt(0, 0);
+
 class ClickNet {
   Rect bounds;
   rexNode target;
@@ -10,11 +13,14 @@ class ClickNet {
     children.add(net);
   }
   boolean sendClick(Pt p) {
-    if (!bounds.contains(p))
+    if (!bounds.contains(p)) {
       return false;
-    for (int i = 0; i < children.size(); i++)
-      if (children.get(i).sendClick(p))
+    }
+    for (int i = 0; i < children.size(); i++) {
+      if (children.get(i).sendClick(p)) {
         return true;
+      }
+    }
     target.clickReceived(p);
     return true;
   }

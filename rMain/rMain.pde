@@ -1,14 +1,4 @@
-rexNode root;
-ClickNet clickRoot;
-rexObject pData;
-
-int margin = 3;
-int useTextSize = 12;
-PFont normalFont;
-PFont italicFont;
-PFont monospFont;
 String filename = "dnd.json";
-Pt scrollPt = new Pt(0, 0);
 
 void setup() {
   size(800, 600);
@@ -19,7 +9,6 @@ void setup() {
   textFont(normalFont);
   setupStringKeys();
   setupScrollResponse();
-
   loadJson(filename);
 }
 

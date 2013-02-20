@@ -54,13 +54,18 @@ int getPriority(String key) {
 
 rexNodeWrapper wrapElement(String key, rexData datum) {
   datum = (datum != null) ? datum : new rexString("");
-  rexNodeWrapper wrap = new rexNodeWrapper(Modes.ROW);  // dummy array
-  rexNodeKey k = new rexNodeKey(key, wrap, datum, false);
+  rexNodeWrapper full = new rexNodeWrapper(Modes.ROW);  // dummy array
+  rexNodeKey k = new rexNodeKey(key, full, datum, false);
+  rexNodeContextMenuIcon menu = new rexNodeContextMenuIcon(k);
   
-  wrap.addChild(new rexNodeToggle(k)); 
-  wrap.addChild(k); // left entry contains the label
-  wrap.addChild(buildSomething(datum, key));                   // right entry contains the value
-  return wrap;
+  rexNodeWrapper widgetBar = new rexNodeWrapper(Modes.COLUMN);
+  widgetBar.addChild(new rexNodeToggle(k)); 
+  widgetBar.addChild(k); // left entry contains the label
+  widgetBar.addChild(menu); // left entry contains the label
+  
+  full.addChild(widgetBar);
+  full.addChild(buildSomething(datum, key));                   // right entry contains the value
+  return full;
 }
 
 rexNodeWrapper wrapMember(String key, rexData datum, rexObject container) {

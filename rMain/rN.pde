@@ -1,4 +1,8 @@
+rexNode root;
+
 // base class for displayed nodes; loosely corresponds to nodes in data tree parsed from json
+
+int margin = 3;
 
 class rexNode {
   Object value;      // why we're all here
@@ -27,10 +31,18 @@ class rexNode {
       children.add(node);
   }
   
+  int childCount() {
+    return children.size();
+  }
+  
   void drawasroot(Pt origin, int gray) {
     clickRoot = new ClickNet(new Rect(origin, max), this);
     arrange(max.w);                // one pass to organize everything
     draw(origin, gray, clickRoot); // second pass to put on screen
+    if (popUp != null) {
+      popUp.arrange(max.w);
+      popUp.draw(clickRoot);
+    }
   }
   
   protected void draw(Pt origin, int gray) {
@@ -73,9 +85,9 @@ class rexNode {
  
   protected void saveChanges() { println("saving nuthin'"); }
   
-  protected ArrayList<String> getSummaries() { println("don't get here."); return new ArrayList<String>(); }
+  protected ArrayList<String> getSummaries() { Thread.dumpStack(); println("don't get here."); return new ArrayList<String>(); }
 
-  private boolean arrange(int parent_maxw) {
+  protected boolean arrange(int parent_maxw) {
     ArrayList<rexNode> use_children = children;
 
     // handle visibility options: expanded, collapsed, partial, none (never)
@@ -125,7 +137,7 @@ class rexNode {
     return true;
   }
   
-  private void draw(Pt origin, int gray, ClickNet net) {
+  protected void draw(Pt origin, int gray, ClickNet net) {
     this.draw(origin, gray);       // draw self
     for (Row row: contents.rows) { // draw children
       int xoffset = 0;

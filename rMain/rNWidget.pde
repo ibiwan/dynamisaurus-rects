@@ -1,20 +1,11 @@
 class rexNodeWidget extends rexNode {
   int widgetWidth = useTextSize + 4;
+  Rect clickBounds;
 
   rexNodeWidget() {
     super();
     min = new Sz(widgetWidth, useTextSize)
                 .grow(new Sz(margin + 2, margin));
-  }
-}
-
-class rexNodeToggle extends rexNodeWidget {
-  rexNodeKey key = null;
-  Rect expander;
-
-  rexNodeToggle(rexNodeKey key) { 
-    super();
-    this.key = key;
   }
 
   protected void draw(Pt origin, int gray) {
@@ -27,24 +18,95 @@ class rexNodeToggle extends rexNodeWidget {
 
     int squareEdge = min(widgetWidth, useTextSize);
 
-    expander = new Rect(widgetBox.origin(), new Sz(squareEdge))
-                       .move(widgetBox.size()
-                            .grow(new Sz(-squareEdge))
-                            .div(2)
-                            .toPt());
-                              
+    clickBounds = new Rect(widgetBox.origin(), new Sz(squareEdge))
+                          .move(widgetBox.size()
+                               .grow(new Sz(-squareEdge))
+                               .div(2)
+                               .toPt());
+  }
+}
+
+class rexNodeContextMenuIcon extends rexNodeWidget {
+  rexNodeKey key = null;
+  rexNodeContextMenu menu = new rexNodeContextMenu();
+  Pt lastLoc = new Pt();
+
+  rexNodeContextMenuIcon(rexNodeKey key) { 
+    super();
+    this.key = key;
+    this.arrangement = new Modes(Modes.COLUMN);
+//    addMenuItem(new rexNodeContextMenuItem("x"));
+ //   addMenuItem(new rexNodeContextMenuItem("y"));
+  //  addMenuItem(new rexNodeContextMenuItem("z"));
+  }  
+
+  void addChild(rexNode node) {
+    // do nothing; this should use addMenuItem
+  }
+  
+  void addMenuItem(rexNodeContextMenuItem mi) {
+    menu.addChild(mi);
+    vis = new Visibility(Visibility.EXPANDED);
+  }
+  
+  protected boolean arrange(int parent_maxw) {
+    menu.iconLoc = lastLoc;
+    vis = key.collection.vis;
+    if (vis.v == Visibility.PARTIAL) {
+      vis = new Visibility(Visibility.COLLAPSED);
+    }
+    return super.arrange(parent_maxw);
+  }
+
+  protected void draw(Pt origin, int gray) {
+    lastLoc = origin;
+    if (menu.childCount() > 0) {
+      super.draw(origin, gray);
+  
+      stroke(0); noFill();
+      if (key.collection.vis.v == Visibility.EXPANDED)
+        drawContextMenuIcon(clickBounds);
+    }
+  }
+  protected void clickReceived(Pt p) {
+    super.clickReceived(p);
+    if (clickBounds.contains(p)) {
+      println("menu clicked");
+      popUp = menu;
+    }
+  }
+  protected ArrayList<String> getSummaries() { return new ArrayList<String>(); }
+}
+
+void drawContextMenuIcon(Rect b) {
+  rect(b);
+  for (int dy = 2; dy < min(3, b.h); dy+=2) line(b.x,            b.y + dy,    b.x + b.w,          b.y + dy);
+  for (int dy = 4; dy < b.h - 1; dy += 2)   line(b.x + b.w / 4,  b.y + dy,    b.x + b.w * 3 / 4,  b.y + dy);
+}
+
+class rexNodeToggle extends rexNodeWidget {
+  rexNodeKey key = null;
+
+  rexNodeToggle(rexNodeKey key) { 
+    super();
+    this.key = key;
+  }
+
+  protected void draw(Pt origin, int gray) {
+    super.draw(origin, gray);
+
     stroke(0); noFill();
     if (key.collection != null)
       switch(key.collection.vis.v) {
-        case Visibility.EXPANDED:  drawExpandedToggle (expander); break;
-        case Visibility.COLLAPSED: drawCollapsedToggle(expander); break;
-        case Visibility.PARTIAL:   drawPartialToggle  (expander); break;
+        case Visibility.EXPANDED:  drawExpandedToggle (clickBounds); break;
+        case Visibility.COLLAPSED: drawCollapsedToggle(clickBounds); break;
+        case Visibility.PARTIAL:   drawPartialToggle  (clickBounds); break;
       }
   }
 
   protected void clickReceived(Pt p) {
     super.clickReceived(p);
-    if (key.collection != null && expander.contains(p)) {
+    if (key.collection != null && clickBounds.contains(p)) {
       switch(key.collection.vis.v) {
         case Visibility.EXPANDED:
           if (key.partialAvailable) key.collection.vis.v = Visibility.PARTIAL;

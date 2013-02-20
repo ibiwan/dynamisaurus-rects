@@ -1,4 +1,8 @@
 HashMap<Character, Boolean> stringKeys;
+int useTextSize = 12;
+PFont normalFont;
+PFont italicFont;
+PFont monospFont;
 
 class rexNodeString extends rexNode {
   boolean displayKey = true;
@@ -10,13 +14,13 @@ class rexNodeString extends rexNode {
   rexNodeString (rexString rs, String s, boolean d) { super(); init(rs, rs.s, d);    }
   rexNodeString (String s, boolean d)               { super(); init(null,  s, d);    }
   rexNodeString (String s)                          { super(); init(null,  s, true); }
-  void init(rexString rs, String s, boolean d) {
-    value = s;
-    displayKey = d;
-    setW(s);
+  void init(rexString backer, String value, boolean display) {
+    this.value = value;
+    displayKey = display;
+    setW(value);
     editable = true;
-    if (rs != null)
-      backingData = rs;
+    if (backer != null)
+      backingData = backer;
   }
   protected void draw(Pt origin, int gray) {
     draw((String)value, origin, gray, "");

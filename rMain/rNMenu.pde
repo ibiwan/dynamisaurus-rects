@@ -1,3 +1,0 @@
-
-class rexNodeMenu extends rexNodeArray {
-}
