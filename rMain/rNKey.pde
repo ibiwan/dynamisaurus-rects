@@ -19,12 +19,12 @@ class rexNodeKey extends rexNodeString {
   int          widgetWidth = useTextSize + 4;
   boolean partialAvailable = false;
   rexNode       collection = null;
-  rexNode          wrapper = null;
+  rexNodeWrapper          wrapper = null;
   Rect expander;
   rexObject backingObject;
   String backingKey;
 
-  rexNodeKey(String s, rexNode w, rexData datum, boolean display) {
+  rexNodeKey(String s, rexNodeWrapper w, rexData datum, boolean display) {
     super(s, display);
     if (displayKey == true && s != null)
       min.w += (int)textWidth(":");

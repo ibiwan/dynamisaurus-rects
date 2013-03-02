@@ -1,9 +1,11 @@
 class rexNodeWidget extends rexNode {
+  rexNodeKey key = null;
   int widgetWidth = useTextSize + 4;
   Rect clickBounds;
 
-  rexNodeWidget() {
+  rexNodeWidget(rexNodeKey key) {
     super();
+    this.key = key;
     min = new Sz(widgetWidth, useTextSize)
                 .grow(new Sz(margin + 2, margin));
   }
@@ -27,13 +29,11 @@ class rexNodeWidget extends rexNode {
 }
 
 class rexNodeContextMenuIcon extends rexNodeWidget {
-  rexNodeKey key = null;
   rexNodeContextMenu menu = new rexNodeContextMenu();
   Pt lastLoc = new Pt();
 
   rexNodeContextMenuIcon(rexNodeKey key) { 
-    super();
-    this.key = key;
+    super(key);
     this.arrangement = new Modes(Modes.COLUMN);
 //    addMenuItem(new rexNodeContextMenuItem("x"));
  //   addMenuItem(new rexNodeContextMenuItem("y"));
@@ -85,13 +85,9 @@ void drawContextMenuIcon(Rect b) {
 }
 
 class rexNodeToggle extends rexNodeWidget {
-  rexNodeKey key = null;
-
-  rexNodeToggle(rexNodeKey key) { 
-    super();
-    this.key = key;
+  rexNodeToggle(rexNodeKey key) {
+    super(key);
   }
-
   protected void draw(Pt origin, int gray) {
     super.draw(origin, gray);
 
