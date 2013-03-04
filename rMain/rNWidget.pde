@@ -36,8 +36,8 @@ class rexNodeContextMenuIcon extends rexNodeWidget {
     super(key);
     this.arrangement = new Modes(Modes.COLUMN);
 //    addMenuItem(new rexNodeContextMenuItem("x"));
- //   addMenuItem(new rexNodeContextMenuItem("y"));
-  //  addMenuItem(new rexNodeContextMenuItem("z"));
+//    addMenuItem(new rexNodeContextMenuItem("y"));
+//    addMenuItem(new rexNodeContextMenuItem("z"));
   }  
 
   void addChild(rexNode node) {
