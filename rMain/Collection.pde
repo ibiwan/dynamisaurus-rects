@@ -18,7 +18,6 @@ class rexNodeArray extends rexNode {
   rexArray backingData;
   rexNodeArray () { 
     super(); 
-    arrangement.m = Modes.COLUMN;
   }
   protected ArrayList<String> getSummaries() {
     int i = 0; 
@@ -37,13 +36,6 @@ class rexNodeArray extends rexNode {
       }
     }
     return ret;
-  }
-}
-
-class rexNodeWrapper extends rexNodeArray {
-  rexNodeWrapper(int m) { 
-    super(); 
-    arrangement.m = m;
   }
 }
 

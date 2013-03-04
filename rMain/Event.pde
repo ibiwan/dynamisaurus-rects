@@ -14,6 +14,7 @@ class ClickNet {
   }
   boolean sendClick(Pt p) {
     if (!bounds.contains(p)) {
+      popUp = null;
       return false;
     }
     for (int i = 0; i < children.size(); i++) {

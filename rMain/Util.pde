@@ -47,37 +47,6 @@ class Rect {
   void print() { println(x + ", " + y + "; " + w + ", " + h); }
 }
 
-class Row {
-  Rect bounds;
-  int count = 0;
-  ArrayList<rexNode> elements = new ArrayList<rexNode>();
-  Row (Pt corner) {
-    bounds = new Rect(corner, new Sz(margin)); 
-  }
-  void add(rexNode node) {
-    elements.add(node);
-    bounds.w += node.contents.bounds.w + margin;
-    bounds.h = max(bounds.h, node.contents.bounds.h + margin);
-    count++;
-  }
-}
-
-class RowStack { // returns best location for next row
-  int count = 0;
-  Rect bounds;
-  ArrayList<Row> rows = new ArrayList<Row>();
-  RowStack (Sz min) { bounds = new Rect(0, 0, min); }
-  void add(Row row) {
-    rows.add(row);
-    bounds.w = max(bounds.w, row.bounds.w);
-    bounds.h += row.bounds.h + margin;
-    count++;
-  }
-  Pt nextRowLoc() {
-    return new Pt(0, bounds.y + bounds.h);
-  }
-}
-
 void rect(Rect r)         { rect(r.x, r.y, r.w, r.h); }
 void line(Pt p1, Pt p2)   { line(p1.x, p1.y, p2.x, p2.y); }
 void line(Pt p, Sz s)     { line(p.x, p.y, p.x + s.w, p.y + s.h); }

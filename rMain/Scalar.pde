@@ -1,4 +1,18 @@
-class rexNodeBool extends rexNodeString { 
+class rexNodeScalar extends rexNode {
+  rexNodeLabel label;
+  rexNodeScalar(String label) {
+    super();
+    this.label = new rexNodeLabel(label, this);
+  }
+}
+
+class rexNodeString extends rexNodeScalar {
+  rexNodeString(rexString value) {
+    super(value.s);
+  }
+}
+
+class rexNodeBool extends rexNodeScalar { 
   rexBoolean backingData;
   
   rexNodeBool  (rexBoolean b) { 
@@ -44,7 +58,7 @@ class rexNodeBool extends rexNodeString {
   }
 }
 
-class rexNodeInt    extends rexNodeString { 
+class rexNodeInt    extends rexNodeScalar { 
   rexInteger backingData;
   
   rexNodeInt   (rexInteger i) { 
@@ -94,7 +108,7 @@ class rexNodeInt    extends rexNodeString {
   }
 }
 
-class rexNodeDouble extends rexNodeString { 
+class rexNodeDouble extends rexNodeScalar { 
   rexDouble backingData;
   
   rexNodeDouble(rexDouble  d) { 
